@@ -1,0 +1,84 @@
+@charset "utf-8";
+/**
+ * @file dom tag에 적용된 기본 스타일을 재정의
+ * @version 0.0.1
+ * @description 수정이나 추가가 될 경우 마지막 자리의 버전을 올린다.
+ *              향후 thync 출시 후 1버전으로 변경 여부는 협의후 결정한다.
+ * @author 이 파일의 최초 작성자 영문 이름을 적어주세요
+ */
+
+* {
+	margin:0;
+	padding:0;
+	border:0;
+	outline:0;
+	box-sizing:border-box;
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size:100%;
+	font-weight:inherit;
+	letter-spacing:normal;
+}
+/**
+ * HTML5 Boilerplate
+ */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display:block; }
+audio, canvas, video {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+ul, ol, dl { list-style:none; }
+a {
+	vertical-align:top;
+	text-decoration:none;
+	color:inherit;
+}
+table {
+	border-collapse: collapse;
+	border-spacing:0;
+	border:0 none;
+}
+button, input, select, textarea { vertical-align:baseline; *vertical-align:middle;}
+button, input { line-height:normal;}
+button, select { text-transform:none; }
+button{ background: none; }
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	font-weight:normal;letter-spacing:normal;
+}
+/**
+ * IE 10, 11의 네이티브 화살표 숨기기
+ */
+select::-ms-expand {
+	display: none;
+}
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { -webkit-appearance:none; }
+input[type="search"] { -webkit-appearance:textfield; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; }
+input[type=text]::-ms-clear{
+	display: none;
+}
+/**
+ * Chrome, Safari, Edge, Opera
+ */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+/**
+ * Firefox
+ */
+input[type=number] {
+	-moz-appearance: textfield;
+}
+button::-moz-focus-inner, input::-moz-focus-inner { border:0; padding:0; }
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance:button; cursor: pointer; *overflow:visible; }
+textarea { overflow:auto; vertical-align:top; resize:none}
+address{font-style:normal;}
+
+
+
+
+

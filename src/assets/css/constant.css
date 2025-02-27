@@ -1,0 +1,75 @@
+@charset "utf-8";
+/**
+ * @file seers core css 에서 사용되는 전역 상수 정의
+ * @version 0.0.1
+ * @description 수정이나 추가가 될 경우 마지막 자리의 버전을 올린다.
+ *              향후 thync 출시 후 1버전으로 변경 여부는 협의후 결정한다.
+ * @author 이 파일의 최초 작성자 영문 이름을 적어주세요
+ */
+
+:root {
+    /**
+     * 색상관련
+     */
+    --red : red;
+    --white: #fff;
+    --white-100: #f0f4ff;
+    --gray-100: #f4f4f4;
+    --gray-200: #e4e4e4;
+    --gray-400: #444;
+    --disabled: #bbb;
+    --default: #888;
+    --primary: #08f;
+    --primary-hover: #06b;
+    --primary-default-hover: #f0f4ff;
+    --select: #048;
+    --select-hover: #06b;
+    --text-typed: #024;
+    --danger: #d11;
+    --danger-hover: #a11;
+    --danger-default-hover: #fff8f8;
+    --warning: #f60;
+    --alarm: #f90;
+    --scroll-bar: #08f;
+    --dashboard-dark-bg: #012;
+    --dashboard-second-bg: #024;
+
+    /* 추가사항 */
+    --blue-gray: #f1f1f6;
+    --red-100: #ff1434;
+    --blue-100: #0065e3;
+    --blue-200: #0351ff;
+    --light-gray-100: #ebebf2;
+    --light-gray-200: #aeaeb9;
+    --skyblue: #09f;
+    --black: #21212d;
+
+    /**
+     *  폰트 색상 관련
+     */
+    --f-c-default: #000000;
+    --f-c-disabled: #888888;
+    /**
+     * 폰트크기관련
+     */
+    --font-size-smaller: 10px;
+    --font-size-small: 12px;
+    --font-size-middle: 14px;
+    --font-size-default: 16px;
+    --font-size-big: 20px;
+    --font-size-bigger: 22px;
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+
+    /**
+     * 공통 이미지
+     */
+    --cm-logo-img: url("../../assets/images/theme/default/logo-seers.svg");
+    /*--cm-no-text-logo-img: url("/assets/images/theme/brain-saver/icon/heade-logo.svg");*/
+    --cm-cheked-img: url("../../assets/images/theme/default/checkbox-checked.svg");
+    --cm-arrow-img: url("../../assets/images/theme/default/arrow.svg");
+}
+
+

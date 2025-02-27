@@ -1,0 +1,236 @@
+@charset "utf-8";
+/**
+ * @file seers core css 에서 사용되는 공통적인 스타일 정의
+ * @version 0.0.7
+ * @description 수정이나 추가가 될 경우 마지막 자리의 버전을 올린다.
+ *              향후 thync 출시 후 1버전으로 변경 여부는 협의후 결정한다.
+ * @author 이 파일의 최초 작성자 영문 이름을 적어주세요
+ */
+
+body {min-height: 100vh; position: relative;}
+
+/**
+ * 공통 색상 정의(배경 색상)
+ */
+.header-info-background{background: linear-gradient(90deg, #002244 0%, #0066BB 100%);}
+.default-background{background: var(--white);}
+.bar-chart-background{ background: var(--primary); }
+/**
+ * 공통 색상 정의(폰트 색상)
+ */
+.header-info-color{color: var(--white);}
+.default-color{color: var(--default);}
+.default-system-color{color: #003060;}
+.default-data-color{ color:var(--primary);}
+.default-select-color{ color:var(--select); }
+.disabled-color{ color:var(--disabled); }
+
+.content{position: relative; height: calc(100vh - 112px);background: #D8D8D8; display: flex; }
+.display-flex{display: flex !important;}
+/**
+ * slider button
+ */
+.slider-box{ position:relative; display:inline-block; width:56px; height:24px; }
+.slider-box input{ opacity:0; width:0; height:0; }
+.slider-box .slider{ position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:var(--disabled); border-radius:32px; -webkit-transition:.4s; transition:.4s; }
+.slider:before{ position:absolute; content:""; height:16px; width:16px; left:4px; bottom:4px; border-radius:50%; background-color:white; -webkit-transition:.4s; transition:.4s; }
+.slider-box input:checked + .slider{ background-color:var(--primary); }
+.slider-box input:focus + .slider{ box-shadow:0 0 1px var(--primary); }
+.slider-box input:checked + .slider:before{ transform:translateX(32px); -ms-transform:translateX(32px); }
+.slider-box .slider:after{ content:'OFF'; display:block; position:absolute; transform:translateY(-50%); top:50%; right:9px; font-size:12px; font-family:'Noto Sans', sans-serif; -webkit-transition:.8s; transition:.8s; color:var(--default); font-weight:500; line-height: 1; }
+.slider-box input:checked + .slider:after{ content:'ON'; right:auto; left:9px; color:var(--white); font-weight:700;}
+/**
+ * radio button
+ */
+.radio-btn{ display:inline-flex; align-items:center; cursor:pointer; }
+.radio-btn .span{ margin-left:8px; font-size: 14px; font-weight:500; color: var(--default); }
+.radio-btn input:checked + .span{ color:var(--primary); }
+.radio-btn input[type="radio"],
+.radio-btn-cont .radio-input[type="radio"]{ display:inline-block; -webkit-appearance:none; -moz-appearance:none; appearance:none; padding:0; margin:0; outline:0; border:1px solid var(--disabled); width:16px; height:16px; transition:0.2s all; border-radius:50%; cursor:pointer; background:var(--white); }
+.radio-btn input[type="radio"]:checked,
+.radio-btn-cont .radio-input[type="radio"]:checked{ background-color:var(--primary); border-color:var(--primary); }
+.radio-btn-cont{ display:inline-flex; align-items: center; line-height:1; cursor:pointer; }
+.radio-btn{ padding:4px; border-radius: 32px; }
+.radio-btn-cont .radio-btn:hover{ background: rgba(136, 136, 136, 0.4); }
+.radio-btn-cont .span{ color: var(--default); }
+.radio-btn-cont{ color: var(--default); }
+/**
+ * input text 입력창
+ */
+.input-txt{ padding:0 12px; background:var(--white); border:1px solid var(--disabled); color: var(--select); font-size: 14px; font-weight: 500; }
+.input-txt:focus{ border-color:var(--primary); }
+.input-txt.disabled{ background:var(--disabled); cursor:default; }
+input::placeholder{ color:var(--default); font-size:14px; }
+.inputTxt{ padding:0 16px; background:var(--white); border:1px solid var(--disabled); }
+/**
+ * 공통 버튼 정의
+ */
+.button {width:96px;height: 40px;border-radius: 4px;padding:0 10px;}
+.button-middle{width:80px;height:36px;font-size: 16px;border-radius: 4px;}
+.button-small {width: 48px;height: 24px;border-radius: 4px;}
+/**
+ * 공통 폰트 크기 정의
+ */
+.font-size-22{font-size: var(--font-size-bigger);}
+.font-size-16{font-size: var(--font-size-big);}
+.font-size-14{font-size: var(--font-size-middle);}
+.font-size-12{font-size: var(--font-size-small);}
+.font-size-10{font-size: var(--font-size-smaller);}
+
+.fw-700{font-weight: var(--font-weight-bold);}
+.fw-500{font-weight: var(--font-weight-medium);}
+.fw-400{font-weight: var(--font-weight-regular);}
+/**
+ * 공통 SELECT CSS
+ */
+.select-box {
+    width: 216px;
+    height: 32px;
+    border: 1px solid var(--disabled);
+    cursor: pointer;
+    margin-left: 20px;
+    background: var(--white);
+}
+.select-box.selected {
+    border: 1px solid var(--primary);
+    border-bottom: 1px solid var(--white);
+    box-shadow: 3px 3px 6px rgb(0 0 0 / 20%);
+}
+
+.select-box .label {
+    display: flex;
+    align-items: center;
+    width: inherit;
+    height: inherit;
+    border: 0 none;
+    outline: 0 none;
+    padding-left: 16px;
+    cursor: pointer;
+    position: relative;
+}
+.select-box .label::after {
+    content: '';
+    width: 12px;
+    height: 6px;
+    position: absolute;
+    background: url(../../assets/images/theme/thync-manager/arrow.svg) no-repeat;
+    top: 50%;
+    right: 20px;
+    transition: 0.3s;
+    transform: translateY(-50%);
+}
+.select-box.selected .label::after {transform: rotateX( 180deg )}
+.select-box .option-list {
+    width: 100%;
+    padding: 8px 0;
+    left: -1px;
+    border: 1px solid var(--primary);
+    border-top: none;
+    box-shadow: 3px 3px 3px rgb(0 0 0 / 10%);
+    color: #000;
+    overflow: hidden;
+    display: none;
+    position: relative;
+    z-index: 100;
+}
+.option-item {
+    width: 100%;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+}
+/**
+ * 헤더 부분 정의
+ */
+.header{
+    width: 1920px;
+    height: 112px;
+}
+.header-info{
+    width: 100%;
+    height:48px;
+    font-size: 16px;
+}
+.HeaderLogo{ display:flex; align-items: center; }
+.header-info-logo{
+    width: 96px;
+    padding-left: 32px;
+}
+/**
+ * 헤더 메뉴 화면 정의
+ */
+.header-info-menu{
+    width: calc(1920px - 240px + 96px - 479px);
+    height: 48px;
+    margin-left: calc(240px - 96px);
+}
+.header-info .menu-tap{
+    width: 160px;
+    height: 48px;
+    text-align: center;
+    line-height:48px;
+    color: white;
+    cursor: pointer;
+}
+.header-info .menu-tap.selected{
+    background: var(--primary);
+}
+.header-detail{
+    position: relative;
+    width: 100%;
+    height: 64px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: var(--gray-100);
+    border-bottom: 1px solid #AABBCC;
+    padding: 12px 64px;
+}
+.bar-chart{
+    display: inline-block;
+    width: 100px;
+    height: 16px;
+    background-color: var(--disabled);
+    margin-left: 16px;
+}
+.bar-chart .bar-chart-value{height: 100%;}
+
+.common-search-input{width: 480px;height: 32px;border: 1px solid var(--disabled);}
+.search-input-enter{width: calc(100% - 72px);height: 30px;margin-left: 4px;vertical-align: top;background: inherit}
+.search-icon{padding-top: 11px;padding-left: 12px;}
+.common-search-input.disabled{
+    background: #D8D8D8;
+}
+
+/**
+ * 달력 선택
+ */
+.search-date{ display:flex; align-items:center; background:#fff;  border-radius:4px; cursor:pointer; }
+.search-date input{ flex:auto; padding:7px 8px; border-radius:4px; cursor:pointer; font-size:14px; }
+.search-date + p{ padding:0 12px; }
+/**
+ * 헤더 사용자 정보 표시 화면 정의
+ */
+.header-info-member{width:479px;}
+.header-info-member .p .span{line-height:48px;}
+.logout-button{padding: 4px 16px;position: absolute;width: 91px;height: 32px;right: 72px;top: 8px;}
+.info-member-name{font-weight: var(--font-weight-medium);cursor: pointer;}
+
+.d-none{ display: none !important; }
+.text-start{ text-align: left !important; }
+.text-end{ text-align: right !important; }
+.text-center{ text-align: center !important; }
+.align-top{ vertical-align: top !important; }
+.align-middle{ vertical-align: middle !important; }
+.align-bottom{ vertical-align: bottom !important; }
+.align-text-bottom{ vertical-align: text-bottom !important; }
+.align-text-top{ vertical-align: text-top !important; }
+.float-start{ float: left !important; }
+.float-end{ float: right !important; }
+.float-none{ float: none !important; }
+/**
+ * 여백 관련 부분은 constant.css에서 의미 있는 상수로 정의 후 사용
+ * 기존 코드는 모두 삭제함
+ */
+
+
+
