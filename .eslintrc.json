@@ -29,5 +29,13 @@
       }
     }
   ],
+  "overrides": [
+    {
+      "files": ["*.jsx", "*.tsx"],  // .jsx 및 .tsx 파일에 대해
+      "rules": {
+        "indent": "off"  // indent 규칙을 끄기
+      }
+    }
+  ],
   "ignorePatterns": ["node_modules/", "dist/"]
 }

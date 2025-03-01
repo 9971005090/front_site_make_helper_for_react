@@ -4,6 +4,7 @@ import $ from "cash-dom";
 import stopEvent from "../../../utils/stopEvent";
 
 export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, paramItemsPerPage, paramPagesPerPage }) => {
+    console.log("paging::::paramCurrentPage:::", paramCurrentPage);
     const [Component, setComponent] = useState(null);
     const [pagingInfo, setPagingInfo] = useState({
         page: {
@@ -24,6 +25,7 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
     // 페이징 정보를 설정하는 useEffect
     useEffect(() => {
         if (paramTotalCount > 0) {
+            console.log("paramTotalCount::::", paramTotalCount);
             const newPagingInfo = {
                 page: {
                     total: Math.ceil(paramTotalCount / paramItemsPerPage),
@@ -71,23 +73,48 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
             ////////////////////////////////////////////////////////////////////
             $(`.page-item`).off(`click`).on(`click`, function (e) {
                 stopEvent(e);
-
+                console.log("page-item::::");
                 const item = $(this);
                 const id = item.find(`button`).attr(`aria-label`);
                 let selectedPage = Number(item.children(`span`).text());
+                console.log("selectedPage:::", selectedPage, paramCurrentPage);
                 if(id !== undefined) {
                     selectedPage = id;
                 }
                 if(id === "Prev") {
+                    console.log("paramCurrentPage::::", paramCurrentPage);
                     if(paramCurrentPage === 1) {
                         return;
+                    }
+                    else {
+                        selectedPage = paramCurrentPage - 1;
+                    }
+                }
+                if(id === "First") {
+                    if(paramCurrentPage === 1) {
+                        return;
+                    }
+                    else {
+                        selectedPage = 1;
                     }
                 }
                 if(id === "Next") {
                     if(paramCurrentPage === pagingInfo.page.total) {
                         return;
                     }
+                    else {
+                        selectedPage = paramCurrentPage + 1;
+                    }
                 }
+                if(id === "Last") {
+                    if(paramCurrentPage === pagingInfo.page.total) {
+                        return;
+                    }
+                    else {
+                        selectedPage = pagingInfo.page.total;
+                    }
+                }
+
                 if(typeof selectedPage !== "string") {
                     if(selectedPage === paramCurrentPage) {
                         return;
