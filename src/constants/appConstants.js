@@ -1,5 +1,5 @@
 export const APP = {
-    'APP.VERSION.REAL': '20250227.1612',
+    'APP.VERSION.REAL': '20250130.1036',
     'APP.VERSION.VIEW': '1.0.0',
     'APP.IS_AUTH': true,
     'APP.THEME': `default`,

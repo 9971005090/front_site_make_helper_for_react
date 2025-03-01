@@ -20,11 +20,13 @@ const Controller = {
             const fetchDataState = React.useRef("ready"); // ready, searching
             const itemsPerPage = React.useRef(10);
             const pagesPerPage = React.useRef(10);
+            const currentPage = React.useRef(1);
             const search = async function(setPage = 1) {
+                currentPage.current = setPage;
                 const form = formParser(`.form-common-search`);
                 const parameter = {
                     'search': form['search'],
-                    'pageNumber': setPage,
+                    'pageNumber': currentPage.current,
                     'count': itemsPerPage.current,
                     'expiration': form['expiration'],
                 };
@@ -107,8 +109,8 @@ const Controller = {
             if (Component === null) {
                 return <>Design Loading...</>;
             }
-
-            return <Component paramFetchData={fetchData} paramSearchFunc={search} paramCurrentPage={1} paramItemsPerPage={itemsPerPage.current} paramPagesPerPage={pagesPerPage.current} />;
+            console.log("currentPage.current::::", currentPage.current);
+            return <Component paramFetchData={fetchData} paramSearchFunc={search} paramCurrentPage={currentPage.current} paramItemsPerPage={itemsPerPage.current} paramPagesPerPage={pagesPerPage.current} />;
         };
     },
 };
