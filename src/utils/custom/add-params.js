@@ -8,4 +8,4 @@ const ADD_PARAMS = (params = null, form = null) => { // type, event/base/both
     return params;
 };
 
-export default ADD_PARAMS;
+export { ADD_PARAMS };

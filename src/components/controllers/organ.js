@@ -12,8 +12,8 @@ import formParser from "../../utils/formParser";
 const Controller = {
     index: () => {
         // 디자인 컴포넌트를 반환
-        return ({ getParams }) => {
-            const { controllerName, actionName } = getParams;
+        return ({ uriParams }) => {
+            const { controllerName, actionName } = uriParams;
             const { isAuthenticated, cookieId } = useAuth();
             const [Component, setComponent] = React.useState(null);
             const [fetchData, setFetchData] = React.useState(null);
@@ -109,7 +109,6 @@ const Controller = {
             if (Component === null) {
                 return <>Design Loading...</>;
             }
-            console.log("currentPage.current::::", currentPage.current);
             return <Component paramFetchData={fetchData} paramSearchFunc={search} paramCurrentPage={currentPage.current} paramItemsPerPage={itemsPerPage.current} paramPagesPerPage={pagesPerPage.current} />;
         };
     },

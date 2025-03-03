@@ -3,6 +3,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from "js-cookie";
 import { useSelector } from 'react-redux';
+import {format} from "date-fns";
 
 const cookieToken = Cookies.get("token");
 const cookieId = Cookies.get("seers_id");
@@ -20,10 +21,12 @@ const authSlice = createSlice({
             state._isAuthenticated = true;
             state._user = action.payload.userAccount; // 로그인 시 사용자 정보 저장
             state._token = action.payload.accessToken; // 로그인 시 사용자 정보 저장
+            console.log(`login 완료 - ${format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS')}`);
         },
         _logout(state) {
             state._isAuthenticated = false;
-            state._user = null; // 로그아웃 시 사용자 정보 초기화
+            state._user = null;
+            state._token = null;
         },
         _setRemember(state, action) {
             state._cookieId = action.payload.id;

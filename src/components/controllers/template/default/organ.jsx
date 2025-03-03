@@ -6,7 +6,6 @@ import { Paging } from "../../../modules/paging2/index";
 export const Design = {
     index: () => {
         return ({paramFetchData, paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage}) => {
-            console.log("design,organ-paramCurrentPage::::", paramCurrentPage);
             const totalCount = paramFetchData !== null ? paramFetchData.totalCount : 0;
             return (
                 <div className="common-cont">
