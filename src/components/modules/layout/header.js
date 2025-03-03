@@ -6,14 +6,17 @@ import { format } from 'date-fns';
 
 import { useAuth } from "../../../hooks/auth";
 import { menuAuth } from "../../../hooks/menu";
+import { useFirstLoad } from "../../../hooks/first-load";
 import stopEvent from "../../../utils/stopEvent";
 
-export const Header = () => {
+export const Header = ({ forceReRendering }) => {
     const [Component, setComponent] = React.useState(null);
     const { isAuthenticated, user, logout } = useAuth();
     const { isHeaderChange, isLeftChange, setHeaderChange, setLeftChange } = menuAuth();
+    const { isDone, setIsDone } = useFirstLoad();
     const navigate = useNavigate();
     const params = { isAuthenticated, user };
+    const [logoutState, setLogoutState] = React.useState(false);
 
     const selectHeaderMenu = function() {
         // 내용은 디자인에 따라 변경
@@ -41,13 +44,24 @@ export const Header = () => {
     }, [isHeaderChange]);
 
     React.useEffect(() => {
+        if (isAuthenticated === false && logoutState === true) {
+            navigate(`/login`);
+        }
+        return () => {
+            setLogoutState(false);
+        };
+    }, [logoutState]);
+
+    React.useEffect(() => {
         if (Component !== null) {
             // 콤포넌트 최초 로딩 후
             ////////////////////////////////////////////////////////////////////
             $(`.logout-button`).off(`click`).on(`click`, function (e) {
                 stopEvent(e);
                 logout();
-                return;
+                setIsDone(false);
+                setLogoutState(true);
+                // forceReRendering();
             });
 
             // 대메뉴의 링크 적용
@@ -68,8 +82,8 @@ export const Header = () => {
 
             selectHeaderMenu();
             return () => {
-                // $(`.logout-button`).off(`click`);
-                // $(`.cm-header .cm-top-menu-ul .menu-list`).off(`click`);
+                $(`.logout-button`).off(`click`);
+                $(`.cm-header .cm-top-menu-ul .menu-list`).off(`click`);
             };
             ////////////////////////////////////////////////////////////////////
         }

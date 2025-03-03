@@ -1,6 +1,6 @@
-// src/utils/initializeApp.js
-import {GET_CONSTANTS} from "../constants/global-set-constants";
-import {APP} from "../constants/app-constants";
+// src/utils/initialize-app.js
+import { GET_CONSTANTS } from "../constants/global-set-constants";
+import { APP } from "../constants/app-constants";
 
 const showSiteLoadingLog = function(msg, textColor = `#0088FF`, backgroundColor = `#CADFF1`) {
     console.log(`%c:::::::::::::${msg}:::::::::::`, `color:${textColor}; background:${backgroundColor}`);
@@ -78,7 +78,7 @@ const preFileLoading = function() {
     };
 };
 
-export const initializeApp = async () => {
+export const INITIALIZE_APP = async () => {
     try {
         // 초기 데이터 로딩
         await import(`../utils/extensions/string`);
@@ -86,18 +86,18 @@ export const initializeApp = async () => {
         await import(`../utils/extensions/date`);
         window.CONSTANTS = GET_CONSTANTS(APP);
 
-        const verString = String.generateRandom(7);
-        const options = {
-            runType: "install",
-            files: [
-                `/utils/globalUtils.js?ver=${window.CONSTANTS.get(`APP.VERSION.REAL`)}`
-            ],
-            errorAfterType: "stop"
-        };
-
-        let fileLoading = new preFileLoading();
-        fileLoading.setInit(options);
-        fileLoading.run();
+        // const verString = String.generateRandom(7);
+        // const options = {
+        //     runType: "install",
+        //     files: [
+        //         `/utils/global-utils.js?ver=${window.CONSTANTS.get(`APP.VERSION.REAL`)}`
+        //     ],
+        //     errorAfterType: "stop"
+        // };
+        //
+        // let fileLoading = new preFileLoading();
+        // fileLoading.setInit(options);
+        // fileLoading.run();
     } catch (error) {
         console.error('앱 초기화 실패:', error);
         return false;

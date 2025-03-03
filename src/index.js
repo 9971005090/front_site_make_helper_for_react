@@ -3,26 +3,25 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./redux/slice/store";
-import settings from './init/globalSettings';
-import {initializeApp} from './init/initializeApp';
+import { SETTINGS } from './init/global-settings';
+import { INITIALIZE_APP } from './init/initialize-app';
 
 
 const Root = () => {
-    const {isFirstLoadDataDone, runFirstLoadData} = settings();
+    const [ isDone, setIsDone ] = React.useState(false);
 
     React.useEffect(() => {
         (async function() {
             try {
-                await initializeApp();
-                runFirstLoadData();
+                await INITIALIZE_APP();
+                setIsDone(true);
             } catch (error) {
                 console.error(error);
             }
         })();
-
     }, []);
 
-    if (isFirstLoadDataDone() === false) {
+    if (isDone === false) {
         return <>Loading...</>;  // 앱 준비가 완료될 때까지 로딩 화면 표시
     }
 

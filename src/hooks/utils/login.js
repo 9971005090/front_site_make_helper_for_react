@@ -1,10 +1,13 @@
-// useLogin.js
+// /src/hooks/utils/login.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { post } from "../../utils/axiosApi";
+import { useLocation, useNavigate } from "react-router-dom";
+import { POST } from "../../utils/axios-api";
 import { useAuth } from "../auth";
-import addParams from "../../utils/custom/addParams";
-import settings from '../../init/globalSettings';
+import { useFirstLoad } from "../first-load";
+import { useCheck } from "../check";
+import { ADD_PARAMS } from "../../utils/custom/add-params";
+import { SETTINGS } from '../../init/global-settings';
+import { format } from 'date-fns';
 
 // 로그인 후 처리해야 할 커스텀 훅 관련 import
 ////////////////////////////////////////////////////////////////////
@@ -12,18 +15,28 @@ import settings from '../../init/globalSettings';
 
 export const useLogin = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { isUrlChange, isNavigateChange, setUrlChange, setNavigateChange } = useCheck();
     const { isAuthenticated, login, setRemember, removeRemember } = useAuth();
-    const [loading, setLoading] = React.useState(false);
-    const {isFirstLoadDataDone, runFirstLoadData} = settings();
+    const [ loading, setLoading ] = React.useState(false);
+    const { runFirstLoadData } = SETTINGS();
+    const { isDone } = useFirstLoad();
 
-    // 상태 변화를 감지하고 navigate 실행
     React.useEffect(() => {
-        if (isFirstLoadDataDone() === true) {
+        if (isDone === true) {
             ////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////
-            navigate(`/${window.CONSTANTS.get(`APP.DEFAULT_URI`).CONTROLLER}`);
+            navigate(`/${window.CONSTANTS.get(`APP.DEFAULT_URI`).CONTROLLER}`, { state: { from: location.pathname } });
         }
-    }, [isFirstLoadDataDone]);
+    }, [isDone]);
+
+    React.useEffect(() => {
+        if (isAuthenticated === true) {
+            (async () => {
+                await runFirstLoadData();
+            })();
+        }
+    }, [isAuthenticated]);
 
     const runLogin = async (form) => {
 
@@ -33,34 +46,22 @@ export const useLogin = () => {
         };
 
         setLoading(true);
-        try {
-            const response = await post(`${window.CONSTANTS.get(`APP.API_BASE`)}/Account/LoginHIS`, addParams(parameter, form), {});
-            if (response.result === true) {
-                login(response);
-
-                if (form['login_userId'] === `on`) {
-                    setRemember({id: form["id_input"]});
-                }
-                else {
-                    removeRemember();
-                }
-
-                await runFirstLoadData();
-
-                // 로그인 후 처리해야 할 커스텀 훅 처리
-                ////////////////////////////////////////////////////////////////////
-                ////////////////////////////////////////////////////////////////////
+        const response = await POST(`${window.CONSTANTS.get(`APP.API_BASE`)}/Account/LoginHIS`, ADD_PARAMS(parameter, form), {});
+        if (response.result === true) {
+            login(response);
+            if (form['login_userId'] === `on`) {
+                setRemember({id: form["id_input"]});
             }
             else {
-                alert(`로그인 실패`);
-                setLoading(false);
+                removeRemember();
             }
-            return;
 
-        } catch (error) {
-            console.error("Login failed:", error);
-            setLoading(false);
-        } finally {
+            // 로그인 후 처리해야 할 커스텀 훅 처리
+            ////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////
+        }
+        else {
+            alert(`로그인 실패`);
             setLoading(false);
         }
     };

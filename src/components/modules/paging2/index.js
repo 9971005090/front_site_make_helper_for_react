@@ -2,9 +2,10 @@
 import React, { useState, useEffect, Suspense } from "react";
 import $ from "cash-dom";
 import stopEvent from "../../../utils/stopEvent";
+import { format } from 'date-fns';
 
 export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, paramItemsPerPage, paramPagesPerPage }) => {
-    console.log("paging::::paramCurrentPage:::", paramCurrentPage);
+    const [currentPage, setCurrentPage] = useState(paramCurrentPage);
     const [Component, setComponent] = useState(null);
     const [pagingInfo, setPagingInfo] = useState({
         page: {
@@ -21,11 +22,71 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
             last: false,
         }
     });
+    const [isLoaded, setIsLoaded] = useState(false); // 로딩 완료 상태 추적
+    const handleComponentLoad = () => {
+        setIsLoaded(true);
+    };
+
+    React.useEffect(() => {
+        ////////////////////////////////////////////////////////////////////
+        $(`.page-item`).off(`click`).on(`click`, function (e) {
+            stopEvent(e);
+            const item = $(this);
+            const id = item.find(`button`).attr(`aria-label`);
+            let selectedPage = Number(item.children(`span`).text());
+            if(id !== undefined) {
+                selectedPage = id;
+            }
+            if(id === "First") {
+                if(currentPage === 1) {
+                    return;
+                }
+                else {
+                    selectedPage = 1;
+                }
+            }
+            if(id === "Prev") {
+                if(currentPage === 1) {
+                    return;
+                }
+                else {
+                    selectedPage = currentPage - 1;
+                }
+            }
+            if(id === "Next") {
+                if(currentPage === pagingInfo.page.total) {
+                    return;
+                }
+                else {
+                    selectedPage = currentPage + 1;
+                }
+            }
+            if(id === "Last") {
+                if(currentPage === pagingInfo.page.total) {
+                    return;
+                }
+                else {
+                    selectedPage = pagingInfo.page.total;
+                }
+            }
+
+            if(typeof selectedPage !== "string") {
+                if(selectedPage === currentPage) {
+                    return;
+                }
+            }
+            setIsLoaded(false);
+            setCurrentPage(selectedPage);
+            paramSearchFunc(selectedPage);
+        });
+        return () => {
+            $(`.page-item`).off(`click`);
+        };
+    }, [isLoaded]); // DesignComponent가 로딩되면 이벤트 설정
 
     // 페이징 정보를 설정하는 useEffect
     useEffect(() => {
         if (paramTotalCount > 0) {
-            console.log("paramTotalCount::::", paramTotalCount);
             const newPagingInfo = {
                 page: {
                     total: Math.ceil(paramTotalCount / paramItemsPerPage),
@@ -35,22 +96,26 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
                     numbers: [],
                 },
                 methodView: {
-                    first: paramCurrentPage > 1,
-                    prev: paramCurrentPage > 1,
-                    next: paramCurrentPage < Math.ceil(paramTotalCount / paramItemsPerPage),
-                    last: paramCurrentPage < Math.ceil(paramTotalCount / paramItemsPerPage),
+                    // first: currentPage > 1,
+                    // prev: currentPage > 1,
+                    // next: currentPage < Math.ceil(paramTotalCount / paramItemsPerPage),
+                    // last: currentPage < Math.ceil(paramTotalCount / paramItemsPerPage),
+                    first: true,
+                    prev: true,
+                    next: true,
+                    last: true,
                 },
             };
 
             for (let i = newPagingInfo.page.first; i <= newPagingInfo.page.last; i++) {
                 newPagingInfo.page.numbers.push({
                     number: i,
-                    active: i === paramCurrentPage,
+                    active: i === currentPage,
                 });
             }
             setPagingInfo(newPagingInfo);
         }
-    }, [paramTotalCount, paramCurrentPage, paramItemsPerPage, paramPagesPerPage]);
+    }, [currentPage]);
 
     // 스타일 추가
     useEffect(() => {
@@ -67,71 +132,9 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
         })();
     }, []);
 
-    React.useEffect(() => {
-        if (Component !== null) {
-            // 콤포넌트 최초 로딩 후
-            ////////////////////////////////////////////////////////////////////
-            $(`.page-item`).off(`click`).on(`click`, function (e) {
-                stopEvent(e);
-                console.log("page-item::::");
-                const item = $(this);
-                const id = item.find(`button`).attr(`aria-label`);
-                let selectedPage = Number(item.children(`span`).text());
-                console.log("selectedPage:::", selectedPage, paramCurrentPage);
-                if(id !== undefined) {
-                    selectedPage = id;
-                }
-                if(id === "Prev") {
-                    console.log("paramCurrentPage::::", paramCurrentPage);
-                    if(paramCurrentPage === 1) {
-                        return;
-                    }
-                    else {
-                        selectedPage = paramCurrentPage - 1;
-                    }
-                }
-                if(id === "First") {
-                    if(paramCurrentPage === 1) {
-                        return;
-                    }
-                    else {
-                        selectedPage = 1;
-                    }
-                }
-                if(id === "Next") {
-                    if(paramCurrentPage === pagingInfo.page.total) {
-                        return;
-                    }
-                    else {
-                        selectedPage = paramCurrentPage + 1;
-                    }
-                }
-                if(id === "Last") {
-                    if(paramCurrentPage === pagingInfo.page.total) {
-                        return;
-                    }
-                    else {
-                        selectedPage = pagingInfo.page.total;
-                    }
-                }
-
-                if(typeof selectedPage !== "string") {
-                    if(selectedPage === paramCurrentPage) {
-                        return;
-                    }
-                }
-                paramSearchFunc(selectedPage);
-            });
-            return () => {
-                $(`.page-item`).off(`click`);
-            };
-            ////////////////////////////////////////////////////////////////////
-        }
-    }, [Component]); // DesignComponent가 로딩되면 이벤트 설정
-
     return (
         <Suspense fallback={<div>Paging Loading...</div>}>
-            {Component ? <Component pagingInfo={pagingInfo} /> : <p>Data Loading...</p>}
+            {Component ? <Component key={currentPage} pagingInfo={pagingInfo} onLoad={handleComponentLoad} /> : <p>Data Loading...</p>}
         </Suspense>
     );
 };
