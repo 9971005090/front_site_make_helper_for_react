@@ -1,4 +1,5 @@
 // src/helpers/parsingOrgan.js
+import $ from "cash-dom";
 export const parsingSyncHis = (syncHis) => (
     syncHis === 0 ? "미연동" : "연동"
 );

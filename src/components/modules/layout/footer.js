@@ -1,5 +1,6 @@
 // src/layout/Footer.js
-import React, { Suspense } from "react";
+import React from "react";
+import { CommonReturn } from "../../../components/utils/common-return";
 export const Footer = () => {
     const [Component, setComponent] = React.useState(null);
 
@@ -10,9 +11,5 @@ export const Footer = () => {
         })();
     }, []);
 
-    return (
-        <Suspense fallback={<div>Header Loading...</div>}>
-            {Component ? <Component /> : <p>Data Loading...</p>}
-        </Suspense>
-    );
+    return CommonReturn(Component)({ loadingTypeTitle: `layout(footer)` });
 };

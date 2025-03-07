@@ -85,7 +85,6 @@ export const INITIALIZE_APP = async () => {
         await import(`../utils/extensions/number`);
         await import(`../utils/extensions/date`);
         window.CONSTANTS = GET_CONSTANTS(APP);
-
         // const verString = String.generateRandom(7);
         // const options = {
         //     runType: "install",

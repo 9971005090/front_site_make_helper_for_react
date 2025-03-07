@@ -9,11 +9,11 @@ import { format } from 'date-fns';
 export const Design = {
     index: () => {
         // 디자인 컴포넌트를 반환
-        return ({ uriParams, forceReRendering }) => {
+        return ({ uriParams }) => {
             return (
                 <div id="wrap">
 
-                    <Header forceReRendering={forceReRendering} />
+                    <Header />
 
                     <main id="wrap-cont">
 
