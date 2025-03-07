@@ -1,5 +1,5 @@
 const APP = {
-    'APP.VERSION.REAL': '20250130.1036',
+    'APP.VERSION.REAL': '0.0.4-20250130.1036',
     'APP.VERSION.VIEW': '1.0.0',
     'APP.IS_AUTH': true,
     'APP.THEME': `default`,
@@ -58,7 +58,7 @@ if((location.hostname.indexOf('localhost') !== -1 || location.hostname.indexOf("
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 else if(location.hostname.indexOf('staging-') !== -1) {
-    APP['APP.INFO.SERVICE_TYPE']= `STAGING`;
+    APP['APP.INFO.SERVICE_TYPE'] = `STAGING`;
     APP['APP.API_BASE'] = "https://www.api.seersthync.com/mobiCAREConsole/API";   // release
     APP['INFO.DEBUG.USE'] = true;
 
@@ -67,7 +67,7 @@ else if(location.hostname.indexOf('staging-') !== -1) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 else {
-    APP['APP.INFO.SERVICE_TYPE']= `DEVELOPMENT`;
+    APP['APP.INFO.SERVICE_TYPE'] = `RELEASE`;
     // APP['APP.API_BASE'] = "https://www.api.seersthync.com/mobiCAREConsole/API";   // release
     APP['APP.API_BASE'] = "https://www.dev-api.seersthync.com/mobiCAREConsole/API";   // test
     APP['INFO.DEBUG.USE'] = true;

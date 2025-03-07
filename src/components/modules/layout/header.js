@@ -1,17 +1,20 @@
 // src/layout/Header.js
-import React, { Suspense } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import $ from "cash-dom";
 import { format } from 'date-fns';
 
+import { useLogout } from "../../../hooks/utils/logout";
 import { useAuth } from "../../../hooks/auth";
 import { menuAuth } from "../../../hooks/menu";
 import { useFirstLoad } from "../../../hooks/first-load";
 import stopEvent from "../../../utils/stopEvent";
+import { CommonReturn } from "../../../components/utils/common-return";
 
-export const Header = ({ forceReRendering }) => {
+export const Header = () => {
     const [Component, setComponent] = React.useState(null);
     const { isAuthenticated, user, logout } = useAuth();
+    const { loading, runLogout } = useLogout();
     const { isHeaderChange, isLeftChange, setHeaderChange, setLeftChange } = menuAuth();
     const { isDone, setIsDone } = useFirstLoad();
     const navigate = useNavigate();
@@ -58,9 +61,10 @@ export const Header = ({ forceReRendering }) => {
             ////////////////////////////////////////////////////////////////////
             $(`.logout-button`).off(`click`).on(`click`, function (e) {
                 stopEvent(e);
-                logout();
-                setIsDone(false);
-                setLogoutState(true);
+                // logout();
+                // setIsDone(false);
+                // setLogoutState(true);
+                runLogout();
                 // forceReRendering();
             });
 
@@ -89,9 +93,5 @@ export const Header = ({ forceReRendering }) => {
         }
     }, [Component]); // DesignComponent가 로딩되면 이벤트 설정
 
-    return (
-        <Suspense fallback={<div>Header Loading...</div>}>
-            {Component ? <Component getParams={params} /> : <p>Data Loading...</p>}
-        </Suspense>
-    );
+    return CommonReturn(Component)({ loadingTypeTitle: `layout(header)` });
 };

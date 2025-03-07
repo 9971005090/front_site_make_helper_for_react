@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { POST } from "../../utils/axios-api";
 import { useAuth } from "../auth";
 import { useFirstLoad } from "../first-load";
-import { useCheck } from "../check";
 import { ADD_PARAMS } from "../../utils/custom/add-params";
 import { SETTINGS } from '../../init/global-settings';
+import { API } from '../../components/modules/login/constants/api.js';
 import { format } from 'date-fns';
 
 // 로그인 후 처리해야 할 커스텀 훅 관련 import
@@ -16,7 +16,6 @@ import { format } from 'date-fns';
 export const useLogin = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { isUrlChange, isNavigateChange, setUrlChange, setNavigateChange } = useCheck();
     const { isAuthenticated, login, setRemember, removeRemember } = useAuth();
     const [ loading, setLoading ] = React.useState(false);
     const { runFirstLoadData } = SETTINGS();
@@ -46,7 +45,7 @@ export const useLogin = () => {
         };
 
         setLoading(true);
-        const response = await POST(`${window.CONSTANTS.get(`APP.API_BASE`)}/Account/LoginHIS`, ADD_PARAMS(parameter, form), {});
+        const response = await POST(`${window.CONSTANTS.get(`APP.API_BASE`)}${API.LOGIN}`, ADD_PARAMS(parameter, form), {});
         if (response.result === true) {
             login(response);
             if (form['login_userId'] === `on`) {

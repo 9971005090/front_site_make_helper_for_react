@@ -3,9 +3,11 @@ import React, { useState, useEffect, Suspense } from "react";
 import $ from "cash-dom";
 import stopEvent from "../../../utils/stopEvent";
 import { format } from 'date-fns';
+import { CommonReturn } from "../../../components/utils/common-return";
+import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
 
-export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, paramItemsPerPage, paramPagesPerPage }) => {
-    const [currentPage, setCurrentPage] = useState(paramCurrentPage);
+export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, pagingChange }) => {
+    const [pageChange, setPageChange] = useState(false);
     const [Component, setComponent] = useState(null);
     const [pagingInfo, setPagingInfo] = useState({
         page: {
@@ -20,11 +22,12 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
             prev: false,
             next: false,
             last: false,
-        }
+        },
+        view: false
     });
-    const [isLoaded, setIsLoaded] = useState(false); // 로딩 완료 상태 추적
+    const [isLoaded, setIsLoaded] = useState(false);
     const handleComponentLoad = () => {
-        setIsLoaded(true);
+        setIsLoaded((state) => !state);
     };
 
     React.useEffect(() => {
@@ -38,7 +41,7 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
                 selectedPage = id;
             }
             if(id === "First") {
-                if(currentPage === 1) {
+                if(paramCurrentPage === 1) {
                     return;
                 }
                 else {
@@ -46,23 +49,23 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
                 }
             }
             if(id === "Prev") {
-                if(currentPage === 1) {
+                if(paramCurrentPage === 1) {
                     return;
                 }
                 else {
-                    selectedPage = currentPage - 1;
+                    selectedPage = paramCurrentPage - 1;
                 }
             }
             if(id === "Next") {
-                if(currentPage === pagingInfo.page.total) {
+                if(paramCurrentPage === pagingInfo.page.total) {
                     return;
                 }
                 else {
-                    selectedPage = currentPage + 1;
+                    selectedPage = paramCurrentPage + 1;
                 }
             }
             if(id === "Last") {
-                if(currentPage === pagingInfo.page.total) {
+                if(paramCurrentPage === pagingInfo.page.total) {
                     return;
                 }
                 else {
@@ -71,16 +74,16 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
             }
 
             if(typeof selectedPage !== "string") {
-                if(selectedPage === currentPage) {
+                if(selectedPage === paramCurrentPage) {
                     return;
                 }
             }
-            setIsLoaded(false);
-            setCurrentPage(selectedPage);
+            setPageChange((state) => !state);
             paramSearchFunc(selectedPage);
+            setIsLoaded((state) => !state);
         });
         return () => {
-            $(`.page-item`).off(`click`);
+            // $(`.page-item`).off(`click`);
         };
     }, [isLoaded]); // DesignComponent가 로딩되면 이벤트 설정
 
@@ -105,24 +108,18 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
                     next: true,
                     last: true,
                 },
+                view: true
             };
 
             for (let i = newPagingInfo.page.first; i <= newPagingInfo.page.last; i++) {
                 newPagingInfo.page.numbers.push({
                     number: i,
-                    active: i === currentPage,
+                    active: i === paramCurrentPage,
                 });
             }
             setPagingInfo(newPagingInfo);
         }
-    }, [currentPage]);
-
-    // 스타일 추가
-    useEffect(() => {
-        (async () => {
-            await import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
-        })();
-    }, []);
+    }, [pagingChange, pageChange]);
 
     // 동적 컴포넌트 로딩
     useEffect(() => {
@@ -132,10 +129,6 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
         })();
     }, []);
 
-    return (
-        <Suspense fallback={<div>Paging Loading...</div>}>
-            {Component ? <Component key={currentPage} pagingInfo={pagingInfo} onLoad={handleComponentLoad} /> : <p>Data Loading...</p>}
-        </Suspense>
-    );
+    return CommonReturn(Component)({pagingInfo: pagingInfo, onLoad: handleComponentLoad, loadingTypeTitle: `paging`, pageChange: pageChange, pagingChange: pagingChange});
 };
 

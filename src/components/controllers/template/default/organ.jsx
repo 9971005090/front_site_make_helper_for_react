@@ -1,12 +1,11 @@
 // src/designs/content/organ.js
 import React from "react";
-import { CommonFetch } from "../../../modules/common-fetch/common-fetch";
-import { Paging } from "../../../modules/paging2/index";
+import { CommonFetch } from "../../../modules/common-fetch";
+import { Paging } from "../../../modules/paging2";
 
 export const Design = {
     index: () => {
-        return ({paramFetchData, paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage}) => {
-            const totalCount = paramFetchData !== null ? paramFetchData.totalCount : 0;
+        return ({paramFetchData, paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, totalCount, pagingChange, onLoad }) => {
             return (
                 <div className="common-cont">
                     <div className="sub-cont-top">
@@ -76,12 +75,12 @@ export const Design = {
                                 </div>
                             </div>
                             <div className="cm-tbody" id="contents-by-data-table">
-                                <CommonFetch paramFetchData={paramFetchData} paramType={"organ"} paramSearchFunc={paramSearchFunc} paramCurrentPage={paramCurrentPage}/>
+                                <CommonFetch paramFetchData={paramFetchData} paramType={"organ"} paramSearchFunc={paramSearchFunc} paramCurrentPage={paramCurrentPage} onLoad={onLoad}/>
                             </div>
                         </div>
                     </div>
                     {totalCount > 0 ? (
-                    <Paging paramSearchFunc={paramSearchFunc} paramTotalCount={totalCount} paramCurrentPage={paramCurrentPage} paramItemsPerPage={paramItemsPerPage} paramPagesPerPage={paramPagesPerPage}/>
+                    <Paging paramSearchFunc={paramSearchFunc} paramTotalCount={totalCount} paramCurrentPage={paramCurrentPage} paramItemsPerPage={paramItemsPerPage} paramPagesPerPage={paramPagesPerPage} pagingChange={pagingChange} />
                     ) : null}
                 </div>
             );
