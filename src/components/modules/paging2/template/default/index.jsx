@@ -3,12 +3,12 @@ import React from "react";
 
 export const Design = {
     index: () => {
-        return ({ pagingInfo, onLoad, pageChange, pagingChange }) => {
+        return ({ pagingInfo, onLoad, pageChange, paramFetchData }) => {
             React.useEffect(() => {
                 if (onLoad) {
                     onLoad();
                 }
-            }, [pageChange, pagingChange]);
+            }, [pageChange, paramFetchData]);
             return (
                 <>
                     {pagingInfo.view === true && (
