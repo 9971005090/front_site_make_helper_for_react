@@ -5,19 +5,16 @@ import { parsingSyncHis, parsingDeviceManagerType } from "../../../../../helpers
 
 export const Design = {
     index: () => {
-        return ( { paramFetchData, onLoad } ) => {
-            let totalCount = null;
+        return ( { paramFetchData, onLoadChild } ) => {
             let organizationList = null;
             if (paramFetchData !== null) {
-                totalCount = paramFetchData.totalCount;
                 organizationList = paramFetchData.organizationList;
             }
             React.useEffect(() => {
-                if (onLoad) {
-                    // console.log("onload", format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS'));
-                    onLoad();
+                if (onLoadChild) {
+                    onLoadChild();
                 }
-            }, []);
+            }, [paramFetchData]);
             return (
                 organizationList !== null && organizationList.length > 0 ? (
                     organizationList.map((item, index) => (

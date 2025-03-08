@@ -5,7 +5,12 @@ import { Paging } from "../../../modules/paging2";
 
 export const Design = {
     index: () => {
-        return ({paramFetchData, paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, totalCount, pagingChange, onLoad }) => {
+        return ({paramFetchData, paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild }) => {
+            React.useEffect(() => {
+                if (onLoadParent) {
+                    onLoadParent();
+                }
+            }, [paramFetchData]);
             return (
                 <div className="common-cont">
                     <div className="sub-cont-top">
@@ -75,12 +80,12 @@ export const Design = {
                                 </div>
                             </div>
                             <div className="cm-tbody" id="contents-by-data-table">
-                                <CommonFetch paramFetchData={paramFetchData} paramType={"organ"} paramSearchFunc={paramSearchFunc} paramCurrentPage={paramCurrentPage} onLoad={onLoad}/>
+                                <CommonFetch paramFetchData={paramFetchData} paramType={"organ"} paramSearchFunc={paramSearchFunc} paramCurrentPage={paramCurrentPage} onLoadChild={onLoadChild}/>
                             </div>
                         </div>
                     </div>
-                    {totalCount > 0 ? (
-                    <Paging paramSearchFunc={paramSearchFunc} paramTotalCount={totalCount} paramCurrentPage={paramCurrentPage} paramItemsPerPage={paramItemsPerPage} paramPagesPerPage={paramPagesPerPage} pagingChange={pagingChange} />
+                    {paramFetchData !== null && paramFetchData.totalCount > 0 ? (
+                    <Paging paramSearchFunc={paramSearchFunc} paramFetchData={paramFetchData} paramCurrentPage={paramCurrentPage} paramItemsPerPage={paramItemsPerPage} paramPagesPerPage={paramPagesPerPage} />
                     ) : null}
                 </div>
             );

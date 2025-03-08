@@ -7,7 +7,7 @@ import { post } from "../../../utils/axiosApi";
 import addParams from "../../../utils/custom/addParams";
 import { CommonReturn } from "../../../components/utils/common-return";
 
-export const CommonFetch = ({paramFetchData, paramType, paramSearchFunc, paramCurrentPage, onLoad}) => {
+export const CommonFetch = ({paramFetchData, paramType, onLoadChild}) => {
     const [Component, setComponent] = React.useState(null);
 
     React.useEffect(() => {
@@ -17,41 +17,19 @@ export const CommonFetch = ({paramFetchData, paramType, paramSearchFunc, paramCu
         })();
     }, []);
 
-    React.useEffect(() => {
-        if (Component !== null) {
-            // 콤포넌트 최초 로딩 후
-            ////////////////////////////////////////////////////////////////////
-            $(`.btn-delete`).off(`click`).on(`click`, async function (e) {
-                stopEvent(e);
-                const parameter = {
-                    'organizationCodeList': [],
-                };
-                parameter.organizationCodeList.push($(this).parents('.cm-tr').attr('data-code'));
-                if(Number($(`.radio-input[name="expiration"]:checked`).val()) === 0) {
-                    parameter["expiration"] = 1;
-                }
-                else {
-                    parameter['expiration'] = 0;
-                }
+    // React.useEffect(() => {
+    //     if (Component !== null) {
+    //         // 콤포넌트 최초 로딩 후
+    //         ////////////////////////////////////////////////////////////////////
+    //
+    //         ////////////////////////////////////////////////////////////////////
+    //     }
+    //     return () => {
+    //         // $(`.btn-delete`).off(`click`);
+    //     };
+    // }, []);
 
-                const response = await post(`${window.CONSTANTS.get(`APP.API_BASE`)}/Manager/UpdateOrganizationExpirationList`, parameter, {});
-                if (response.result === true) {
-                    paramSearchFunc(paramCurrentPage);
-                }
-                else {
-                    alert(`데이타 업데이트 실패`);
-                }
-                // CUSTOM_UTIL.DELETE_ALERT(ORGAN_UTIL.UPDATE_EXPIRATION_LIST, parameter, _search, null, null, text);
-
-            });
-            ////////////////////////////////////////////////////////////////////
-        }
-        return () => {
-            $(`.btn-delete`).off(`click`);
-        };
-    }, [Component, paramFetchData]);
-
-    return CommonReturn(Component)({ paramFetchData: paramFetchData, loadingTypeTitle: `common-fetch`, onLoad: onLoad });
+    return CommonReturn(Component)({ paramFetchData: paramFetchData, loadingTypeTitle: `common-fetch`, onLoadChild: onLoadChild });
 };
 
 

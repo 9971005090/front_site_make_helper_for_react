@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { CommonReturn } from "../../../components/utils/common-return";
 import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
 
-export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, pagingChange }) => {
+export const Paging = ({ paramSearchFunc, paramFetchData, paramCurrentPage, paramItemsPerPage, paramPagesPerPage }) => {
     const [pageChange, setPageChange] = useState(false);
     const [Component, setComponent] = useState(null);
     const [pagingInfo, setPagingInfo] = useState({
@@ -80,7 +80,7 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
             }
             setPageChange((state) => !state);
             paramSearchFunc(selectedPage);
-            setIsLoaded((state) => !state);
+            // setIsLoaded((state) => !state);
         });
         return () => {
             // $(`.page-item`).off(`click`);
@@ -89,12 +89,12 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
 
     // 페이징 정보를 설정하는 useEffect
     useEffect(() => {
-        if (paramTotalCount > 0) {
+        if (paramFetchData !== null && paramFetchData.totalCount > 0) {
             const newPagingInfo = {
                 page: {
-                    total: Math.ceil(paramTotalCount / paramItemsPerPage),
+                    total: Math.ceil(paramFetchData.totalCount / paramItemsPerPage),
                     first: 1,
-                    last: Math.min(paramPagesPerPage, Math.ceil(paramTotalCount / paramItemsPerPage)),
+                    last: Math.min(paramPagesPerPage, Math.ceil(paramFetchData.totalCount / paramItemsPerPage)),
                     active: false,
                     numbers: [],
                 },
@@ -119,7 +119,7 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
             }
             setPagingInfo(newPagingInfo);
         }
-    }, [pagingChange, pageChange]);
+    }, [paramFetchData, pageChange]);
 
     // 동적 컴포넌트 로딩
     useEffect(() => {
@@ -129,6 +129,6 @@ export const Paging = ({ paramSearchFunc, paramTotalCount, paramCurrentPage, par
         })();
     }, []);
 
-    return CommonReturn(Component)({pagingInfo: pagingInfo, onLoad: handleComponentLoad, loadingTypeTitle: `paging`, pageChange: pageChange, pagingChange: pagingChange});
+    return CommonReturn(Component)({pagingInfo: pagingInfo, onLoad: handleComponentLoad, loadingTypeTitle: `paging`, pageChange: pageChange, paramFetchData: paramFetchData});
 };
 
