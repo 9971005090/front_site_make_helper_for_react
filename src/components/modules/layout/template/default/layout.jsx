@@ -13,11 +13,11 @@ export const Design = {
             return (
                 <div id="wrap">
 
-                    <Header />
+                    <Header uriParams={uriParams} />
 
                     <main id="wrap-cont">
 
-                        <Left />
+                        <Left uriParams={uriParams} />
 
                         <section className="cm-main-content" id="main-contents">
                             <div className="page-top">
@@ -27,9 +27,9 @@ export const Design = {
                                         <span className="fa fa-home"></span>
                                     </a>
                                     <span className="icon fa fa-angle-right"></span>
-                                    <a className="page-nav-link" style={{cursor: "pointer"}}>게이트웨이</a>
+                                    <a className="page-nav-link controller" style={{cursor: "pointer"}}>게이트웨이</a>
                                     <span className="icon fa fa-angle-right"></span>
-                                    <a className="page-nav-link">게이트웨이</a>
+                                    <a className="page-nav-link action">게이트웨이</a>
                                 </div>
                             </div>
                             <article id="main-cont"><Controller uriParams={uriParams} /></article>
