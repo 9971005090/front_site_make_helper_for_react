@@ -6,8 +6,13 @@ import { parsingShowNowTime, parsingShowRandomString } from "../../../../../help
 export const Design = {
     index: () => {
         // 디자인 컴포넌트를 반환
-        return () => {
+        return ({ onLoad, navigate }) => {
             const { isAuthenticated, user } = useAuth();
+            React.useEffect(() => {
+                if (onLoad) {
+                    onLoad();
+                }
+            }, [navigate]);
             return (
                 <header id="header" className="cm-header">
                     <section className="cm-header-section type02">

@@ -1,5 +1,6 @@
 // src/controllers/organ.js
-import React, {useEffect, useState} from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import $ from "cash-dom";
 import { format } from 'date-fns';
 import { useAuth } from "../../hooks/auth";
@@ -16,7 +17,7 @@ const Controller = {
             const { controllerName, actionName } = uriParams;
             const [Component, setComponent] = React.useState(null);
             const [fetchData, setFetchData] = React.useState(null);
-            const [isLoaded2, setIsLoaded2] = useState({
+            const [isLoaded, setIsLoaded] = React.useState({
                 parent: false,
                 child: false
             });
@@ -25,9 +26,10 @@ const Controller = {
             const pagesPerPage = React.useRef(10);
             const currentPage = React.useRef(1);
             const isFirstSearch = React.useRef(true);
+            const navigate = useNavigate();
 
             const onLoadParent = () => {
-                setIsLoaded2((state) => {
+                setIsLoaded((state) => {
                     return {
                         parent: true,
                         child: state.child
@@ -35,7 +37,7 @@ const Controller = {
                 });
             };
             const onLoadChild = () => {
-                setIsLoaded2((state) => {
+                setIsLoaded((state) => {
                     return {
                         parent: state.parent,
                         child: true
@@ -66,7 +68,7 @@ const Controller = {
             };
 
 
-            useEffect(() => {
+            React.useEffect(() => {
                 // console.log(`useEffect 최상단 - ${format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS')}`);
                 (async () => {
                     try {
@@ -84,21 +86,21 @@ const Controller = {
             }, []);
 
             // 컴포넌트가 렌더링된 후에 버튼 이벤트 설정
-            useEffect(() => {
-                if (Component !== null && isLoaded2.parent === true) {
+            React.useEffect(() => {
+                if (Component !== null && isLoaded.parent === true) {
                     ////////////////////////////////////////////////////////////////////
                     // 현재까지는 일단 이벤트 적용을 계속 실행하자.. 데이타가 검색되기 전에는 아래고, 검색된 후에는 다른걸 해야하는데.
                     // 현 구조에서는 이게 안된다.
                     // 이벤트 등록은 성능에 문제가 안되니 일단 진행해보자.
                     if (actionName === `index`) {
-                        eventOrgan.index(search, fetchDataState, currentPage.current); // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
+                        eventOrgan.index({search: search, fetchDataState: fetchDataState, navigate: navigate, currentPage: currentPage.current}); // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
                         if (isFirstSearch.current === true) {
                             $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));
                             isFirstSearch.current = false;
                         }
                     }
-                    if (isLoaded2.parent === true) {
-                        setIsLoaded2((state) => {
+                    if (isLoaded.parent === true) {
+                        setIsLoaded((state) => {
                             return {
                                 parent: false,
                                 child: state.child
@@ -113,21 +115,21 @@ const Controller = {
                     };
                     ////////////////////////////////////////////////////////////////////
                 }
-            }, [isLoaded2.parent]);
+            }, [isLoaded.parent]);
 
 
             // 컴포넌트가 렌더링된 후에 버튼 이벤트 설정
-            useEffect(() => {
-                if (Component !== null && isLoaded2.child === true) {
+            React.useEffect(() => {
+                if (Component !== null && isLoaded.child === true) {
                     ////////////////////////////////////////////////////////////////////
                     // 현재까지는 일단 이벤트 적용을 계속 실행하자.. 데이타가 검색되기 전에는 아래고, 검색된 후에는 다른걸 해야하는데.
                     // 현 구조에서는 이게 안된다.
                     // 이벤트 등록은 성능에 문제가 안되니 일단 진행해보자.
                     if (actionName === `index`) {
-                        eventOrgan.datas(search, currentPage.current); // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
+                        eventOrgan.datas({search: search, currentPage: currentPage.current}); // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
                     }
-                    if (isLoaded2.child === true) {
-                        setIsLoaded2((state) => {
+                    if (isLoaded.child === true) {
+                        setIsLoaded((state) => {
                             return {
                                 parent: state.parent,
                                 child: false
@@ -142,7 +144,7 @@ const Controller = {
                     };
                     ////////////////////////////////////////////////////////////////////
                 }
-            }, [isLoaded2.child]);
+            }, [isLoaded.child]);
 
             return CommonReturn(Component)({paramFetchData: fetchData, paramSearchFunc: search, paramCurrentPage: currentPage.current, paramItemsPerPage: itemsPerPage.current, paramPagesPerPage: pagesPerPage.current, onLoadParent: onLoadParent, onLoadChild: onLoadChild});
         };
