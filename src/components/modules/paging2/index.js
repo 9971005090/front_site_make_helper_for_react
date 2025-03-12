@@ -1,15 +1,15 @@
 // src/components/modules/paging2/index.js
-import React, { useState, useEffect, Suspense } from "react";
+import React from "react";
 import $ from "cash-dom";
-import stopEvent from "../../../utils/stopEvent";
+import { stopBubbling } from "../../../utils/stop-bubbling";
 import { format } from 'date-fns';
 import { CommonReturn } from "../../../components/utils/common-return";
 import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
 
 export const Paging = ({ paramSearchFunc, paramFetchData, paramCurrentPage, paramItemsPerPage, paramPagesPerPage }) => {
-    const [pageChange, setPageChange] = useState(false);
-    const [Component, setComponent] = useState(null);
-    const [pagingInfo, setPagingInfo] = useState({
+    const [pageChange, setPageChange] = React.useState(false);
+    const [Component, setComponent] = React.useState(null);
+    const [pagingInfo, setPagingInfo] = React.useState({
         page: {
             total: 0,
             first: 0,
@@ -25,15 +25,15 @@ export const Paging = ({ paramSearchFunc, paramFetchData, paramCurrentPage, para
         },
         view: false
     });
-    const [isLoaded, setIsLoaded] = useState(false);
-    const handleComponentLoad = () => {
+    const [isLoaded, setIsLoaded] = React.useState(false);
+    const onLoad = () => {
         setIsLoaded((state) => !state);
     };
 
     React.useEffect(() => {
         ////////////////////////////////////////////////////////////////////
         $(`.page-item`).off(`click`).on(`click`, function (e) {
-            stopEvent(e);
+            stopBubbling(e);
             const item = $(this);
             const id = item.find(`button`).attr(`aria-label`);
             let selectedPage = Number(item.children(`span`).text());
@@ -88,7 +88,7 @@ export const Paging = ({ paramSearchFunc, paramFetchData, paramCurrentPage, para
     }, [isLoaded]); // DesignComponent가 로딩되면 이벤트 설정
 
     // 페이징 정보를 설정하는 useEffect
-    useEffect(() => {
+    React.useEffect(() => {
         if (paramFetchData !== null && paramFetchData.totalCount > 0) {
             const newPagingInfo = {
                 page: {
@@ -122,13 +122,13 @@ export const Paging = ({ paramSearchFunc, paramFetchData, paramCurrentPage, para
     }, [paramFetchData, pageChange]);
 
     // 동적 컴포넌트 로딩
-    useEffect(() => {
+    React.useEffect(() => {
         (async () => {
             const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/index`);
             setComponent(Design.index);
         })();
     }, []);
 
-    return CommonReturn(Component)({pagingInfo: pagingInfo, onLoad: handleComponentLoad, loadingTypeTitle: `paging`, pageChange: pageChange, paramFetchData: paramFetchData});
+    return CommonReturn(Component)({pagingInfo: pagingInfo, onLoad: onLoad, loadingTypeTitle: `paging`, pageChange: pageChange, paramFetchData: paramFetchData});
 };
 

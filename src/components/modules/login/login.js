@@ -6,9 +6,9 @@ import { format } from 'date-fns';
 
 // import $ from "../utils/domHelper";
 import $ from "cash-dom";
-import formParser from "../../../utils/formParser";
-import formCheck from "../../../utils/formCheck";
-import stopEvent from "../../../utils/stopEvent";
+import { formParser } from "../../../utils/form-parser";
+import { formCheck } from "../../../utils/form-check";
+import { stopBubbling } from "../../../utils/stop-bubbling";
 
 
 export const ModuleController = {
@@ -49,7 +49,7 @@ export const ModuleController = {
                     // 이벤트 설정
                     // 로그아웃 버튼
                     $(`#login_btn`).off(`click`).on(`click`, function(e) {
-                        stopEvent(e);
+                        stopBubbling(e);
                         const form = formParser(`#dataForm`);
                         if(formCheck(`#dataForm`) === true) {
                             runLogin(form);

@@ -1,10 +1,6 @@
 // src/components/modules/common-fetch/index.js
 import React from "react";
 import $ from "cash-dom";
-
-import stopEvent from "../../../utils/stopEvent";
-import { post } from "../../../utils/axiosApi";
-import addParams from "../../../utils/custom/addParams";
 import { CommonReturn } from "../../../components/utils/common-return";
 
 export const CommonFetch = ({paramFetchData, paramType, onLoadChild}) => {

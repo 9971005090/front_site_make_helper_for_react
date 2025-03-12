@@ -1,25 +1,25 @@
+// src/utils/global-utils.js
 import React from "react";
 import ReactDOM from "react-dom/client";
-export const notify = async () => {
+import $ from "cash-dom";
+// toast.success(), toast.error(), toast.warn(), toast.info()
+const Notify = async (position = `top-center`, message = `성공 메시지!`, type = `success`, callback = null) => {
     const { toast, ToastContainer, Slide } = await import("react-toastify");
     await import("react-toastify/dist/ReactToastify.css");
 
-    const containerId = "toast-container";
+    const containerId = `toast-container`;
 
     // ToastContainer가 없으면 DOM에 추가
     if (!document.getElementById(containerId)) {
         const container = document.createElement("div");
         container.id = containerId;
         document.body.appendChild(container);
-
-        // React 19 방식으로 렌더링 (hydrateRoot 또는 직접 DOM 삽입)
-        document.body.appendChild(container);
         container.innerHTML = `<div id="toast-root"></div>`;
 
         import("react-dom").then(() => {
             ReactDOM.createRoot(document.getElementById("toast-root")).render(
                 <ToastContainer
-                    position="top-right"
+                    position={position} //"top-left", "top-right", "top-center", "bottom-left", "bottom-right", "bottom-center"
                     autoClose={3000}
                     hideProgressBar={false}
                     newestOnTop={false}
@@ -35,47 +35,35 @@ export const notify = async () => {
                             document.getElementById("toast-root")?.remove();
                             container.remove();
                         }
+                        if (callback !== null) {
+                            callback.func(...callback.params);
+                        }
                     }}
                 />
             );
         });
     }
 
-    // 토스트 메시지 출력
-    toast.success("성공 메시지!", { position: "top-right" });
+
+    // 같은 메세지를 보낼때 2,4,6번째 부터는 나오지 않는 문제가 있음
+    // 그래서 콤포넌트가 랜더링이 됐는지 확인 후 처리되게 수
+    let timeoutId = null;
+    const existContainer = function() {
+        if ($(`#toast-container #toast-root .Toastify`).length > 0) {
+            toast(message, { type: type, position: position, toastId: Date.now() });
+            return;
+        }
+        timeoutId = setTimeout(function() {
+            existContainer();
+        }, 10);
+    };
+
+    // 일정 시간이 지나면 자동으로 멈추도록 추가
+    setTimeout(() => {
+        clearTimeout(timeoutId);
+    }, 1000); // 5초 후에 강제 종료
+
+    existContainer();
 };
 
-
-
-export const CustomModal = (() => {
-    const container = document.createElement("div");
-    const root = ReactDOM.createRoot(container);
-
-    const open = () => {
-        document.body.appendChild(container);
-
-        root.render(
-            <div style={{
-                position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
-                backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 9999
-            }}>
-                <div style={{
-                    position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-                    backgroundColor: "white", padding: "20px", borderRadius: "5px"
-                }}>
-                    <h2>모달 콘텐츠</h2>
-                    <p>여기에 동적으로 추가된 모달 내용</p>
-                    <button onClick={close}>닫기</button>
-                </div>
-            </div>
-        );
-    };
-
-    const close = () => {
-        container.remove();
-    };
-
-    return {
-        open: open
-    };
-})();
+export { Notify };
