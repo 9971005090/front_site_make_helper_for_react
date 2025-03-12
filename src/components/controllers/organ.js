@@ -3,16 +3,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import $ from "cash-dom";
 import { format } from 'date-fns';
-import { useAuth } from "../../hooks/auth";
-import stopEvent from "../../utils/stopEvent";
-import { post } from "../../utils/axiosApi";
-import addParams from "../../utils/custom/addParams";
-import formParser from "../../utils/formParser";
+import { formParser } from "../../utils/form-parser";
 import { CommonReturn } from "../../components/utils/common-return";
-import { event as eventOrgan } from "../../events/controllers/organ";
+
+import { UTIL as ORGAN_UTIL } from "../../utils/api/organ";
 
 const Controller = {
-    index: () => {
+    index: function() {
         return ({ uriParams }) => {
             const { controllerName, actionName } = uriParams;
             const [Component, setComponent] = React.useState(null);
@@ -56,7 +53,7 @@ const Controller = {
                     'expiration': form['expiration'],
                 };
                 fetchDataState.current = `searching`;
-                const response = await post(`${window.CONSTANTS.get(`APP.API_BASE`)}/Manager/SelectOrganizationPage`, addParams(parameter, form), {});
+                const response = await ORGAN_UTIL.PAGE(parameter);
                 if (response.result === true) {
                     setFetchData(response);
                     fetchDataState.current = `ready`;
@@ -92,12 +89,36 @@ const Controller = {
                     // 현재까지는 일단 이벤트 적용을 계속 실행하자.. 데이타가 검색되기 전에는 아래고, 검색된 후에는 다른걸 해야하는데.
                     // 현 구조에서는 이게 안된다.
                     // 이벤트 등록은 성능에 문제가 안되니 일단 진행해보자.
+
                     if (actionName === `index`) {
-                        eventOrgan.index({search: search, fetchDataState: fetchDataState, navigate: navigate, currentPage: currentPage.current}); // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
-                        if (isFirstSearch.current === true) {
-                            $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));
-                            isFirstSearch.current = false;
-                        }
+                        (async function() {
+                            try {
+                                ////////////////////////////////////////////////////////////////////
+                                // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
+                                (await import(`../../events/custom/organ/index`)).event.index({search: search, fetchDataState: fetchDataState, navigate: navigate, currentPage: currentPage.current});
+
+                                if (isFirstSearch.current === true) {
+                                    $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));
+                                    isFirstSearch.current = false;
+                                }
+                                ////////////////////////////////////////////////////////////////////
+
+                            } catch (error) {
+                                console.error("Failed to load design component:", error);
+                            }
+                        })();
+                    }
+                    else if (actionName === `add`) {
+                        (async function() {
+                            try {
+                                ////////////////////////////////////////////////////////////////////
+                                (await import(`../../events/custom/organ/add`)).event({navigate: navigate});
+                                ////////////////////////////////////////////////////////////////////
+
+                            } catch (error) {
+                                console.error("Failed to load design component:", error);
+                            }
+                        })();
                     }
                     if (isLoaded.parent === true) {
                         setIsLoaded((state) => {
@@ -126,7 +147,17 @@ const Controller = {
                     // 현 구조에서는 이게 안된다.
                     // 이벤트 등록은 성능에 문제가 안되니 일단 진행해보자.
                     if (actionName === `index`) {
-                        eventOrgan.datas({search: search, currentPage: currentPage.current}); // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
+                        (async function() {
+                            try {
+                                ////////////////////////////////////////////////////////////////////
+                                // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
+                                (await import(`../../events/custom/organ/index`)).event.datas({search: search, currentPage: currentPage.current, callbackFunc: ORGAN_UTIL.UPDATE_EXPIRATION_LIST});
+                                ////////////////////////////////////////////////////////////////////
+
+                            } catch (error) {
+                                console.error("Failed to load design component:", error);
+                            }
+                        })();
                     }
                     if (isLoaded.child === true) {
                         setIsLoaded((state) => {

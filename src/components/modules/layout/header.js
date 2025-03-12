@@ -3,12 +3,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import $ from "cash-dom";
 import { format } from 'date-fns';
-
 import { useLogout } from "../../../hooks/utils/logout";
-import { useAuth } from "../../../hooks/auth";
-import { menuAuth } from "../../../hooks/menu";
-import { useFirstLoad } from "../../../hooks/first-load";
-import stopEvent from "../../../utils/stopEvent";
+import { stopBubbling } from "../../../utils/stop-bubbling";
 import { CommonReturn } from "../../../components/utils/common-return";
 
 export const Header = ({uriParams}) => {
@@ -32,13 +28,13 @@ export const Header = ({uriParams}) => {
         if (Component !== null && isLoaded === true) {
             ////////////////////////////////////////////////////////////////////
             $(`.logout-button`).off(`click`).on(`click`, function (e) {
-                stopEvent(e);
+                stopBubbling(e);
                 runLogout();
             });
 
             // 대메뉴의 링크 적용
             $(`.cm-header .cm-top-menu-ul .menu-list`).off(`click`).on(`click`, function (e) {
-                stopEvent(e);
+                stopBubbling(e);
                 // $("#burger-btn.on").removeClass("on")
                 // $(".cm-top-menu.on").removeClass("on")
                 const location = $(this).attr("data-location");

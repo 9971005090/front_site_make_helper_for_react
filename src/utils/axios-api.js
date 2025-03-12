@@ -1,4 +1,4 @@
-// src/utils/axiosApi.js
+// src/utils/axios-api.js
 // 일반 함수에서는 훅을 사용할 수 없다.
 // useSelector, useDispatch 이건 꼭 콤포넌트 안에서만 사용해야 한다.
 // const { _isAuthenticated, _token } = state.auth; 이걸 맨 상단에 미리 불러놓지 않는 이유는
@@ -80,7 +80,7 @@ export const GET = (url, params = null, headers = {}, callback = null) => {
 // HTTP POST 요청
 export const POST = (url, data, headers = {}, callback = null) => {
     const params = Object.assign(_getDefaultParam(true), data);
-    return apiRequest('post', url, params, null, headers, callback);
+    return apiRequest('post', `${window.CONSTANTS.get(`APP.API_BASE`)}${url}`, params, null, headers, callback);
 };
 
 // HTTP PUT 요청

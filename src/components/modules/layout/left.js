@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { CommonReturn } from "../../../components/utils/common-return";
 import $ from "cash-dom";
-import stopEvent from "../../../utils/stopEvent";
+import { stopBubbling } from "../../../utils/stop-bubbling";
 import { LEFT_MENU } from "../../../components/modules/layout/init/left-menu";
 export const Left = ({ uriParams }) => {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ export const Left = ({ uriParams }) => {
             ////////////////////////////////////////////////////////////////////
 
             $(`.gnb-list`).off(`click`).on(`click`, function (e) {
-                stopEvent(e);
+                stopBubbling(e);
                 let location = $(this).attr("data-location");
                 let callback = $(this).attr("data-callback");
                 if(location !== undefined && location !== "") {

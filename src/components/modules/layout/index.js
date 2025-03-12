@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { Controller } from '../../controllers';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/auth";
-import { notify, CustomModal } from '../../../utils/globalUtils';
+import { notify } from '../../../utils/global-utils';
 import { CommonReturn } from "../../../components/utils/common-return";
 
 // console.log(format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS'));
