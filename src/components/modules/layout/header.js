@@ -1,6 +1,6 @@
 // src/layout/Header.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import $ from "cash-dom";
 import { format } from 'date-fns';
 import { useLogout } from "../../../hooks/utils/logout";
@@ -10,6 +10,7 @@ import { CommonReturn } from "../../../components/utils/common-return";
 export const Header = ({uriParams}) => {
     const [Component, setComponent] = React.useState(null);
     const { loading, runLogout } = useLogout();
+    const location = useLocation();
     const navigate = useNavigate();
     const [isLoaded, setIsLoaded] = React.useState(false);
 
@@ -22,7 +23,7 @@ export const Header = ({uriParams}) => {
             const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/header`);
             setComponent(Design.index);
         })();
-    }, [navigate]);
+    }, []);
 
     React.useEffect(() => {
         if (Component !== null && isLoaded === true) {
@@ -37,12 +38,13 @@ export const Header = ({uriParams}) => {
                 stopBubbling(e);
                 // $("#burger-btn.on").removeClass("on")
                 // $(".cm-top-menu.on").removeClass("on")
-                const location = $(this).attr("data-location");
-                const callback = $(this).attr("data-callback");
+                const _location = $(this).attr("data-location");
+                const _callback = $(this).attr("data-callback");
                 $("#wrap").removeAttr("style");
                 if(location !== undefined && location !== "") {
-                    if (`/${window.CONSTANTS.get(`NOW_CONTROLLER`)}/${window.CONSTANTS.get(`NOW_ACTION`)}` !== location) {
-                        navigate(location.toString());
+                    if (`/${window.CONSTANTS.get(`NOW_CONTROLLER`)}/${window.CONSTANTS.get(`NOW_ACTION`)}` !== _location) {
+                        navigate(_location.toString(), {state: {back: location.pathname}});
+                        console.log(":::::header:::::", Date.getNow());
                     }
                 }
             });

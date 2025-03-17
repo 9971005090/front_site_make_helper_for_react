@@ -45,7 +45,7 @@ export const useLogin = () => {
         };
 
         setLoading(true);
-        const response = await POST(`${window.CONSTANTS.get(`APP.API_BASE`)}${API.LOGIN}`, ADD_PARAMS(parameter, form), {});
+        const response = await POST(`${API.LOGIN}`, ADD_PARAMS(parameter, form), {});
         if (response.result === true) {
             login(response);
             if (form['login_userId'] === `on`) {

@@ -5,10 +5,14 @@ import { Paging } from "../../../modules/paging2";
 
 export const Design = {
     index: () => {
-        return ({paramFetchData, paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild }) => {
+        return ({paramFetchData, paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild, onLastLoad }) => {
+            console.log(":::::Template organ start:::::", Date.getNow());
             React.useEffect(() => {
                 if (onLoadParent) {
                     onLoadParent();
+                }
+                if (onLastLoad) {
+                    onLastLoad();
                 }
             }, [paramFetchData]);
             return (

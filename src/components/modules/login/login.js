@@ -14,7 +14,7 @@ import { stopBubbling } from "../../../utils/stop-bubbling";
 export const ModuleController = {
     index: () => {
         // 디자인 컴포넌트를 반환
-        return () => {
+        return ({ onLastLoad }) => {
             const { isAuthenticated, cookieId } = useAuth();
             const theme = `default`;
             const { loading, runLogin } = useLogin();
@@ -82,7 +82,7 @@ export const ModuleController = {
                 return <>Design Loading...</>;
             }
 
-            return <Component />;
+            return <Component onLastLoad={onLastLoad}/>;
         };
     },
 };

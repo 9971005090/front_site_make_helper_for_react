@@ -25,9 +25,12 @@ const Root = () => {
     }, []);
 
     if (isDone === false) {
-        return APP_CONSTANTS['APP.INFO.DEBUG.USE'] === `DEVELOPMENT`
-            ? <>Loading site...</>  // 개발 환경일 경우
-            : <LoadingDonut />;  // 앱 준비가 완료될 때까지 로딩 화면 표시
+        if (APP_CONSTANTS['APP.INFO.DEBUG.USE'] === `DEVELOPMENT`) {
+            return <>Loading site...</> ;
+        }
+        else {
+            return <LoadingDonut />;
+        }
     }
 
     return <App />;

@@ -3,7 +3,12 @@ import React from "react";
 
 export const Design = {
     index: () => {
-        return () => {
+        return ({ onLastLoad }) => {
+            React.useEffect(() => {
+                if (onLastLoad) {
+                    onLastLoad();
+                }
+            }, []);
             return (
                 <div id="login_module_wrap">
                     <div id="login_module_wrap_content" className="login_module_main">
