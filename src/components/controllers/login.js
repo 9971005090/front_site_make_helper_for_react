@@ -4,7 +4,7 @@ import { CommonReturn } from "../../components/utils/common-return";
 
 const Controller = {
     index: () => {
-        return () => {
+        return ({ uriParams, onLastLoad }) => {
             const [Component, setComponent] = React.useState(null);
 
             React.useEffect(() => {
@@ -15,7 +15,7 @@ const Controller = {
             }, []);
 
             // console.log(`src/layout/Layout - return 위 - 로딩 - ${format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS')}`);
-            return CommonReturn(Component)({});
+            return CommonReturn(Component)({onLastLoad: onLastLoad});
         };
     },
 };

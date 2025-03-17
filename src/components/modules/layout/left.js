@@ -11,10 +11,10 @@ export const Left = ({ uriParams }) => {
     const [isLoaded, setIsLoaded] = React.useState(false);
     // const [leftMenu, setLeftMenu] = React.useState(null);
 
-    const datas = LEFT_MENU[uriParams.controllerName].leftMenu.datas;
+    const datas = LEFT_MENU[uriParams.controller].leftMenu.datas;
     for (let i = 0; i < datas.length; i++) {
         datas[i].selected = ``;
-        if (datas[i].controller === uriParams.controllerName && JSON.parse(datas[i].data.info).datas.indexOf(uriParams.actionName) !== -1) {
+        if (datas[i].controller === uriParams.controller && JSON.parse(datas[i].data.info).datas.indexOf(uriParams.action) !== -1) {
             datas[i].selected = ` selected`;
         }
     }

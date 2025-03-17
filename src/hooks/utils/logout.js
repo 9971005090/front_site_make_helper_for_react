@@ -31,7 +31,7 @@ export const useLogout = () => {
     const runLogout = async () => {
         setLoading(true);
         const parameter = {};
-        const response = await POST(`${window.CONSTANTS.get(`APP.API_BASE`)}${API.LOGOUT}`, parameter, {});
+        const response = await POST(API.LOGOUT, parameter, {});
         if (response.result === true) {
             logout();
             setIsDone(false);

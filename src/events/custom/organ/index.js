@@ -46,29 +46,38 @@ const event = {
                     'organizationCodeList': [],
                     'expiration': 1
                 },
-                'text': `비활성화`
+                'text': `비활성화`,
+                'title': `정말 비활성화 하시겠습니까?`,
+                'callback': {
+                    'ok': function() {
+                        $(`#listAllCheck`).prop("checked", false);
+                    }
+                }
             };
             $("#contents-by-data-table").find(".input[type='checkbox']").each(function (index , items) {
                 if($(items).is(":checked")){
-                    _t.params.organizationCodeList.push($(items).parents(".cm-tr").data("code"));
+                    _t.params.organizationCodeList.push($(items).parents(".cm-tr").attr(`data-code`));
                 }
             });
-            if(Number($(`.radio-input[name="expiration"]:checked`).val()) === 0){
+            if(Number($(`.radio-input[name="expiration"]:checked`).val()) === 1){
                 _t.params.expiration = 0;
                 _t.text = `활성화`;
+                _t.title = `정말 활성화 하시겠습니까?`;
             }
-
             if (_t.params.organizationCodeList.length > 0) {
-                // ORGAN_UTIL.DELETE_ALERT(ORGAN_UTIL.UPDATE_EXPIRATION_LIST, parameter, _search, null, null, text);
-                // $(`#listAllCheck`).prop("checked", false)
-                const response = await POST(`/Manager/UpdateOrganizationExpirationList`, _t.params, {});
-                if (response.result === true) {
-                    params.search(params.currentPage);
-                    $(`#listAllCheck`).prop("checked", false);
-                }
-                else {
-                    Notify(`top-center`, `데이타 업데이트 실패!`, `error`);
-                }
+                // const response = await POST(`/Manager/UpdateOrganizationExpirationList`, _t.params, {});
+                // if (response.result === true) {
+                //     params.search(params.currentPage);
+                //     $(`#listAllCheck`).prop("checked", false);
+                // }
+                // else {
+                //     Notify(`top-center`, `데이타 업데이트 실패!`, `error`);
+                // }
+                const passParams = {
+                    parent: params,
+                    child: _t
+                };
+                CustomAlert.open(passParams);
             }
             else {
                 Notify(`top-center`, `${_t.text} 하려는 데이타를 선택하세요!`, `error`);
@@ -96,7 +105,7 @@ const event = {
                 'title': `정말 비활성화 하시겠습니까?`
             };
             _t.params.organizationCodeList.push($(this).parents('.cm-tr').attr('data-code'));
-            if(Number($(`.radio-input[name="expiration"]:checked`).val()) === 1){
+            if (Number($(`.radio-input[name="expiration"]:checked`).val()) === 1) {
                 _t.params.expiration = 0;
                 _t.text = `활성화`;
                 _t.title = `정말 활성화 하시겠습니까?`;

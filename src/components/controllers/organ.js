@@ -10,8 +10,9 @@ import { UTIL as ORGAN_UTIL } from "../../utils/api/organ";
 
 const Controller = {
     index: function() {
-        return ({ uriParams }) => {
-            const { controllerName, actionName } = uriParams;
+        return ({ uriParams, onLastLoad }) => {
+            console.log(":::::Controller organ start:::::", Date.getNow());
+            const { controller, action } = uriParams;
             const [Component, setComponent] = React.useState(null);
             const [fetchData, setFetchData] = React.useState(null);
             const [isLoaded, setIsLoaded] = React.useState({
@@ -75,7 +76,7 @@ const Controller = {
                         ////////////////////////////////////////////////////////////////////
 
                         const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/organ`);
-                        setComponent( Design[actionName] );
+                        setComponent( Design[action] );
                     } catch (error) {
                         console.error("Failed to load design component:", error);
                     }
@@ -90,12 +91,12 @@ const Controller = {
                     // 현 구조에서는 이게 안된다.
                     // 이벤트 등록은 성능에 문제가 안되니 일단 진행해보자.
 
-                    if (actionName === `index`) {
+                    if (action === `index`) {
                         (async function() {
                             try {
                                 ////////////////////////////////////////////////////////////////////
                                 // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
-                                (await import(`../../events/custom/organ/index`)).event.index({search: search, fetchDataState: fetchDataState, navigate: navigate, currentPage: currentPage.current});
+                                (await import(`../../events/custom/organ/index`)).event.index({search: search, fetchDataState: fetchDataState, navigate: navigate, currentPage: currentPage.current, callbackFunc: ORGAN_UTIL.UPDATE_EXPIRATION_LIST});
 
                                 if (isFirstSearch.current === true) {
                                     $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));
@@ -108,7 +109,7 @@ const Controller = {
                             }
                         })();
                     }
-                    else if (actionName === `add`) {
+                    else if (action === `add`) {
                         (async function() {
                             try {
                                 ////////////////////////////////////////////////////////////////////
@@ -146,7 +147,7 @@ const Controller = {
                     // 현재까지는 일단 이벤트 적용을 계속 실행하자.. 데이타가 검색되기 전에는 아래고, 검색된 후에는 다른걸 해야하는데.
                     // 현 구조에서는 이게 안된다.
                     // 이벤트 등록은 성능에 문제가 안되니 일단 진행해보자.
-                    if (actionName === `index`) {
+                    if (action === `index`) {
                         (async function() {
                             try {
                                 ////////////////////////////////////////////////////////////////////
@@ -177,7 +178,7 @@ const Controller = {
                 }
             }, [isLoaded.child]);
 
-            return CommonReturn(Component)({paramFetchData: fetchData, paramSearchFunc: search, paramCurrentPage: currentPage.current, paramItemsPerPage: itemsPerPage.current, paramPagesPerPage: pagesPerPage.current, onLoadParent: onLoadParent, onLoadChild: onLoadChild});
+            return CommonReturn(Component)({paramFetchData: fetchData, paramSearchFunc: search, paramCurrentPage: currentPage.current, paramItemsPerPage: itemsPerPage.current, paramPagesPerPage: pagesPerPage.current, onLoadParent: onLoadParent, onLoadChild: onLoadChild, onLastLoad: onLastLoad});
         };
     },
 };

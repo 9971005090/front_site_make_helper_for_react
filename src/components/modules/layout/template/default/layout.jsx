@@ -9,36 +9,46 @@ import { format } from 'date-fns';
 export const Design = {
     index: () => {
         // 디자인 컴포넌트를 반환
-        return ({ uriParams }) => {
+        return ({ uriParams, onLastLoad }) => {
             return (
-                <div id="wrap">
 
-                    <Header uriParams={uriParams} />
+                String.isLayoutNeeded(uriParams.controller) === true ? (
 
-                    <main id="wrap-cont">
+                    <div id="wrap">
 
-                        <Left uriParams={uriParams} />
+                        <Header uriParams={uriParams} />
 
-                        <section className="cm-main-content" id="main-contents">
-                            <div className="page-top">
-                                <h3 className="page-title">게이트웨이</h3>
-                                <div className="page-nav">
-                                    <a className="page-nav-link go-main-link" style={{cursor: "pointer"}}>
-                                        <span className="fa fa-home"></span>
-                                    </a>
-                                    <span className="icon fa fa-angle-right"></span>
-                                    <a className="page-nav-link controller" style={{cursor: "pointer"}}>게이트웨이</a>
-                                    <span className="icon fa fa-angle-right"></span>
-                                    <a className="page-nav-link action">게이트웨이</a>
+                        <main id="wrap-cont">
+
+                            <Left uriParams={uriParams} />
+
+                            <section className="cm-main-content" id="main-contents">
+                                <div className="page-top">
+                                    <h3 className="page-title">게이트웨이</h3>
+                                    <div className="page-nav">
+                                        <a className="page-nav-link go-main-link" style={{cursor: "pointer"}}>
+                                            <span className="fa fa-home"></span>
+                                        </a>
+                                        <span className="icon fa fa-angle-right"></span>
+                                        <a className="page-nav-link controller" style={{cursor: "pointer"}}>게이트웨이</a>
+                                        <span className="icon fa fa-angle-right"></span>
+                                        <a className="page-nav-link action">게이트웨이</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <article id="main-cont"><Controller uriParams={uriParams} /></article>
-                        </section>
-                    </main>
+                                <article id="main-cont"><Controller uriParams={uriParams} onLastLoad={onLastLoad} /></article>
+                            </section>
+                        </main>
 
-                    <footer />
+                        <footer />
 
-                </div>
+                    </div>
+
+                )
+                : (
+
+                    <Controller uriParams={uriParams} onLastLoad={onLastLoad}/>
+
+                )
             );
         };
     }

@@ -7,6 +7,7 @@ export const Design = {
             React.useEffect(() => {
                 if (onLoad) {
                     onLoad();
+                    console.log(":::::Paging2:::::", Date.getNow());
                 }
             }, [pageChange, paramFetchData]);
             return (
