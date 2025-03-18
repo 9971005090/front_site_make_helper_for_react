@@ -5,8 +5,12 @@ import $ from "cash-dom";
 import { format } from 'date-fns';
 import { formParser } from "../../utils/form-parser";
 import { CommonReturn } from "../../components/utils/common-return";
+import { CommonFetchAsync } from '../../components/modules/common-fetch-async/index';
+import { PagingAsync } from '../../components/modules/paging3/index';
 
 import { UTIL as ORGAN_UTIL } from "../../utils/api/organ";
+import { Notify } from '../../utils/global-utils';
+
 
 const Controller = {
     index: function() {
@@ -14,7 +18,6 @@ const Controller = {
             console.log(":::::Controller organ start:::::", Date.getNow());
             const { controller, action } = uriParams;
             const [Component, setComponent] = React.useState(null);
-            const [fetchData, setFetchData] = React.useState(null);
             const [isLoaded, setIsLoaded] = React.useState({
                 parent: false,
                 child: false
@@ -56,11 +59,12 @@ const Controller = {
                 fetchDataState.current = `searching`;
                 const response = await ORGAN_UTIL.PAGE(parameter);
                 if (response.result === true) {
-                    setFetchData(response);
+                    CommonFetchAsync.run(`#contents-by-data-table`, response, `organ`);
+                    PagingAsync.run(`#pagination`, search, response.totalCount, currentPage.current, Date.getNow());
                     fetchDataState.current = `ready`;
                 }
                 else {
-                    alert(`데이타 조회 실패`);
+                    Notify(`top-center`, `데이타 조회 실패`, `error`);
                     fetchDataState.current = `ready`;
                 }
             };
@@ -178,7 +182,7 @@ const Controller = {
                 }
             }, [isLoaded.child]);
 
-            return CommonReturn(Component)({paramFetchData: fetchData, paramSearchFunc: search, paramCurrentPage: currentPage.current, paramItemsPerPage: itemsPerPage.current, paramPagesPerPage: pagesPerPage.current, onLoadParent: onLoadParent, onLoadChild: onLoadChild, onLastLoad: onLastLoad});
+            return CommonReturn(Component)({paramSearchFunc: search, paramCurrentPage: currentPage.current, paramItemsPerPage: itemsPerPage.current, paramPagesPerPage: pagesPerPage.current, onLoadParent: onLoadParent, onLoadChild: onLoadChild, onLastLoad: onLastLoad});
         };
     },
 };

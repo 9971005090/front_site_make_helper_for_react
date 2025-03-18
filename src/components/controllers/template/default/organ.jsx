@@ -1,11 +1,9 @@
 // src/designs/content/organ.js
 import React from "react";
-import { CommonFetch } from "../../../modules/common-fetch";
-import { Paging } from "../../../modules/paging2";
 
 export const Design = {
     index: () => {
-        return ({paramFetchData, paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild, onLastLoad }) => {
+        return ({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild, onLastLoad }) => {
             console.log(":::::Template organ start:::::", Date.getNow());
             React.useEffect(() => {
                 if (onLoadParent) {
@@ -14,7 +12,7 @@ export const Design = {
                 if (onLastLoad) {
                     onLastLoad();
                 }
-            }, [paramFetchData]);
+            }, []);
             return (
                 <div className="common-cont">
                     <div className="sub-cont-top">
@@ -83,26 +81,22 @@ export const Design = {
                                     <div className="cm-th">관리</div>
                                 </div>
                             </div>
-                            <div className="cm-tbody" id="contents-by-data-table">
-                                <CommonFetch paramFetchData={paramFetchData} paramType={"organ"} paramSearchFunc={paramSearchFunc} paramCurrentPage={paramCurrentPage} onLoadChild={onLoadChild}/>
-                            </div>
+                            <div className="cm-tbody" id="contents-by-data-table"></div>
                         </div>
                     </div>
-                    {paramFetchData !== null && paramFetchData.totalCount > 0 ? (
-                    <Paging paramSearchFunc={paramSearchFunc} paramFetchData={paramFetchData} paramCurrentPage={paramCurrentPage} paramItemsPerPage={paramItemsPerPage} paramPagesPerPage={paramPagesPerPage} />
-                    ) : null}
+                    <div className="pagination" id="pagination"></div>
                 </div>
             );
         };
     },
 
     add: () => {
-        return ({paramFetchData, paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild }) => {
+        return ({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild }) => {
             React.useEffect(() => {
                 if (onLoadParent) {
                     onLoadParent();
                 }
-            }, [paramFetchData]);
+            }, []);
             return (
                 <div className="common-cont">
                     <div className="sub-cont-top">
