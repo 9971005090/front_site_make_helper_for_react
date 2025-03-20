@@ -1,5 +1,7 @@
 // src/components/modules/layout/index.js
 import React from "react";
+import {CommonFetchAsync} from "../modules/common-fetch-async";
+import {PagingAsync} from "../modules/paging3";
 
 const Pre = function() {
     console.log(":::::Pre:::::", Date.getNow());
@@ -9,6 +11,9 @@ const Pre = function() {
     // 최종 controller 과 action, 그리고 query string 정리
     // controller 보다 이전에 실행해야 할 선행 처리를 진행
     // 하위 layout 에서는 레이아웃만 찍게...
+
+
+
 };
 
 export { Pre };

@@ -6,15 +6,15 @@ import { format } from 'date-fns';
 import { formParser } from "../../utils/form-parser";
 import { CommonReturn } from "../../components/utils/common-return";
 import { CommonFetchAsync } from '../../components/modules/common-fetch-async/index';
-import { PagingAsync } from '../../components/modules/paging3/index';
+import { PagingAsync } from '../../components/modules/paging-async/index';
 
 import { UTIL as ORGAN_UTIL } from "../../utils/api/organ";
 import { Notify } from '../../utils/global-utils';
 
-
+// window.CONSTANTS.set(`APP.CHECK_ROOT`, [CommonFetchAsync, PagingAsync], true);
 const Controller = {
     index: function() {
-        return ({ uriParams, onLastLoad }) => {
+        return ({ uriParams, onLastLoad, paramIsFirst = true }) => {
             console.log(":::::Controller organ start:::::", Date.getNow());
             const { controller, action } = uriParams;
             const [Component, setComponent] = React.useState(null);
@@ -27,6 +27,7 @@ const Controller = {
             const pagesPerPage = React.useRef(10);
             const currentPage = React.useRef(1);
             const isFirstSearch = React.useRef(true);
+            const isFirst = React.useRef(paramIsFirst);
             const navigate = useNavigate();
 
             const onLoadParent = () => {
@@ -47,6 +48,7 @@ const Controller = {
             };
 
             const search = async function(setPage = 1) {
+
                 // setPage는 실시간으로 이용하고, 랜더링을 다시 하기 위해서는 useState를 사용한다. 불편하네.
                 currentPage.current = setPage;
                 const form = formParser(`.form-common-search`);
@@ -59,9 +61,10 @@ const Controller = {
                 fetchDataState.current = `searching`;
                 const response = await ORGAN_UTIL.PAGE(parameter);
                 if (response.result === true) {
-                    CommonFetchAsync.run(`#contents-by-data-table`, response, `organ`);
-                    PagingAsync.run(`#pagination`, search, response.totalCount, currentPage.current, Date.getNow());
+                    CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, `organ`, Date.getNow(), isFirst.current);
+                    PagingAsync.run(`#pagination`, search, response.totalCount, currentPage.current, Date.getNow(), isFirst.current);
                     fetchDataState.current = `ready`;
+                    isFirst.current = false;
                 }
                 else {
                     Notify(`top-center`, `데이타 조회 실패`, `error`);
@@ -74,6 +77,8 @@ const Controller = {
                 // console.log(`useEffect 최상단 - ${format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS')}`);
                 (async () => {
                     try {
+                        // CommonFetchAsync.close();
+                        // PagingAsync.close();
                         // 스타일 추가
                         ////////////////////////////////////////////////////////////////////
 
