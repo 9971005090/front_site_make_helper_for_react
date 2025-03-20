@@ -4,7 +4,6 @@ import $ from "cash-dom";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { format } from 'date-fns';
 import { CommonReturn } from "../../../components/utils/common-return";
-import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
 
 export const Paging = ({ paramSearchFunc, paramFetchData, paramCurrentPage, paramItemsPerPage, paramPagesPerPage }) => {
     const [pageChange, setPageChange] = React.useState(false);
@@ -124,6 +123,7 @@ export const Paging = ({ paramSearchFunc, paramFetchData, paramCurrentPage, para
     // 동적 컴포넌트 로딩
     React.useEffect(() => {
         (async () => {
+            await import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
             const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/index`);
             setComponent(Design.index);
         })();

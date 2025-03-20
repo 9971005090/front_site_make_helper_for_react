@@ -5,11 +5,18 @@ import { parsingSyncHis, parsingDeviceManagerType } from "../../../../../helpers
 
 export const Design = {
     index: () => {
-        return ( { paramFetchData } ) => {
+        return ( { paramFetchData, now, onLoad } ) => {
             let organizationList = null;
-            if (paramFetchData !== null) {
+            if (now) {
+                console.log("now:::", Date.getNow());
                 organizationList = paramFetchData.organizationList;
             }
+            React.useEffect(() => {
+                if (onLoad) {
+                    onLoad();
+                    console.log(":::::common fetch async - organ:::::", Date.getNow());
+                }
+            }, [now]);
             return (
                 organizationList !== null && organizationList.length > 0 ? (
                     organizationList.map((item, index) => (

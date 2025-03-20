@@ -17,7 +17,8 @@ const event = function(passParams) {
         const response = await passParams.parent.callbackFunc(passParams.child.params);
         if (response.result === true) {
             passParams.close();
-            Notify(`top-center`, `정상적으로 ${passParams.child.text} 됐습니다.`, `success`, {func: passParams.parent.search, params: [passParams.parent.currentPage]});
+            Notify(`top-center`, `정상적으로 ${passParams.child.text} 됐습니다.`, `success`);
+            passParams.parent.search(passParams.parent.currentPage);
             // setTimeout(function() {
             //     passParams.parent.search(passParams.parent.currentPage);
             // }, 3000);

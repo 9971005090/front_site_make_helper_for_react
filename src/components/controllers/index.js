@@ -6,7 +6,6 @@ import { CommonReturn } from "../../components/utils/common-return";
 
 const Controller = ({ uriParams, onLastLoad }) => {
     console.log(":::::Controller start:::::", Date.getNow());
-    console.log(":::::uriParams, :::::", uriParams);
     const [Component, setComponent] = React.useState(null);
     // const paramsState = React.useRef(uriParams);
 
