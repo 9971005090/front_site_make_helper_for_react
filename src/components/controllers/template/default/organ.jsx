@@ -2,10 +2,10 @@
 import React from "react";
 
 export const Design = {
-    index: () => {
-        return ({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild, onLastLoad }) => {
+    index: function() {
+        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild, onLastLoad }) {
             console.log(":::::Template organ start:::::", Date.getNow());
-            React.useEffect(() => {
+            React.useEffect(function() {
                 if (onLoadParent) {
                     onLoadParent();
                 }
@@ -90,9 +90,9 @@ export const Design = {
         };
     },
 
-    add: () => {
-        return ({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild }) => {
-            React.useEffect(() => {
+    add: function() {
+        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild }) {
+            React.useEffect(function() {
                 if (onLoadParent) {
                     onLoadParent();
                 }
@@ -176,6 +176,100 @@ export const Design = {
                         </div>
                         <div className="btm-btn-wrap d-flex">
                             <button type="button" className="cm-btn cm-btn-full-default cm-btn-middle btn-confirm button-submit">등록</button>
+                            <button type="button" className="cm-btn cm-btn-middle btn-go-list">목록</button>
+                        </div>
+                    </form>
+                </div>
+            );
+        };
+    },
+
+    edit: function() {
+        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild, organInfo }) {
+            React.useEffect(() => {
+                if (onLoadParent) {
+                    onLoadParent();
+                }
+            }, []);
+            return (
+                <div className="common-cont">
+                    <div className="sub-cont-top">
+                        <h4 className="sub-cont-title">수정</h4>
+                    </div>
+                    <form id="form-data" className="form-data-table">
+                        <div className="search-form">
+                            <div className="tit require-validation">코드</div>
+                            <div className="cont">
+                                <div className="cm-input-cont">
+                                    <input type="text" className="cm-input-text check active-check" placeholder="기관 고유 코드를 입력해주세요." name="organizationCode" min="" max="" maxLength="25" minLength="" disabled value={organInfo.organizationCode} />
+                                </div>
+                            </div>
+                            <div className="tit require-validation">이름</div>
+                            <div className="cont">
+                                <div className="cm-input-cont">
+                                    <input type="text" className="cm-input-text check active-check" placeholder="이름을 입력해주세요." name="organizationName" min="" max="" maxLength="25" minLength="" value={organInfo.organizationName} />
+                                </div>
+                            </div>
+                            <div className="tit require-validation">HIS 연동</div>
+                            <div className="cont">
+                                <div className="radio-box">
+                                    <div className="radio-btn-cont">
+                                        <input type="radio" id="syncHis0" name="syncHis" className="radio-input use-option" value="0" defaultChecked={organInfo.syncHis === 0} />
+                                        <label htmlFor="syncHis0" className="span">미연동</label>
+                                    </div>
+                                    <div className="radio-btn-cont">
+                                        <input type="radio" id="syncHis1" name="syncHis" className="radio-input use-option" value="1" defaultChecked={organInfo.syncHis === 1} />
+                                        <label htmlFor="syncHis1" className="span">연동</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="tit require-validation">장치관리 구분</div>
+                            <div className="cont">
+                                <div className="radio-box">
+                                    <div className="radio-btn-cont">
+                                        <input type="radio" id="deviceManagerType0" name="deviceManagerType" className="radio-input use-option" value="0"  defaultChecked={organInfo.deviceManagerType === 0} />
+                                        <label htmlFor="deviceManagerType0" className="span">SEERS 관리</label>
+                                    </div>
+                                    <div className="radio-btn-cont">
+                                        <input type="radio" id="deviceManagerType1" name="deviceManagerType" className="radio-input use-option" value="1" defaultChecked={organInfo.deviceManagerType === 1} />
+                                        <label htmlFor="deviceManagerType1" className="span">병원 관리</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="tit ">측정 기간</div>
+                            <div className="cont">
+                                <div className="cm-input-cont">
+                                    <input type="text" className="cm-input-text " placeholder="미 입력 시 측정 기간은 15일로 처리됩니다" name="measurementDate" min="1" max="365" maxLength="" minLength="" value={organInfo.measurementDate} />
+                                </div>
+                            </div>
+                            <div className="tit ">비식별화</div>
+                            <div className="cont">
+                                <div className="radio-box">
+                                    <div className="radio-btn-cont">
+                                        <input type="radio" id="hideName1" name="hideName" className="radio-input use-option" value="1" defaultChecked={organInfo.hideName === 1} />
+                                        <label htmlFor="hideName1" className="span">가운데</label>
+                                    </div>
+                                    <div className="radio-btn-cont">
+                                        <input type="radio" id="hideName2" name="hideName" className="radio-input use-option" value="2" defaultChecked={organInfo.hideName === 2} />
+                                        <label htmlFor="hideName2" className="span">마지막</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="tit ">담당자 이메일</div>
+                            <div className="cont">
+                                <div className="cm-input-cont">
+                                    <input type="text" className="cm-input-text " placeholder="시스템 담당자의 E-Mail 주소를 입력해주세요." name="systemManager" min="" max="" maxLength="150" minLength="" value={organInfo.systemManager} />
+                                </div>
+                            </div>
+                            <div className="tit ">비고</div>
+                            <div className="cont">
+                                <div className="cm-textarea-cont" style={{ display: "inline-block" }}>
+                                    <textarea name="etc" className="cm-textarea " placeholder="비고를 작성해주세요.">{organInfo.etc}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="btm-btn-wrap d-flex">
+                            <button type="button" className="cm-btn cm-btn-full-default cm-btn-middle btn-confirm button-submit">수정</button>
                             <button type="button" className="cm-btn cm-btn-middle btn-go-list">목록</button>
                         </div>
                     </form>

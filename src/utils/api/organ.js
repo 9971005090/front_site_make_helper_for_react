@@ -93,18 +93,16 @@ export const UTIL = {
         const response = await POST(API.URL.INSERT, passingParams);
         return response;
     },
-    // UPDATE: function(addParams=null) {
-    //     const passingParams = {
-    //         requestUser : GBL.ACCOUNT.INFO.userCode,
-    //     }
-    //     if (addParams !== null) {
-    //         for (let key in addParams) {
-    //             passingParams[key] = addParams[key]
-    //         }
-    //     }
-    //     const response = POST(API.URL.UPDATE, passingParams);
-    //     return response;
-    // },
+    UPDATE: function(addParams=null) {
+        const passingParams = {}
+        if (addParams !== null) {
+            for (let key in addParams) {
+                passingParams[key] = addParams[key]
+            }
+        }
+        const response = POST(API.URL.UPDATE, passingParams);
+        return response;
+    },
     UPDATE_EXPIRATION_LIST: async function(addParams=null) {
         const passingParams = {};
         if (addParams !== null) {

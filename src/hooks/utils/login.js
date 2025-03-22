@@ -8,6 +8,7 @@ import { ADD_PARAMS } from "../../utils/custom/add-params";
 import { SETTINGS } from '../../init/global-settings';
 import { API } from '../../components/modules/login/constants/api.js';
 import { format } from 'date-fns';
+import { Notify } from "../../utils/global-utils";
 
 // 로그인 후 처리해야 할 커스텀 훅 관련 import
 ////////////////////////////////////////////////////////////////////
@@ -60,7 +61,7 @@ export const useLogin = () => {
             ////////////////////////////////////////////////////////////////////
         }
         else {
-            alert(`로그인 실패`);
+            Notify(`top-center`, `로그인 실패.`, `error`);
             setLoading(false);
         }
     };

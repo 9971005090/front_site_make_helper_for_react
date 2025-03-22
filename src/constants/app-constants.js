@@ -1,5 +1,5 @@
 const APP = {
-    'APP.VERSION.REAL': '0.0.10-20250320.1525',
+    'APP.VERSION.REAL': '0.0.11-20250218.1626',
     'APP.VERSION.VIEW': '1.0.0',
     'APP.IS_AUTH': true,
     'APP.THEME': `default`,

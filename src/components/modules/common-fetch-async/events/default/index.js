@@ -35,6 +35,11 @@ const event = function(params) {
         };
         CustomAlert.open(passParams);
     });
+
+    $(`.button-update`).off(`click`).on(`click`, function (e) {
+        stopBubbling(e);
+        params.navigate(`/organ/edit?code=${$(this).closest('.cm-tr').attr(`data-code`)}`);
+    });
 };
 
 export { event };

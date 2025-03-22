@@ -14,18 +14,21 @@ const event = function(passParams) {
 
     $(`.customAlertButtonForOk`).off(`click`).on(`click`, async function(e){
         stopBubbling(e);
-        const response = await passParams.parent.callbackFunc(passParams.child.params);
-        if (response.result === true) {
-            passParams.close();
-            Notify(`top-center`, `정상적으로 ${passParams.child.text} 됐습니다.`, `success`);
-            passParams.parent.search(passParams.parent.currentPage);
-            // setTimeout(function() {
-            //     passParams.parent.search(passParams.parent.currentPage);
-            // }, 3000);
+        if(Object.prototype.hasOwnProperty.call(passParams, `parent`) === true && Object.prototype.hasOwnProperty.call(passParams.parent, `callbackFunc`) === true) {
+            const response = await passParams.parent.callbackFunc(passParams.child.params);
+            if (response.result === true) {
+                passParams.close();
+                Notify(`top-center`, `정상적으로 ${passParams.child.text} 됐습니다.`, `success`);
+                passParams.parent.search(passParams.parent.currentPage);
+                // setTimeout(function() {
+                //     passParams.parent.search(passParams.parent.currentPage);
+                // }, 3000);
+            }
+            else {
+                Notify(`top-center`, `${passParams.child.text}에 실패했습니다. 잠시 후 다시 시도하세요.`, `error`);
+            }
         }
-        else {
-            Notify(`top-center`, `${passParams.child.text}에 실패했습니다. 잠시 후 다시 시도하세요.`, `error`);
-        }
+        passParams.close();
     });
 
     $(`.customAlertButtonForCancel`).off(`click`).on(`click`, async function(e){
