@@ -9,7 +9,7 @@ import { UTIL as ORGAN_UTIL } from "../../../utils/api/organ";
 const CommonFetchAsync = (() => {
     let container = null;
     let root = null;
-    const CommonFetchComponent = function ({ search, paramFetchData, currentPage, paramType, now }) {
+    const CommonFetchComponent = function ({ search, paramFetchData, currentPage, paramType, now, navigate }) {
         const [Component, setComponent] = React.useState(null);
         const [isLoaded, setIsLoaded] = React.useState(false);
         const onLoad = () => {
@@ -22,9 +22,7 @@ const CommonFetchAsync = (() => {
                 try {
                     ////////////////////////////////////////////////////////////////////
                     // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
-                    (await import(`./events/default/index`)).event({search: search, currentPage: currentPage, callbackFunc: ORGAN_UTIL.UPDATE_EXPIRATION_LIST});
-
-
+                    (await import(`./events/default/index`)).event({search: search, currentPage: currentPage, callbackFunc: ORGAN_UTIL.UPDATE_EXPIRATION_LIST, navigate: navigate});
                     ////////////////////////////////////////////////////////////////////
 
                 } catch (error) {
@@ -47,7 +45,7 @@ const CommonFetchAsync = (() => {
         return CommonReturn(Component)({ paramFetchData: paramFetchData, loadingTypeTitle: `common-fetch`, now: now, onLoad: onLoad });
     };
 
-    const run = (selector, search, paramFetchData, currentPage, paramType, now, isFirst) => {
+    const run = (selector, search, paramFetchData, currentPage, paramType, now, isFirst, navigate) => {
         container = $(selector)[0];
         if (String.isNullOrWhitespace(root) === true) {
             root = ReactDOM.createRoot(container);
@@ -59,7 +57,7 @@ const CommonFetchAsync = (() => {
             }
         }
         root.render(
-            <CommonFetchComponent search={search} paramFetchData={paramFetchData} currentPage={currentPage} paramType={paramType} now={now}/>
+            <CommonFetchComponent search={search} paramFetchData={paramFetchData} currentPage={currentPage} paramType={paramType} now={now} navigate={navigate} />
         );
     };
 

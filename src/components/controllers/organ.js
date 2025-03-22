@@ -1,6 +1,6 @@
 // src/controllers/organ.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import $ from "cash-dom";
 import { format } from 'date-fns';
 import { formParser } from "../../utils/form-parser";
@@ -16,6 +16,10 @@ const Controller = {
     index: function() {
         return ({ uriParams, onLastLoad, paramIsFirst = true }) => {
             console.log(":::::Controller organ start:::::", Date.getNow());
+            const location = useLocation();
+            const queryParams = new URLSearchParams(location.search);
+            const code = queryParams.get(`code`);
+            console.log("code:::", code);
             const { controller, action } = uriParams;
             const [Component, setComponent] = React.useState(null);
             const [isLoaded, setIsLoaded] = React.useState({
@@ -27,8 +31,10 @@ const Controller = {
             const pagesPerPage = React.useRef(10);
             const currentPage = React.useRef(1);
             const isFirstSearch = React.useRef(true);
+            const organInfo = React.useRef(null);
             const isFirst = React.useRef(paramIsFirst);
             const navigate = useNavigate();
+
 
             const onLoadParent = () => {
                 setIsLoaded((state) => {
@@ -61,7 +67,7 @@ const Controller = {
                 fetchDataState.current = `searching`;
                 const response = await ORGAN_UTIL.PAGE(parameter);
                 if (response.result === true) {
-                    CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, `organ`, Date.getNow(), isFirst.current);
+                    CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, `organ`, Date.getNow(), isFirst.current, navigate);
                     PagingAsync.run(`#pagination`, search, response.totalCount, currentPage.current, Date.getNow(), isFirst.current);
                     fetchDataState.current = `ready`;
                     isFirst.current = false;
@@ -85,6 +91,28 @@ const Controller = {
                         ////////////////////////////////////////////////////////////////////
 
                         const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/organ`);
+                        // 수정일 경우에는 먼저 데이타 조회 하자.. 한번 해보자.
+                        if (action === `edit`) {
+                            const _goList = function() {
+                                Notify(`top-center`, `잘못된 요청입니다.`, `error`);
+                                navigate(`organ`);
+                            };
+                            if (String.isNullOrWhitespace(code) === false) {
+                                const _t = await ORGAN_UTIL.SELECT(code);
+                                if (_t.result === true) {
+                                    if (_t.organization === null) {
+                                        _goList();
+                                        return;
+                                    }
+                                    organInfo.current = _t.organization;
+                                }
+                                else {
+                                    _goList();
+                                    return;
+                                }
+                                console.log("_t::::", _t);
+                            }
+                        }
                         setComponent( Design[action] );
                     } catch (error) {
                         console.error("Failed to load design component:", error);
@@ -123,6 +151,18 @@ const Controller = {
                             try {
                                 ////////////////////////////////////////////////////////////////////
                                 (await import(`../../events/custom/organ/add`)).event({navigate: navigate});
+                                ////////////////////////////////////////////////////////////////////
+
+                            } catch (error) {
+                                console.error("Failed to load design component:", error);
+                            }
+                        })();
+                    }
+                    else if (action === `edit`) {
+                        (async function() {
+                            try {
+                                ////////////////////////////////////////////////////////////////////
+                                (await import(`../../events/custom/organ/edit`)).event({navigate: navigate});
                                 ////////////////////////////////////////////////////////////////////
 
                             } catch (error) {
@@ -187,7 +227,7 @@ const Controller = {
                 }
             }, [isLoaded.child]);
 
-            return CommonReturn(Component)({paramSearchFunc: search, paramCurrentPage: currentPage.current, paramItemsPerPage: itemsPerPage.current, paramPagesPerPage: pagesPerPage.current, onLoadParent: onLoadParent, onLoadChild: onLoadChild, onLastLoad: onLastLoad});
+            return CommonReturn(Component)({paramSearchFunc: search, paramCurrentPage: currentPage.current, paramItemsPerPage: itemsPerPage.current, paramPagesPerPage: pagesPerPage.current, onLoadParent: onLoadParent, onLoadChild: onLoadChild, onLastLoad: onLastLoad, organInfo: organInfo.current});
         };
     },
 };
