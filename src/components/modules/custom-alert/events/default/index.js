@@ -1,39 +1,40 @@
+// src/components/modules/custom-alert/index.js
 import $ from "cash-dom";
-import { format } from 'date-fns';
-
-import { POST } from "../../../../../utils/axios-api";
 import { Notify } from '../../../../../utils/global-utils';
 import { stopBubbling } from "../../../../../utils/stop-bubbling";
-// import { UTIL as ORGAN_UTIL } from "../../../../../utils/api/organ";
 
-const event = function(passParams) {
-    // $(`.btn-add`).off("click").on("click", function(e) {
-    //     stopEvent(e);
-    //     params.navigate(`/organ/add`);
-    // });
-
-    $(`.customAlertButtonForOk`).off(`click`).on(`click`, async function(e){
+const event = function(parsingValue) {
+    $(`.customAlertButtonForOk`).off(`click`).on(`click`, async function(e) {
         stopBubbling(e);
-        if(Object.prototype.hasOwnProperty.call(passParams, `parent`) === true && Object.prototype.hasOwnProperty.call(passParams.parent, `callbackFunc`) === true) {
-            const response = await passParams.parent.callbackFunc(passParams.child.params);
-            if (response.result === true) {
-                passParams.close();
-                Notify(`top-center`, `정상적으로 ${passParams.child.text} 됐습니다.`, `success`);
-                passParams.parent.search(passParams.parent.currentPage);
-                // setTimeout(function() {
-                //     passParams.parent.search(passParams.parent.currentPage);
-                // }, 3000);
-            }
-            else {
-                Notify(`top-center`, `${passParams.child.text}에 실패했습니다. 잠시 후 다시 시도하세요.`, `error`);
+        if(Object.prototype.hasOwnProperty.call(parsingValue, `button`) === true && Object.prototype.hasOwnProperty.call(parsingValue.button, `ok`) === true && Object.prototype.hasOwnProperty.call(parsingValue.button.ok, `callback`) === true && parsingValue.button.ok.callback !== null) {
+            if (Array.isArray(parsingValue.button.ok.callback) === true) {
+                for(let i = 0; i < parsingValue.button.ok.callback.length; i++) {
+                    parsingValue.button.ok.callback[i].name(...parsingValue.button.ok.callback[i].params);
+                }
             }
         }
-        passParams.close();
     });
 
-    $(`.customAlertButtonForCancel`).off(`click`).on(`click`, async function(e){
+    $(`.customAlertButtonForCancel`).off(`click`).on(`click`, async function(e) {
         stopBubbling(e);
-        passParams.close();
+        if(Object.prototype.hasOwnProperty.call(parsingValue, `button`) === true && Object.prototype.hasOwnProperty.call(parsingValue.button, `cancel`) === true && Object.prototype.hasOwnProperty.call(parsingValue.button.cancel, `callback`) === true && parsingValue.button.cancel.callback !== null) {
+            if (Array.isArray(parsingValue.button.cancel.callback) === true) {
+                for(let i = 0; i < parsingValue.button.cancel.callback.length; i++) {
+                    parsingValue.button.cancel.callback[i].name(...parsingValue.button.cancel.callback[i].params);
+                }
+            }
+        }
+    });
+
+    $(`.customAlertButtonForDelete`).off(`click`).on(`click`, async function(e) {
+        stopBubbling(e);
+        if(Object.prototype.hasOwnProperty.call(parsingValue, `button`) === true && Object.prototype.hasOwnProperty.call(parsingValue.button, `del`) === true && Object.prototype.hasOwnProperty.call(parsingValue.button.del, `callback`) === true && parsingValue.button.del.callback !== null) {
+            if (Array.isArray(parsingValue.button.del.callback) === true) {
+                for(let i = 0; i < parsingValue.button.del.callback.length; i++) {
+                    parsingValue.button.del.callback[i].name(...parsingValue.button.del.callback[i].params);
+                }
+            }
+        }
     });
 };
 
