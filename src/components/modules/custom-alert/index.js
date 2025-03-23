@@ -1,28 +1,66 @@
 // src/components/modules/custom-alert/index.js
 import React from "react";
 import ReactDOM from "react-dom/client";
+import _ from "lodash";
 
 import $ from "cash-dom";
-// import {event as eventOrganAdd} from "../../../events/controllers/organ/add";
-// import {event as eventOrgan} from "../../../events/controllers/organ";
 
-
-const CustomAlert = (() => {
+const customMerge = (objValue, srcValue) => {
+    if (Array.isArray(objValue) && Array.isArray(srcValue)) {
+        return [...objValue, ...srcValue]; // 배열 병합 (기존 값 + 새로운 값)
+    }
+};
+const CustomAlert = (function() {
     const container = document.createElement("div");
     const root = ReactDOM.createRoot(container);
+    let parsingValue = {
+        isBackgroundClickForClose: false,
+        eventCallback: null,
+        title: null,
+        msg: null,
+        button: {
+            cancel: {
+                isUse: true,
+                callback: [
+                    {
+                        name: close,
+                        params: []
+                    }
+                ]
+            },
+            ok: {
+                isUse: true,
+                callback: [
+                    {
+                        name: close,
+                        params: []
+                    }
+                ]
+            },
+            del: {
+                isUse: true,
+                callback: [
+                    {
+                        name: close,
+                        params: []
+                    }
+                ]
+            }
+        }
+    };
 
-    const Modal = function ({ passParams }) {
+    const Modal = function({ parsingValue }) {
         const [Component, setComponent] = React.useState(null);
         const [isLoaded, setIsLoaded] = React.useState(false);
         const onLoad = () => {
-            setIsLoaded(function (state) {
+            setIsLoaded(function(state) {
                 return !state;
             });
         };
 
-        React.useEffect(() => {
+        React.useEffect(function() {
             // console.log(`useEffect 최상단 - ${format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS')}`);
-            (async () => {
+            (async function() {
                 try {
                     // 스타일 추가
                     ////////////////////////////////////////////////////////////////////
@@ -35,20 +73,17 @@ const CustomAlert = (() => {
                     console.error("Failed to load design component:", error);
                 }
             })();
-
         }, []);
 
         // 컴포넌트가 렌더링된 후에 버튼 이벤트 설정
-        React.useEffect(() => {
+        React.useEffect(function() {
             if (Component !== null && isLoaded === true) {
 
                 ////////////////////////////////////////////////////////////////////
-
                 (async function() {
                     try {
                         ////////////////////////////////////////////////////////////////////
-                        passParams['close'] = close;
-                        (await import(`./events/${window.CONSTANTS.get(`APP.THEME`)}/index`)).event(passParams);
+                        (await import(`./events/${window.CONSTANTS.get(`APP.THEME`)}/index`)).event(parsingValue);
                         ////////////////////////////////////////////////////////////////////
 
                     } catch (error) {
@@ -64,27 +99,35 @@ const CustomAlert = (() => {
                 ////////////////////////////////////////////////////////////////////
 
             }
-        }, [isLoaded, passParams]);
+        }, [isLoaded, parsingValue]);
 
         if (Component === null) {
             return null;
         }
 
-        return <Component passParams={passParams} onLoad={onLoad} />;
+        return <Component parsingValue={parsingValue} onLoad={onLoad} />;
     };
 
-    const open = (passParams) => {
-        document.body.appendChild(container);
+    const open = function(initParameter = null) {
+        if (initParameter === null) {
+            return;
+        }
+        if (Object.prototype.hasOwnProperty.call(initParameter, `msg`) === false) {
+            return;
+        }
+        parsingValue = _.mergeWith({}, parsingValue, initParameter, customMerge);
 
+        document.body.appendChild(container);
         root.render(
-            <Modal passParams={passParams}/>
+            <Modal parsingValue={parsingValue}/>
         );
     };
 
-    const close = () => {
+    function close() {
+        console.log("close");
         // root.unmount();
         container.remove();
-    };
+    }
 
     return {
         open: open,

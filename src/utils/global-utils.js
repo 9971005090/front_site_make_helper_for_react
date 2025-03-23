@@ -50,7 +50,7 @@ const Notify = async (position = `top-center`, message = `성공 메시지!`, ty
     let timeoutId = null;
     const existContainer = function() {
         if ($(`#toast-container #toast-root .Toastify`).length > 0) {
-            toast(message, { type: type, position: position, toastId: Date.now() });
+            toast(message, { type: type, position: position, toastId: `unique-toast` });
             return;
         }
         timeoutId = setTimeout(function() {

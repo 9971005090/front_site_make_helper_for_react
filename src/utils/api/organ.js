@@ -94,10 +94,10 @@ export const UTIL = {
         return response;
     },
     UPDATE: function(addParams=null) {
-        const passingParams = {}
+        const passingParams = {};
         if (addParams !== null) {
             for (let key in addParams) {
-                passingParams[key] = addParams[key]
+                passingParams[key] = addParams[key];
             }
         }
         const response = POST(API.URL.UPDATE, passingParams);
