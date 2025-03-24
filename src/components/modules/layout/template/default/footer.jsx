@@ -1,9 +1,9 @@
-// src/layout/designs/default/Footer.js
+// src/layout/designs/default/footer.jsx
 import React from "react";
-export const Design = {
-    index: () => {
-        // 디자인 컴포넌트를 반환
-        return () => {
+
+const Design = {
+    index: function() {
+        return function() {
             return (
                 <footer id="footer" className="cm-footer">
                     <div className="cm-footer-section">
@@ -25,3 +25,5 @@ export const Design = {
         };
     }
 };
+
+export { Design };

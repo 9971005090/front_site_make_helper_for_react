@@ -1,7 +1,5 @@
 // src/components/modules/layout/index.js
 import React from "react";
-import {CommonFetchAsync} from "../modules/common-fetch-async";
-import {PagingAsync} from "../modules/paging3";
 
 const Pre = function() {
     console.log(":::::Pre:::::", Date.getNow());

@@ -1,4 +1,4 @@
-
+// src/utils/url-change/index
 import { COOKIE_AUTH } from "../../utils/cookie-auth";
 const URL_CHANGE = {
     PROCESS: function(pathname = null) {

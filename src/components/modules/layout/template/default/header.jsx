@@ -1,18 +1,16 @@
-// src/layout/designs/default/Header.js
+// src/layout/designs/default/header.jsx
 import React from "react";
 import { useAuth } from "../../../../../hooks/auth";
-import { parsingShowNowTime, parsingShowRandomString } from "../../../../../helpers/parsingUtil";
 
-export const Design = {
-    index: () => {
-        // 디자인 컴포넌트를 반환
-        return ({ onLoad, navigate }) => {
+const Design = {
+    index: function() {
+        return function({ onLoad }) {
             const { isAuthenticated, user } = useAuth();
-            React.useEffect(() => {
-                if (onLoad) {
+            React.useEffect(function() {
+                if (String.isNullOrWhitespace(onLoad) === false) {
                     onLoad();
                 }
-            }, [navigate]);
+            }, []);
             return (
                 <header id="header" className="cm-header">
                     <section className="cm-header-section type02">
@@ -60,3 +58,5 @@ export const Design = {
         };
     }
 };
+
+export { Design };

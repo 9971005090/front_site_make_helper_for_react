@@ -1,17 +1,16 @@
 // src/designs/content/commonFetch.js
 import React from "react";
-import { format } from 'date-fns';
-import { parsingSyncHis, parsingDeviceManagerType } from "../../../../../helpers/parsingOrgan";
+import { parsingSyncHis, parsingDeviceManagerType } from "../../../../../helpers/parsing-organ";
 
 export const Design = {
-    index: () => {
+    index: function() {
         return ( { paramFetchData, now, onLoad } ) => {
             let organizationList = null;
             if (now) {
                 console.log("now:::", Date.getNow());
                 organizationList = paramFetchData.organizationList;
             }
-            React.useEffect(() => {
+            React.useEffect(function() {
                 if (onLoad) {
                     onLoad();
                     console.log(":::::common fetch async - organ:::::", Date.getNow());

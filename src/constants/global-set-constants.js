@@ -43,7 +43,7 @@ export const GET_CONSTANTS = function(initInfo) {
             return _TqsrbxbzdTBAZtGWVfPLzGkfIEWqXV;
         };
         const get = function(name) {
-            if(Object.prototype.hasOwnProperty.call(_TqsrbxbzdTBAZtGWVfPLzGkfIEWqXV, name) === true) {
+            if (Object.prototype.hasOwnProperty.call(_TqsrbxbzdTBAZtGWVfPLzGkfIEWqXV, name) === true) {
                 return _TqsrbxbzdTBAZtGWVfPLzGkfIEWqXV[name];
             }
             else {
@@ -54,10 +54,10 @@ export const GET_CONSTANTS = function(initInfo) {
             const _set = function(val) {
                 _TqsrbxbzdTBAZtGWVfPLzGkfIEWqXV[name] = val;
             };
-            if(force === true) {
+            if (force === true) {
                 if (globalMergeKey.indexOf(name) !== -1) {
                     let _check = {};
-                    if(has(name) === true) {
+                    if (has(name) === true) {
                         _check = get(name);
                         $.extend(true, _check, value);
                         _set(_check);
@@ -71,7 +71,7 @@ export const GET_CONSTANTS = function(initInfo) {
                 }
             }
             else {
-                if(has(name) === false) {
+                if (has(name) === false) {
                     _set(value);
                 }
             }
@@ -85,7 +85,7 @@ export const GET_CONSTANTS = function(initInfo) {
             }
         };
         const del = function(name) {
-            if(has(name) === true) {
+            if (has(name) === true) {
                 delete _TqsrbxbzdTBAZtGWVfPLzGkfIEWqXV[name];
             }
         };

@@ -1,13 +1,13 @@
 import $ from "cash-dom";
 import { format } from 'date-fns';
 import { stopBubbling } from "../../../../../utils/stop-bubbling";
-import { CustomAlert } from '../../../../../components/modules/custom-alert/index';
+import { CustomAlertAsync } from '../../../../../components/modules/custom-alert-async/index';
 import {UTIL as ORGAN_UTIL} from "../../../../../utils/api/organ";
-import {Notify} from "../../../../../utils/global-utils";
+import { Notify } from "../../../../../utils/global-utils";
 
 const event = function(params) {
     // 버튼 이름 바꾸기
-    if(Number($(`.radio-input[name="expiration"]:checked`).val()) === 0){
+    if (Number($(`.radio-input[name="expiration"]:checked`).val()) === 0){
         $(`.btn-delete`).text(`비활성화`).removeClass(`btn-restore`);
         $(`.btn-all-delete`).text(`선택 비활성화`).removeClass(`btn-all-restore`);
     } else{
@@ -45,7 +45,7 @@ const event = function(params) {
             params.search(params.currentPage);
         };
         if (update.params.organizationCodeList.length > 0) {
-            CustomAlert.open({
+            CustomAlertAsync.open({
                 msg: `정말 ${update.buttonTitle} 하시겠습니까?`,
                 isBackgroundClickForClose: false,
                 button: {

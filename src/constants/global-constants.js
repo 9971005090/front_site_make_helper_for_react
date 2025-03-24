@@ -33,7 +33,7 @@ const _setOnPremisesApiDomain = function() {
     }
 };
 
-if((location.hostname.indexOf('localhost') !== -1 || location.hostname.indexOf("127.0.0.1") !== -1 || location.hostname.indexOf('staging-') !== -1 || location.hostname.indexOf('seersipm') !== -1 || location.hostname.indexOf('dev') !== -1) === false) {
+if ((location.hostname.indexOf('localhost') !== -1 || location.hostname.indexOf("127.0.0.1") !== -1 || location.hostname.indexOf('staging-') !== -1 || location.hostname.indexOf('seersipm') !== -1 || location.hostname.indexOf('dev') !== -1) === false) {
     // showSiteLoadingLog(` 운영 서버 `, `#1e4df8`, `#ffffff`);
     APP['APP.INFO.SERVICE_TYPE'] = `RELEASE`;
     APP['APP.API_BASE'] = "https://www.api.seersthync.com/mobiCAREConsole/API";   // release
@@ -57,7 +57,7 @@ if((location.hostname.indexOf('localhost') !== -1 || location.hostname.indexOf("
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
-else if(location.hostname.indexOf('staging-') !== -1) {
+else if (location.hostname.indexOf('staging-') !== -1) {
     APP['APP.INFO.SERVICE_TYPE']= `STAGING`;
     APP['APP.API_BASE'] = "https://www.api.seersthync.com/mobiCAREConsole/API";   // release
     APP['INFO.DEBUG.USE'] = true;

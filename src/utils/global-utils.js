@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import $ from "cash-dom";
 // toast.success(), toast.error(), toast.warn(), toast.info()
-const Notify = async (position = `top-center`, message = `성공 메시지!`, type = `success`, callback = null) => {
+const Notify = async function(position = `top-center`, message = `성공 메시지!`, type = `success`, callback = null) {
     const { toast, ToastContainer, Slide } = await import("react-toastify");
     await import("react-toastify/dist/ReactToastify.css");
 
@@ -16,7 +16,7 @@ const Notify = async (position = `top-center`, message = `성공 메시지!`, ty
         document.body.appendChild(container);
         container.innerHTML = `<div id="toast-root"></div>`;
 
-        import("react-dom").then(() => {
+        import("react-dom").then(function() {
             ReactDOM.createRoot(document.getElementById("toast-root")).render(
                 <ToastContainer
                     position={position} //"top-left", "top-right", "top-center", "bottom-left", "bottom-right", "bottom-center"
@@ -59,7 +59,7 @@ const Notify = async (position = `top-center`, message = `성공 메시지!`, ty
     };
 
     // 일정 시간이 지나면 자동으로 멈추도록 추가
-    setTimeout(() => {
+    setTimeout(function() {
         clearTimeout(timeoutId);
     }, 1000); // 5초 후에 강제 종료
 

@@ -1,5 +1,5 @@
 // src/utils/stop-bulling.js
-const stopBubbling = (event, type = `base`) => { // type, event/base/both
+const stopBubbling = function(event, type = `base`) { // type, event/base/both
     if (event) {
         if (type === `both`) {
             event.stopPropagation(); // 이벤트 버블링 방지

@@ -9,7 +9,7 @@ import './CssCustom';
 
 function App() {
     console.log(":::::App:::::", Date.getNow());
-    const updateMetaTag = (name, content) => {
+    const updateMetaTag = function(name, content) {
         const existingMeta = document.querySelector(`meta[name="${name}"]`);
         if (existingMeta) {
             existingMeta.setAttribute('content', content);

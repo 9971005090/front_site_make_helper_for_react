@@ -1,11 +1,11 @@
-// src/layout/designs/default/Left.js
+// src/layout/designs/default/left.jsx
 import React from "react";
-export const Design = {
-    index: () => {
-        // 디자인 컴포넌트를 반환
-        return ({onLoad, leftMenu}) => {
-            React.useEffect(() => {
-                if (onLoad) {
+
+const Design = {
+    index: function() {
+        return function( {onLoad, leftMenu} ) {
+            React.useEffect(function() {
+                if (String.isNullOrWhitespace(onLoad) === false) {
                     onLoad();
                 }
             }, [leftMenu]);
@@ -31,3 +31,5 @@ export const Design = {
         };
     }
 };
+
+export { Design };

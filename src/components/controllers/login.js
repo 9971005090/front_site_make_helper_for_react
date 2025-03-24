@@ -3,12 +3,12 @@ import React from "react";
 import { CommonReturn } from "../../components/utils/common-return";
 
 const Controller = {
-    index: () => {
-        return ({ uriParams, onLastLoad }) => {
+    index: function() {
+        return ({ url, onLastLoad }) => {
             const [Component, setComponent] = React.useState(null);
 
-            React.useEffect(() => {
-                (async () => {
+            React.useEffect(function() {
+                (async function() {
                     const { ModuleController } = await import(`../modules/login/login`);
                     setComponent(ModuleController.index);
                 })();

@@ -3,13 +3,13 @@ import React from "react";
 
 export const Design = {
     index: function() {
-        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild, onLastLoad }) {
+        return function({ onLoad, onLastLoad }) {
             console.log(":::::Template organ start:::::", Date.getNow());
             React.useEffect(function() {
-                if (onLoadParent) {
-                    onLoadParent();
+                if (String.isNullOrWhitespace(onLoad) === false) {
+                    onLoad();
                 }
-                if (onLastLoad) {
+                if (String.isNullOrWhitespace(onLastLoad) === false) {
                     onLastLoad();
                 }
             }, []);
@@ -91,10 +91,10 @@ export const Design = {
     },
 
     add: function() {
-        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild }) {
+        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoad }) {
             React.useEffect(function() {
-                if (onLoadParent) {
-                    onLoadParent();
+                if (onLoad) {
+                    onLoad();
                 }
             }, []);
             return (
@@ -185,10 +185,10 @@ export const Design = {
     },
 
     edit: function() {
-        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoadParent, onLoadChild, organInfo }) {
-            React.useEffect(() => {
-                if (onLoadParent) {
-                    onLoadParent();
+        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoad, organInfo }) {
+            React.useEffect(function() {
+                if (onLoad) {
+                    onLoad();
                 }
             }, []);
             return (

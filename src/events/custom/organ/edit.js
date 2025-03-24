@@ -10,18 +10,18 @@ import { isFormSubmit } from "../../../utils/form-submit-check";
 
 const event = function(params) {
     const _checkInsertInfo = async function(param = null) {
-        if(param === null) {
+        if (param === null) {
             return false;
         }
         let msg = ``;
         const _checkValidCode = await ORGAN_UTIL.SELECT(param.organizationCode);
         const emailCheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-        if(String.isNullOrWhitespace(param.systemManager) === false) {
+        if (String.isNullOrWhitespace(param.systemManager) === false) {
             if (param.systemManager.match(emailCheck) === null) {
                 msg = `이메일을 확인해주세요.`;
             }
         }
-        if(msg === ``) {
+        if (msg === ``) {
             return true;
         }
         else {
@@ -32,7 +32,7 @@ const event = function(params) {
     };
 
 
-    $(`.btn-confirm`).off(`click`).on(`click`, async function (e) {
+    $(`.btn-confirm`).off(`click`).on(`click`, async function(e) {
         stopBubbling(e);
         const dataFormId = `#form-data`;
         const form = formParser(dataFormId);
