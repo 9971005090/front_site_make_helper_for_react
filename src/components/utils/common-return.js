@@ -3,20 +3,20 @@ import React from "react";
 import { LoadingDonut } from "../../components/utils/loading-donut";
 
 // 공통 로딩 함수
-const CommonReturn = (Component) => {
-    const CommonReturnComponent = ({ loadingTypeTitle = `Controller`, uniqueKey = null, ...props }) => {
+const CommonReturn = function(Component) {
+    const CommonReturnComponent = function({ loadingTypeTitle = `Controller`, uniqueKey = null, ...props }) {
         if (String.isNullOrWhitespace(Component) === false) {
-            return <Component key={uniqueKey} {...props} />;
+            return (<Component key={uniqueKey} {...props} />);
         }
         if (window.CONSTANTS.get('APP.INFO.SERVICE_TYPE') !== 'DEVELOPMENT') {
             return null;
         }
         if (window.CONSTANTS.get('APP.INFO.DEBUG.USE') === true) {
-            return <div>Data {loadingTypeTitle} Loading...</div>;
+            return (<div>Data {loadingTypeTitle} Loading...</div>);
         }
-        return <LoadingDonut />;
+        return (<LoadingDonut />);
     };
-    return CommonReturnComponent;
+    return (CommonReturnComponent);
 };
 
 export { CommonReturn };

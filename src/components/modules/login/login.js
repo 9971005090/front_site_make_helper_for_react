@@ -12,16 +12,16 @@ import { stopBubbling } from "../../../utils/stop-bubbling";
 
 
 export const ModuleController = {
-    index: () => {
+    index: function() {
         // 디자인 컴포넌트를 반환
         return ({ onLastLoad }) => {
             const { isAuthenticated, cookieId } = useAuth();
             const theme = `default`;
             const { loading, runLogin } = useLogin();
             const [Component, setComponent] = React.useState(null);
-            useEffect(() => {
+            useEffect(function() {
                 // console.log(`useEffect 최상단 - ${format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS')}`);
-                (async () => {
+                (async function() {
                     try {
                         // 스타일 추가
                         ////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ export const ModuleController = {
             }, []);
 
             // 컴포넌트가 렌더링된 후에 버튼 이벤트 설정
-            useEffect(() => {
+            useEffect(function() {
                 if (Component !== null) {
                     // 콤포넌트 최초 로딩 후
                     ////////////////////////////////////////////////////////////////////
@@ -51,21 +51,21 @@ export const ModuleController = {
                     $(`#login_btn`).off(`click`).on(`click`, function(e) {
                         stopBubbling(e);
                         const form = formParser(`#dataForm`);
-                        if(formCheck(`#dataForm`) === true) {
+                        if (formCheck(`#dataForm`) === true) {
                             runLogin(form);
                         }
                     });
                     // 입력항목에서 엔터 클릭
                     $(`#id_input, #password_input`).off(`keypress`).on(`keypress`, function(e) {
                         let keycode = (e.keyCode ? e.keyCode : e.which);
-                        if(keycode == '13') {
+                        if (keycode == '13') {
                             const form = formParser(`#dataForm`);
-                            if(String.isNullOrWhitespace($(`#id_input`).val()) === false && String.isNullOrWhitespace($(`#password_input`).val()) === false) {
+                            if (String.isNullOrWhitespace($(`#id_input`).val()) === false && String.isNullOrWhitespace($(`#password_input`).val()) === false) {
                                 runLogin(form);
                             }
                             else {
                                 console.log("form:::", form);
-                                if(formCheck(`#dataForm`) === true) {
+                                if (formCheck(`#dataForm`) === true) {
                                     runLogin(form);
                                 }
                             }

@@ -1,9 +1,9 @@
 // src/utils/initializeApp.js
-const fetchAppData = async () => {
+const fetchAppData = async function() {
 
 };
 
-const FIRST_LOAD_DATA = async () => {
+const FIRST_LOAD_DATA = async function() {
     try {
         // 초기 데이터 로딩
         await fetchAppData();

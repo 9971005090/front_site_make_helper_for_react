@@ -1,38 +1,44 @@
-// src/controllers/index.js
+// src/components/controllers/index.js
 import React from "react";
 import { set as setMenuInfo } from "../../utils/custom/menuInfo";
-import { format } from 'date-fns';
 import { CommonReturn } from "../../components/utils/common-return";
 
-const Controller = ({ uriParams, onLastLoad }) => {
+const Controller = ({ url, onLastLoad }) => {
     console.log(":::::Controller start:::::", Date.getNow());
     const [Component, setComponent] = React.useState(null);
-    // const paramsState = React.useRef(uriParams);
+    // const paramsState = React.useRef(url);
 
-    React.useEffect(() => {
-        (async () => {
+    React.useEffect(function() {
+        (async function() {
             try {
                 // 현재 메뉴 정보 세팅
-                setMenuInfo(uriParams);
+                setMenuInfo(url);
 
                 // 동적으로 컨트롤러 import
-                let { Controller } = await import(`./${uriParams.controller}`);
+                let { Controller } = await import(`./${url.controller}`);
 
                 // 컨트롤러에서 디자인 컴포넌트 처리
-                const Component = Controller[uriParams.action] || Controller.index;
+                const Component = Controller[url.action] || Controller.index;
                 if (typeof Component !== "function") {
                     console.error("Invalid Component:", Component);
                     return;
                 }
                 setComponent(Component);
-            } catch {
+            }
+            catch {
                 console.error("Controller or action not found");
-                setComponent(() => <p>Page not found</p>);
+                setComponent(function() {
+                    const _c = function() {
+                        return (<p>Page not found</p>);
+                    };
+                    return _c;
+                });
+                // setComponent(() => <p>Page not found</p>);
             }
         })();
     }, []);
 
-    return CommonReturn(Component)({ uriParams: uriParams, onLastLoad: onLastLoad });
+    return CommonReturn(Component)({ url: url, onLastLoad: onLastLoad });
 };
 
 export { Controller };

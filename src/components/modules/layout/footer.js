@@ -1,11 +1,12 @@
-// src/layout/Footer.js
+// src/components/modules/layout/footer.js
 import React from "react";
 import { CommonReturn } from "../../../components/utils/common-return";
-export const Footer = () => {
+
+const Footer = function({ url }) {
     const [Component, setComponent] = React.useState(null);
 
-    React.useEffect(() => {
-        (async () => {
+    React.useEffect(function() {
+        (async function() {
             const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/footer`);
             setComponent(Design.index);
         })();
@@ -13,3 +14,5 @@ export const Footer = () => {
 
     return CommonReturn(Component)({ loadingTypeTitle: `layout(footer)` });
 };
+
+export { Footer };

@@ -20,13 +20,13 @@ const event = function(params) {
             modal.globalClose(param);
         }
         let msg = ``;
-        if(GBL.CONSTANTS.get(`NOW_ACTION`).indexOf(`add`) !== -1) {
+        if (GBL.CONSTANTS.get(`NOW_ACTION`).indexOf(`add`) !== -1) {
             msg =`등록을 멈추고 목록 화면으로 이동하시겠습니까?<br>입력 하신 내용은 모두 삭제됩니다.`;
         }
-        else if(GBL.CONSTANTS.get(`NOW_ACTION`) === "update") {
+        else if (GBL.CONSTANTS.get(`NOW_ACTION`) === "update") {
             msg =`정보 수정을 멈추고 목록 화면으로 이동하시겠습니까?<br>수정된 내용은 모두 삭제됩니다.`;
         }
-        else if(GBL.CONSTANTS.get(`NOW_ACTION`) === "dynamic") {
+        else if (GBL.CONSTANTS.get(`NOW_ACTION`) === "dynamic") {
             msg =`목록 화면으로 이동하시겠습니까?<br>입력 하신 내용은 모두 삭제됩니다.`;
         }
         let initParameter = {
@@ -94,13 +94,13 @@ const event = function(params) {
     //         modal.globalClose(param);
     //     }
     //     let msg = ``;
-    //     if(GBL.CONSTANTS.get(`NOW_ACTION`).indexOf(`add`) !== -1) {
+    //     if (GBL.CONSTANTS.get(`NOW_ACTION`).indexOf(`add`) !== -1) {
     //         msg =`등록을 멈추고 목록 화면으로 이동하시겠습니까?<br>입력 하신 내용은 모두 삭제됩니다.`;
     //     }
-    //     else if(GBL.CONSTANTS.get(`NOW_ACTION`) === "update") {
+    //     else if (GBL.CONSTANTS.get(`NOW_ACTION`) === "update") {
     //         msg =`정보 수정을 멈추고 목록 화면으로 이동하시겠습니까?<br>수정된 내용은 모두 삭제됩니다.`;
     //     }
-    //     else if(GBL.CONSTANTS.get(`NOW_ACTION`) === "dynamic") {
+    //     else if (GBL.CONSTANTS.get(`NOW_ACTION`) === "dynamic") {
     //         msg =`목록 화면으로 이동하시겠습니까?<br>입력 하신 내용은 모두 삭제됩니다.`;
     //     }
     //     let initParameter = {

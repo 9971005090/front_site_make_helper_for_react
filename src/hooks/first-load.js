@@ -2,7 +2,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { _selectIsDone, _setIsDone } from '../redux/slice/first-load';
 
-const useFirstLoad = () => {
+const useFirstLoad = function() {
     const isDone = useSelector(_selectIsDone);
     const dispatch = useDispatch();
 

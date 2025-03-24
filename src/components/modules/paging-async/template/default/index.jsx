@@ -2,9 +2,9 @@
 import React from "react";
 
 export const Design = {
-    index: () => {
+    index: function() {
         return ({ pagingInfo, onLoad, now }) => {
-            React.useEffect(() => {
+            React.useEffect(function() {
                 if (onLoad) {
                     onLoad();
                     console.log(":::::Paging3:::::", Date.getNow());

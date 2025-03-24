@@ -2,9 +2,9 @@
 import React from "react";
 
 export const Design = {
-    index: () => {
+    index: function() {
         return ({ onLastLoad }) => {
-            React.useEffect(() => {
+            React.useEffect(function() {
                 if (onLastLoad) {
                     onLastLoad();
                 }

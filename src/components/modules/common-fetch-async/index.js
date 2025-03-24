@@ -11,33 +11,17 @@ const CommonFetchAsync = (function() {
     let root = null;
     const CommonFetchComponent = function({ search, paramFetchData, currentPage, paramType, now, navigate }) {
         const [Component, setComponent] = React.useState(null);
-        const [isLoaded, setIsLoaded] = React.useState(false);
-        const onLoad = function() {
-            setIsLoaded((state) => !state);
+
+        const setAddEvent = async function() {
+            ////////////////////////////////////////////////////////////////////
+            // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
+            (await import(`./events/${window.CONSTANTS.get(`APP.THEME`)}/index`)).event({
+                search: search,
+                currentPage: currentPage.current,
+                navigate: navigate
+            });
+            ////////////////////////////////////////////////////////////////////
         };
-
-        React.useEffect(function() {
-            ////////////////////////////////////////////////////////////////////
-            (async function() {
-                try {
-                    ////////////////////////////////////////////////////////////////////
-                    // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
-                    (await import(`./events/default/index`)).event({
-                        search: search,
-                        currentPage: currentPage.current,
-                        navigate: navigate
-                    });
-                    ////////////////////////////////////////////////////////////////////
-
-                } catch (error) {
-                    console.error("Failed to load design component:", error);
-                }
-            })();
-            ////////////////////////////////////////////////////////////////////
-            return function() {
-                // $(`.page-item`).off(`click`);
-            };
-        }, [isLoaded]);
 
         React.useEffect(function() {
             (async function() {
@@ -46,7 +30,7 @@ const CommonFetchAsync = (function() {
             })();
         }, []);
 
-        return CommonReturn(Component)({ paramFetchData: paramFetchData, loadingTypeTitle: `common-fetch`, now: now, onLoad: onLoad });
+        return CommonReturn(Component)({ paramFetchData: paramFetchData, loadingTypeTitle: `common-fetch`, now: now, onLoad: setAddEvent });
     };
 
     const run = function(selector, search, paramFetchData, currentPage, paramType, now, isFirst, navigate) {
@@ -65,7 +49,7 @@ const CommonFetchAsync = (function() {
         );
     };
 
-    // const close = () => {
+    // const close = function() {
     //     if (root !== null) {
     //         root.unmount();
     //     }

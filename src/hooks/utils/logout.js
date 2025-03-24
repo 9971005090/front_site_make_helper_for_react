@@ -12,23 +12,23 @@ import { format } from 'date-fns';
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-export const useLogout = () => {
+export const useLogout = function() {
     const navigate = useNavigate();
     const { isAuthenticated, logout } = useAuth();
     const [ loading, setLoading ] = React.useState(false);
     const { isDone, setIsDone } = useFirstLoad();
     const [logoutState, setLogoutState] = React.useState(false);
 
-    React.useEffect(() => {
+    React.useEffect(function() {
         if (isAuthenticated === false && logoutState === true) {
             navigate(`/login`);
         }
-        return () => {
+        return function() {
             setLogoutState(false);
         };
     }, [logoutState]);
 
-    const runLogout = async () => {
+    const runLogout = async function() {
         setLoading(true);
         const parameter = {};
         const response = await POST(API.LOGOUT, parameter, {});

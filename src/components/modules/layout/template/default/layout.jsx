@@ -1,26 +1,24 @@
-// src/layout/designs/default/Layout.js
+// src/layout/designs/default/layout.jsx
 import React from "react";
 import { Controller } from '../../../../controllers';
 import { Header } from "../../header";
 import { Left } from "../../left";
 import { Footer } from "../../footer";
-import { format } from 'date-fns';
 
-export const Design = {
-    index: () => {
-        // 디자인 컴포넌트를 반환
-        return ({ uriParams, onLastLoad }) => {
+const Design = {
+    index: function() {
+        return ({ url, onLastLoad }) => {
             return (
 
-                String.isLayoutNeeded(uriParams.controller) === true ? (
+                String.isLayoutNeeded(url.controller) === true ? (
 
                     <div id="wrap">
 
-                        <Header uriParams={uriParams} />
+                        <Header url={url} />
 
                         <main id="wrap-cont">
 
-                            <Left uriParams={uriParams} />
+                            <Left url={url} />
 
                             <section className="cm-main-content" id="main-contents">
                                 <div className="page-top">
@@ -35,21 +33,23 @@ export const Design = {
                                         <a className="page-nav-link action">게이트웨이</a>
                                     </div>
                                 </div>
-                                <article id="main-cont"><Controller uriParams={uriParams} onLastLoad={onLastLoad} /></article>
+                                <article id="main-cont"><Controller url={url} onLastLoad={onLastLoad} /></article>
                             </section>
                         </main>
 
-                        <footer />
+                        <Footer url={url} />
 
                     </div>
 
                 )
                 : (
 
-                    <Controller uriParams={uriParams} onLastLoad={onLastLoad}/>
+                    <Controller url={url} onLastLoad={onLastLoad}/>
 
                 )
             );
         };
     }
 };
+
+export { Design };

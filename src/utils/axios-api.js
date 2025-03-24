@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 
 
 // 기본 API 요청 함수
-const apiRequest = async (method, url, data = null, params = null, headers = {}) => {
+const apiRequest = async function(method, url, data = null, params = null, headers = {}) {
     const state = store.getState();
     const { _isAuthenticated, _token } = state.auth;
     const config = {
@@ -48,15 +48,15 @@ const _getDefaultParam = function(authNotInclude = false, parameter = {}) {
     const state = store.getState();
     const { _isAuthenticated, _user } = state.auth;
 
-    if(_isAuthenticated === true) {
-        if(Object.prototype.hasOwnProperty.call(parameter, `requester`) === false) {
+    if (_isAuthenticated === true) {
+        if (Object.prototype.hasOwnProperty.call(parameter, `requester`) === false) {
             params.requester = _user.userCode;
         }
-        if(Object.prototype.hasOwnProperty.call(parameter, `organizationCode`) === false) {
+        if (Object.prototype.hasOwnProperty.call(parameter, `organizationCode`) === false) {
             params.organizationCode = _user.organizationCode;
         }
     }
-    if(authNotInclude === false) {
+    if (authNotInclude === false) {
         params.requester = null;
         params.organizationCode = null;
     }
@@ -73,22 +73,22 @@ const _getDefaultParam = function(authNotInclude = false, parameter = {}) {
 };
 
 // HTTP GET 요청
-export const GET = (url, params = null, headers = {}, callback = null) => {
+export const GET = function(url, params = null, headers = {}, callback = null) {
     return apiRequest('get', url, null, params, headers, callback);
 };
 
 // HTTP POST 요청
-export const POST = (url, data, headers = {}, callback = null) => {
+export const POST = function(url, data, headers = {}, callback = null) {
     const params = Object.assign(_getDefaultParam(true), data);
     return apiRequest('post', `${window.CONSTANTS.get(`APP.API_BASE`)}${url}`, params, null, headers, callback);
 };
 
 // HTTP PUT 요청
-export const PUT = (url, data, headers = {}, callback = null) => {
+export const PUT = function(url, data, headers = {}, callback = null) {
     return apiRequest('put', url, data, null, headers, callback);
 };
 
 // HTTP DELETE 요청
-export const DEL = (url, params = null, headers = {}, callback = null) => {
+export const DEL = function(url, params = null, headers = {}, callback = null) {
     return apiRequest('delete', url, null, params, headers, callback);
 };

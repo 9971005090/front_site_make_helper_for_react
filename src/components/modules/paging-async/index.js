@@ -5,7 +5,7 @@ import $ from "cash-dom";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { CommonReturn } from "../../../components/utils/common-return";
 
-const PagingAsync = (() => {
+const PagingAsync = (function() {
     let container = null;
     let root = null;
     const PagingComponent = function ({ searchFunc, totalCount, currentPage, now, itemsPerPage, pagesPerPage }) {
@@ -54,77 +54,66 @@ const PagingAsync = (() => {
             }
         }
 
-        const [isLoaded, setIsLoaded] = React.useState(false);
-        const onLoad = () => {
-            setIsLoaded((state) => !state);
-        };
-
-        React.useEffect(() => {
-            ////////////////////////////////////////////////////////////////////
-            $(`.page-item`).off(`click`).on(`click`, function (e) {
+        const setAddEvent = function() {
+            $(`.page-item`).off(`click`).on(`click`, function(e) {
                 stopBubbling(e);
                 const item = $(this);
                 const id = item.find(`button`).attr(`aria-label`);
                 let selectedPage = Number(item.children(`span`).text());
-                if(id !== undefined) {
+                if (id !== undefined) {
                     selectedPage = id;
                 }
-                if(id === "First") {
-                    if(currentPage === 1) {
+                if (id === "First") {
+                    if (currentPage === 1) {
                         return;
                     }
                     else {
                         selectedPage = 1;
                     }
                 }
-                if(id === "Prev") {
-                    if(currentPage === 1) {
+                if (id === "Prev") {
+                    if (currentPage === 1) {
                         return;
                     }
                     else {
                         selectedPage = currentPage - 1;
                     }
                 }
-                if(id === "Next") {
-                    if(currentPage === pagingInfo.page.total) {
+                if (id === "Next") {
+                    if (currentPage === pagingInfo.page.total) {
                         return;
                     }
                     else {
                         selectedPage = currentPage + 1;
                     }
                 }
-                if(id === "Last") {
-                    if(currentPage === pagingInfo.page.total) {
+                if (id === "Last") {
+                    if (currentPage === pagingInfo.page.total) {
                         return;
                     }
                     else {
                         selectedPage = pagingInfo.page.total;
                     }
                 }
-
-                if(typeof selectedPage !== "string") {
-                    if(selectedPage === currentPage) {
+                if (typeof selectedPage !== "string") {
+                    if (selectedPage === currentPage) {
                         return;
                     }
                 }
                 searchFunc(selectedPage);
-                // setIsLoaded((state) => !state);
             });
-            return () => {
-                // $(`.page-item`).off(`click`);
-            };
-        }, [isLoaded]);
+        };
 
         // 동적 컴포넌트 로딩
-        React.useEffect(() => {
-            (async () => {
+        React.useEffect(function() {
+            (async function() {
                 await import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
                 const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/index`);
                 setComponent(Design.index);
             })();
         }, []);
 
-        return CommonReturn(Component)({pagingInfo: pagingInfo, onLoad: onLoad, loadingTypeTitle: `paging`, now: now});
+        return CommonReturn(Component)({pagingInfo: pagingInfo, onLoad: setAddEvent, loadingTypeTitle: `paging`, now: now});
     };
 
     const run = function(selector, searchFunc, totalCount, currentPage, now, isFirst, itemsPerPage = 10, pagesPerPage = 10) {
@@ -143,20 +132,20 @@ const PagingAsync = (() => {
         );
     };
 
-    const close = () => {
-        if (root) {
-            root.unmount();  // unmount 호출
-            root = null;  // root 초기화
-        }
-        if (container) {
-            container.remove();  // DOM 요소 제거
-            container = null;  // container 초기화
-        }
-    };
+    // const close = function() {
+    //     if (root) {
+    //         root.unmount();  // unmount 호출
+    //         root = null;  // root 초기화
+    //     }
+    //     if (container) {
+    //         container.remove();  // DOM 요소 제거
+    //         container = null;  // container 초기화
+    //     }
+    // };
 
     return {
         run: run,
-        close: close
+        // close: close
     };
 })();
 

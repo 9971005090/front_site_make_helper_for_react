@@ -14,50 +14,50 @@ const preFileLoading = function() {
     this.errorAfterType = "ignore"; // stop(에러처리), ignore(무시하고 진행)
     this.callback = null;
     this.setInit = function(options = null) {
-        if(options !== null) {
-            if(Object.prototype.hasOwnProperty.call(options, `hasOwnProperty`) === true) {
+        if (options !== null) {
+            if (Object.prototype.hasOwnProperty.call(options, `hasOwnProperty`) === true) {
                 this.runType = options.runType;
             }
-            if(Object.prototype.hasOwnProperty.call(options, `files`) === true) {
+            if (Object.prototype.hasOwnProperty.call(options, `files`) === true) {
                 for(let i = 0; i < options.files.length; i++) {
-                    if(options.files[i] !== null && allDynamicScripts.indexOf(options.files[i]) === -1) {
+                    if (options.files[i] !== null && allDynamicScripts.indexOf(options.files[i]) === -1) {
                         this.files.push(options.files[i]);
                         allDynamicScripts.push(options.files[i]);
                     }
                 }
             }
-            if(Object.prototype.hasOwnProperty.call(options, `errorAfterType`) === true) {
+            if (Object.prototype.hasOwnProperty.call(options, `errorAfterType`) === true) {
                 this.errorAfterType = options.errorAfterType;
             }
-            if(Object.prototype.hasOwnProperty.call(options, `"callback"`) === true) {
+            if (Object.prototype.hasOwnProperty.call(options, `"callback"`) === true) {
                 this.callback = options.callback;
             }
         }
         this.fileCount = this.files.length;
     };
     this.done = function(name) {
-        if(--this.fileCount <= 0) {
-            if(this.callback !== null) {
+        if (--this.fileCount <= 0) {
+            if (this.callback !== null) {
                 this.callback();
             }
         }
     };
     this.run = function() {
         let _self = this;
-        if(this.fileCount > 0) {
+        if (this.fileCount > 0) {
             for(let i = 0; i < this.files.length; i++) {
                 let tagName = "script";
                 let type = "text/javascript";
-                if(this.files[i].indexOf(".css") !== -1) {
+                if (this.files[i].indexOf(".css") !== -1) {
                     tagName = "link";
                     type = "text/css";
                 }
                 let file = document.createElement(tagName);
                 file.type = type;
-                if(this.files[i].indexOf(".js") !== -1) {
+                if (this.files[i].indexOf(".js") !== -1) {
                     file.src = this.files[i];
                 }
-                else if(this.files[i].indexOf(".css") !== -1) {
+                else if (this.files[i].indexOf(".css") !== -1) {
                     file.href = this.files[i];
                     file.rel = "stylesheet";
                 }
@@ -78,7 +78,7 @@ const preFileLoading = function() {
     };
 };
 
-export const INITIALIZE_APP = async () => {
+export const INITIALIZE_APP = async function() {
     try {
         // 초기 데이터 로딩
         await import(`../utils/extensions/string`);

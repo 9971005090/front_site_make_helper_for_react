@@ -14,7 +14,7 @@ import { Notify } from "../../utils/global-utils";
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-export const useLogin = () => {
+export const useLogin = function() {
     const navigate = useNavigate();
     const location = useLocation();
     const { isAuthenticated, login, setRemember, removeRemember } = useAuth();
@@ -22,7 +22,7 @@ export const useLogin = () => {
     const { runFirstLoadData } = SETTINGS();
     const { isDone } = useFirstLoad();
 
-    React.useEffect(() => {
+    React.useEffect(function() {
         if (isDone === true) {
             ////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////
@@ -30,9 +30,9 @@ export const useLogin = () => {
         }
     }, [isDone]);
 
-    React.useEffect(() => {
+    React.useEffect(function() {
         if (isAuthenticated === true) {
-            (async () => {
+            (async function() {
                 await runFirstLoadData();
             })();
         }

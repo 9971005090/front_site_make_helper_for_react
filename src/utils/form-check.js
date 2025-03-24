@@ -1,7 +1,7 @@
 // src/utils/formCheck.js
 import $ from "cash-dom";
 
-const formCheck = (selector, addCheckFunc = null, classType = 'default') => {
+const formCheck = function(selector, addCheckFunc = null, classType = 'default') {
     let invalidFeedbackClass = `invalid-feedback`;
     let invalidClass = `is-invalid`;
     let validClass = `is-valid`;
@@ -100,7 +100,7 @@ const formCheck = (selector, addCheckFunc = null, classType = 'default') => {
         const setValidate = function(obj, msg) {
             if (classType === `default`) {
                 obj.removeClass(validClass).addClass(invalidClass);
-                if(obj.parent().find(`.${invalidFeedbackClass}`).length <= 0) {
+                if (obj.parent().find(`.${invalidFeedbackClass}`).length <= 0) {
                     obj.parent().append(setMessage(msg));
                 } else {
                     obj.parent().find(`.${invalidFeedbackClass}`).text(msg);
@@ -108,7 +108,7 @@ const formCheck = (selector, addCheckFunc = null, classType = 'default') => {
             }
             else if (classType === `error`) {
                 obj.parent().removeClass(validClass).addClass(invalidClass);
-                if(obj.parent().find(`.${invalidFeedbackClass}`).length <= 0) {
+                if (obj.parent().find(`.${invalidFeedbackClass}`).length <= 0) {
                     obj.parent().append(setMessage(msg));
                 } else {
                     obj.parent().find(`.${invalidFeedbackClass}`).text(msg);
@@ -148,7 +148,7 @@ const formCheck = (selector, addCheckFunc = null, classType = 'default') => {
         const setValidate = function(obj, msg) {
             if (classType === `default`) {
                 obj.removeClass(validClass).addClass(invalidClass);
-                if(obj.parent().find(`.${invalidFeedbackClass}`).length <= 0) {
+                if (obj.parent().find(`.${invalidFeedbackClass}`).length <= 0) {
                     obj.parent().append(setMessage(msg));
                 } else {
                     obj.parent().find(`.${invalidFeedbackClass}`).text(msg);
@@ -156,7 +156,7 @@ const formCheck = (selector, addCheckFunc = null, classType = 'default') => {
             }
             else if (classType === `error`) {
                 obj.parent().removeClass(validClass).addClass(invalidClass);
-                if(obj.parent().find(`.${invalidFeedbackClass}`).length <= 0) {
+                if (obj.parent().find(`.${invalidFeedbackClass}`).length <= 0) {
                     obj.parent().append(setMessage(msg));
                 } else {
                     obj.parent().find(`.${invalidFeedbackClass}`).text(msg);

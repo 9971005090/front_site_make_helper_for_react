@@ -2,7 +2,7 @@
 import $ from "cash-dom";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { Notify } from '../../../utils/global-utils';
-import { CustomAlert } from '../../../components/modules/custom-alert/index';
+import { CustomAlertAsync } from '../../../components/modules/custom-alert-async/index';
 import { UTIL as ORGAN_UTIL } from "../../../utils/api/organ";
 
 const event = {
@@ -30,7 +30,7 @@ const event = {
 
         $(`#listAllCheck`).off("click").on("click", function(e) {
             stopBubbling(e);
-            if($(`#listAllCheck`).is(":checked") === true) {
+            if ($(`#listAllCheck`).is(":checked") === true) {
                 $(`#contents-by-data-table .input[type="checkbox"]`).prop("checked", true);
             }
             else {
@@ -72,7 +72,7 @@ const event = {
                 params.search(params.currentPage);
             };
             if (update.params.organizationCodeList.length > 0) {
-                CustomAlert.open({
+                CustomAlertAsync.open({
                     msg: `정말 ${update.buttonTitle} 하시겠습니까?`,
                     isBackgroundClickForClose: false,
                     button: {
