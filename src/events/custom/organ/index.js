@@ -7,7 +7,7 @@ import { UTIL as ORGAN_UTIL } from "../../../utils/api/organ";
 
 const event = {
     'index': function(params) {
-        $(`.btn-add`).off("click").on("click", function(e) {
+        $(`.btn-add`).off(`click`).on(`click`, function(e) {
             stopBubbling(e);
             params.navigate(`/organ/add`);
         });
@@ -28,7 +28,7 @@ const event = {
             return;
         });
 
-        $(`#listAllCheck`).off("click").on("click", function(e) {
+        $(`#listAllCheck`).off(`click`).on(`click`, function(e) {
             stopBubbling(e);
             if ($(`#listAllCheck`).is(":checked") === true) {
                 $(`#contents-by-data-table .input[type="checkbox"]`).prop("checked", true);
@@ -39,7 +39,7 @@ const event = {
         });
         // search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current}
 
-        $(".btn-all-delete").off("click").on("click", async function(e) {
+        $(".btn-all-delete").off(`click`).on(`click`, async function(e) {
             stopBubbling(e);
             const update = {
                 buttonTitle: `비활성화`,

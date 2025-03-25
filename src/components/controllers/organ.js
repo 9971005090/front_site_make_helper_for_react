@@ -37,9 +37,11 @@ const Controller = {
                 }
                 else if (action === `add`) {
                     (await import(`../../events/custom/organ/add`)).event({navigate: navigate});
+                    (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});
                 }
                 else if (action === `edit`) {
                     (await import(`../../events/custom/organ/edit`)).event({navigate: navigate});
+                    (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});
                 }
                 /////////////////////////////////////////////////////////////////////////////////////////////////////
             };
