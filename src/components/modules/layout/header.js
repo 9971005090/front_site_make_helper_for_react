@@ -46,6 +46,36 @@ const Header = function({ url }) {
                 $(item).removeClass('selected');
             }
         });
+
+        $(`#burger-btn`).off(`click`).on(`click`, function(e) {
+            stopBubbling(e);
+            if ($(this).parents(".cm-header-section").hasClass("type02")) {
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                    $(`.cm-left-nav`).removeClass("on");
+                    $("#wrap").removeAttr("style");
+                }
+                else{
+                    $(this).addClass('active');
+                    $(`.cm-left-nav`).addClass("on");
+                }
+            }
+            else {
+                if ($(this).hasClass('on')) {
+                    $(this).removeClass('on');
+                    $(`.cm-top-menu`).removeClass("on");
+                    $("#wrap").removeAttr("style");
+                    $(".cm-header-logo-link").removeAttr("style");
+                }
+                else {
+                    $(this).addClass('on');
+                    $(`.cm-top-menu`).addClass("on");
+                    $("#wrap").css({"height":"100vh", "overflow":"hidden"});
+                    $(".cm-header-logo-link").css({"z-index":"10"});
+                }
+            }
+        });
+        $(`#burger-btn`)[0].dispatchEvent(new Event(`click`, { bubbles: false, cancelable: false }));
     };
 
     React.useEffect(function() {
