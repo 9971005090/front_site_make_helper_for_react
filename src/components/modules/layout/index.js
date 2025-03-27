@@ -1,10 +1,45 @@
 // src/components/modules/layout/index.js
 import React from "react";
+import $ from "cash-dom";
+import { stopBubbling } from "../../../utils/stop-bubbling";
 import { CommonReturn } from "../../../components/utils/common-return";
 
 export const Layout = function({ url, onLastLoad }) {
     console.log(":::::Layout:::::", Date.getNow());
     const [Component, setComponent] = React.useState(null);
+
+    const responsive = function() {
+        if(1024 >= window.innerWidth && 768 < window.innerWidth){
+            $(`#root`).removeClass("pc mobile mobile-small").addClass("tablet");
+        }
+        else if(768 >= window.innerWidth && 488 < window.innerWidth) {
+            $(`#root`).removeClass("tablet pc mobile-small").addClass("mobile");
+        }
+        else if(488 >= window.innerWidth){
+            $(`#root`).removeClass("tablet pc mobile").addClass("mobile-small");
+        }
+        else{
+            $(`#root`).removeClass("tablet mobile mobile-small").addClass("pc");
+        }
+        if($(`#root`).hasClass("pc")){
+            if($(`.cm-left-nav`).hasClass("on")){
+                $(`.cm-left-nav`).removeClass("on");
+                $(`.burger-btn`).removeClass("active");
+            }
+        }
+        else{
+            if(!$(`.cm-left-nav`).hasClass("on")){
+                $(`.cm-left-nav`).addClass("on");
+                $(`.burger-btn`).addClass("active");
+            }
+        }
+    };
+    const setAddEvent = function() {
+        responsive();
+        window.addEventListener("resize", function() {
+            responsive();
+        });
+    };
 
     React.useEffect(function() {
         (async function() {
@@ -13,5 +48,5 @@ export const Layout = function({ url, onLastLoad }) {
         })();
     }, [url]);
 
-    return CommonReturn(Component)({ url: url, loadingTypeTitle: `layout`, onLastLoad: onLastLoad });
+    return CommonReturn(Component)({ url: url, loadingTypeTitle: `layout`, onLoad: setAddEvent, onLastLoad: onLastLoad });
 };

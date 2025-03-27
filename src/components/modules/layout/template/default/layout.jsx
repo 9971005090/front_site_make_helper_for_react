@@ -7,7 +7,12 @@ import { Footer } from "../../footer";
 
 const Design = {
     index: function() {
-        return ({ url, onLastLoad }) => {
+        return ({ url, onLoad, onLastLoad }) => {
+            React.useEffect(function() {
+                if (String.isNullOrWhitespace(onLoad) === false) {
+                    onLoad();
+                }
+            }, []);
             return (
 
                 String.isLayoutNeeded(url.controller) === true ? (

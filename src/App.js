@@ -25,10 +25,7 @@ function App() {
     updateMetaTag('description', 'This is a description for my app.');
     // console.log(`src/App - return 위 - 로딩 - ${format(new Date(), 'yyyy-MM-dd HH:mm:ss.SSS')}`);
 
-    const { url, urlChange } = URL_CHANGE.PROCESS();
-    if (urlChange !== null) {
-        history.pushState({}, null, urlChange);
-    }
+    const url = URL_CHANGE.PROCESS();
 
     return (
         <Router>
