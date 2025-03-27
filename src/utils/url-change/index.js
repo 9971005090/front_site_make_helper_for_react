@@ -25,10 +25,10 @@ const URL_CHANGE = {
                 urlChange = `${url['controller']}`;
             }
         }
-        return {
-            urlChange: urlChange,
-            url: url
-        };
+        if (urlChange !== null) {
+            history.pushState({}, null, urlChange);
+        }
+        return url;
     }
 };
 

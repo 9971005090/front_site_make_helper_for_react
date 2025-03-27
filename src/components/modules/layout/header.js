@@ -76,6 +76,11 @@ const Header = function({ url }) {
             }
         });
         $(`#burger-btn`)[0].dispatchEvent(new Event(`click`, { bubbles: false, cancelable: false }));
+
+        $(`.cm-header .cm-header-logo-link`).off(`click`).on(`click`, function(e) {
+            stopBubbling(e);
+            navigate(`/`);
+        });
     };
 
     React.useEffect(function() {

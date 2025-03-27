@@ -13,6 +13,6 @@ export const Main = function() {
         Post(); // 메인 내용 모두 처리 후 가장 마지막에 실행을 해야하는데, 그걸 알 수 없음
     };
     Pre();
-    const _r = URL_CHANGE.PROCESS(location.pathname);
-    return <Layout url={_r.url} onLastLoad={onLastLoad}/>;
+    const url = URL_CHANGE.PROCESS(location.pathname);
+    return <Layout url={url} onLastLoad={onLastLoad}/>;
 };
