@@ -78,7 +78,7 @@ const preFileLoading = function() {
     };
 };
 
-export const INITIALIZE_APP = async function() {
+const INITIALIZE_APP = async function() {
     try {
         // 초기 데이터 로딩
         await import(`../utils/extensions/string`);
@@ -103,3 +103,5 @@ export const INITIALIZE_APP = async function() {
         return false;
     }
 };
+
+export { INITIALIZE_APP };

@@ -9,7 +9,7 @@ const event = {
     'index': function(params) {
         $(`.btn-add`).off(`click`).on(`click`, function(e) {
             stopBubbling(e);
-            params.navigate(`/organ/add`);
+            params.navigate(`/organ/add`, { state: { back: location.pathname } });
         });
 
         $(`.form-common-search-button`).off(`click`).on('click', function(e){

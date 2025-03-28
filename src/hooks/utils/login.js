@@ -26,7 +26,7 @@ export const useLogin = function() {
         if (isDone === true) {
             ////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////
-            navigate(`/${window.CONSTANTS.get(`APP.DEFAULT_URI`).CONTROLLER}`, { state: { from: location.pathname } });
+            navigate(`/${window.CONSTANTS.get(`APP.DEFAULT_URL`).CONTROLLER}`, { state: { back: location.pathname } });
         }
     }, [isDone]);
 

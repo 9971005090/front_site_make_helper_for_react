@@ -21,7 +21,7 @@ export const useLogout = function() {
 
     React.useEffect(function() {
         if (isAuthenticated === false && logoutState === true) {
-            navigate(`/login`);
+            navigate(`/login`, { state: { back: location.pathname } });
         }
         return function() {
             setLogoutState(false);

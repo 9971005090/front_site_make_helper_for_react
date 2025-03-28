@@ -6,7 +6,7 @@ import { CustomAlertAsync } from '../../components/modules/custom-alert-async/in
 const event = function(params) {
     $(`.btn-go-list`).off(`click`).on(`click`, function(){
         const okBtnCallback = function () {
-            params.navigate(`/${params.controllerName}/index`);
+            params.navigate(`/${params.controllerName}/index`, { state: { back: location.pathname } });
         };
         CustomAlertAsync.open({
             msg: `목록 화면으로 이동하시겠습니까?\n입력 하신 내용은 모두 삭제됩니다.`,
