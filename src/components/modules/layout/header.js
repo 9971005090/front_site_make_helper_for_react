@@ -9,7 +9,7 @@ import { CommonReturn } from "../../../components/utils/common-return";
 const Header = function({ url }) {
     const [Component, setComponent] = React.useState(null);
     const { loading, runLogout } = useLogout();
-    const location = useLocation();
+    // const location = useLocation();
     const navigate = useNavigate();
 
     const setAddEvent = function() {
@@ -28,7 +28,7 @@ const Header = function({ url }) {
             const _location = $(this).attr("data-location");
             const _callback = $(this).attr("data-callback");
             $("#wrap").removeAttr("style");
-            if (String.isNullOrWhitespace(location) === false) {
+            if (String.isNullOrWhitespace(_location) === false) {
                 if (`/${window.CONSTANTS.get(`NOW_CONTROLLER`)}/${window.CONSTANTS.get(`NOW_ACTION`)}` !== _location) {
                     navigate(_location.toString(), {state: {back: location.pathname}});
                     console.log(":::::header:::::", Date.getNow());
@@ -79,7 +79,7 @@ const Header = function({ url }) {
 
         $(`.cm-header .cm-header-logo-link`).off(`click`).on(`click`, function(e) {
             stopBubbling(e);
-            navigate(`/`);
+            navigate(`/`, { state: { back: location.pathname } });
         });
     };
 

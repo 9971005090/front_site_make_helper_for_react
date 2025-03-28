@@ -7,7 +7,7 @@ const APP = {
     'APP.INFO.DEBUG.USE': false,
     'APP.INFO.ON_PREMISE': false,
     'APP.API_BASE': `https://www.dev-api.seersthync.com/mobiCAREConsole/API`,
-    'APP.DEFAULT_URI': {
+    'APP.DEFAULT_URL': {
         'CONTROLLER': `organ`,
         'ACTION': 'index'
     }

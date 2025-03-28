@@ -65,7 +65,7 @@ const event = function(params) {
 
     $(`.button-update`).off(`click`).on(`click`, function(e) {
         stopBubbling(e);
-        params.navigate(`/organ/edit?code=${$(this).closest('.cm-tr').attr(`data-code`)}`);
+        params.navigate(`/organ/edit?code=${$(this).closest('.cm-tr').attr(`data-code`)}`, { state: { back: location.pathname } });
     });
 };
 

@@ -1,5 +1,5 @@
 const APP = {
-    'APP.VERSION.REAL': '0.0.16-20250220.1624',
+    'APP.VERSION.REAL': '0.0.17-20250221.1023',
     'APP.VERSION.VIEW': '1.0.0',
     'APP.IS_AUTH': true,
     'APP.THEME': `default`,
@@ -7,7 +7,7 @@ const APP = {
     'APP.INFO.DEBUG.USE': false,
     'APP.INFO.ON_PREMISE': false,
     'APP.API_BASE': `https://www.dev-api.seersthync.com/mobiCAREConsole/API`,
-    'APP.DEFAULT_URI': {
+    'APP.DEFAULT_URL': {
         'CONTROLLER': `organ`,
         'ACTION': 'index'
     },

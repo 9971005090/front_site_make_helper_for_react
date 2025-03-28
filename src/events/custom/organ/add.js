@@ -51,7 +51,7 @@ const event = function(params) {
                 if (_t.result === true) {
                     Notify(`top-center`, `등록이 완료됐습니다.`, `success`);
                     setTimeout(function() {
-                        params.navigate(`/organ/index`);
+                        params.navigate(`/organ/index`, { state: { back: location.pathname } });
                     }, 3000);
                 }
                 else {
