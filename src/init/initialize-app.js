@@ -1,6 +1,7 @@
 // src/utils/initialize-app.js
 import { GET_CONSTANTS } from "../constants/global-set-constants";
-import { APP } from "../constants/app-constants";
+import { APP as APP_CONSTANT } from "../constants/app-constants";
+import { USER as USER_CONSTANT } from "../constants/user-level";
 
 const showSiteLoadingLog = function(msg, textColor = `#0088FF`, backgroundColor = `#CADFF1`) {
     console.log(`%c:::::::::::::${msg}:::::::::::`, `color:${textColor}; background:${backgroundColor}`);
@@ -85,7 +86,10 @@ const INITIALIZE_APP = async function() {
         await import(`../utils/extensions/number`);
         await import(`../utils/extensions/date`);
         await import(`../utils/extensions/array`);
-        window.CONSTANTS = GET_CONSTANTS(APP);
+        window.CONSTANTS = GET_CONSTANTS(APP_CONSTANT);
+        window.CONSTANTS.set(`GLOBAL.USER_LEVEL`, USER_CONSTANT.LEVEL);
+        window.CONSTANTS.set(`GLOBAL.USER_LIMIT`, USER_CONSTANT.LIMIT);
+
         // const verString = String.generateRandom(7);
         // const options = {
         //     runType: "install",

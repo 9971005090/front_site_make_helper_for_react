@@ -5,9 +5,9 @@ import Cookies from "js-cookie";
 import { useSelector } from 'react-redux';
 import {format} from "date-fns";
 
-const cookieToken = Cookies.get("token");
+const cookieToken = Cookies.get("accessToken");
 const cookieId = Cookies.get("seers_id");
-const cookieUserInfo = cookieToken ? JSON.parse(Cookies.get("userInfo")) : null;
+const cookieUserInfo = cookieToken ? JSON.parse(Cookies.get(`userAccount`)) : null;
 const authSlice = createSlice({
     name: 'auth',
     initialState: {

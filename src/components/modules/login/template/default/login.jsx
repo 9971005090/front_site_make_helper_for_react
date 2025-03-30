@@ -3,10 +3,13 @@ import React from "react";
 
 export const Design = {
     index: function() {
-        return ({ onLastLoad }) => {
+        return ({ onLastLoad, onLoad }) => {
             React.useEffect(function() {
                 if (onLastLoad) {
                     onLastLoad();
+                }
+                if (onLoad) {
+                    onLoad();
                 }
             }, []);
             return (

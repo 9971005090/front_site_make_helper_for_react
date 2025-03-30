@@ -13,14 +13,14 @@ export const useAuth = function() {
 
     const login = (userData) => {
         dispatch(_login(userData));
-        Cookies.set("token", userData.accessToken);
+        Cookies.set("accessToken", userData.accessToken);
         Cookies.set("userInfo", JSON.stringify(userData.userAccount));
         COOKIE_AUTH.SET(userData);
     };
 
     const logout = function() {
         dispatch(_logout());
-        Cookies.remove('token');
+        Cookies.remove('accessToken');
         Cookies.remove('userInfo');
         COOKIE_AUTH.SET();
     };
