@@ -1,9 +1,9 @@
 
 import Cookies from "js-cookie";
 
-const cookieToken = Cookies.get("token") ? Cookies.get("token") : null;
+const cookieToken = Cookies.get("accessToken") ? Cookies.get("accessToken") : null;
 const cookieId = Cookies.get("seers_id") ? Cookies.get("seers_id") : null;
-const cookieUserInfo = cookieToken ? JSON.parse(Cookies.get("userInfo")) : null;
+const cookieUserInfo = cookieToken ? JSON.parse(Cookies.get("userAccount")) : null;
 const COOKIE_AUTH = {
     IS_AUTHENTICATED: cookieToken !== null && cookieUserInfo !== null ? true : false,
     GET: {
@@ -12,8 +12,6 @@ const COOKIE_AUTH = {
     },
     SET: function(userData = null) {
         if (userData !== null) {
-            Cookies.set("token", userData.accessToken);
-            Cookies.set("userInfo", JSON.stringify(userData.userAccount));
             this.IS_AUTHENTICATED = true;
         }
         else {

@@ -1,5 +1,5 @@
 import $ from "cash-dom";
-export const GET_CONSTANTS = function(initInfo) {
+const GET_CONSTANTS = function(initInfo) {
     const runGlobal = (function(initInfo) {
         const globalKeyPreFix = ['APP', 'GLOBAL', 'LANGUAGE'];
         const globalMergeKey = ['CONSTANTS', 'LANGUAGE'];
@@ -108,3 +108,5 @@ export const GET_CONSTANTS = function(initInfo) {
     }(initInfo));
     return runGlobal;
 };
+
+export { GET_CONSTANTS };
