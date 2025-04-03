@@ -1,22 +1,25 @@
-// src/controllers/login.js
+// src/components/modules/login/login.js
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import $ from "cash-dom";
+import { store } from "../../../redux/slice/store";
+import { _setIsDone } from "../../../redux/slice/first-load";
 import { useLogin } from "../../../hooks/utils/login";
-import { useAuth } from "../../../hooks/auth";
 import { formParser } from "../../../utils/form-parser";
 import { formCheck } from "../../../utils/form-check";
 import { isFormSubmit } from "../../../utils/form-submit-check";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { LOGIN_FAIL as LOGIN_FAIL_MESSAGE } from "./constants/login-fail-message";
 import { Notify } from '../../../utils/global-utils';
+import { FIRST_LOAD_DATA } from "../../../init/first-load-data";
 
 export const ModuleController = {
     index: function() {
         // 디자인 컴포넌트를 반환
         return ({ onLastLoad }) => {
-            const { isAuthenticated, cookieId } = useAuth();
-            const { loading, runLogin } = useLogin();
+            console.log(":::::module > login:::::", Date.getNow());
+            const cookieId = store.getState().auth._cookieId;
+            const { runLogin } = useLogin();
             const [Component, setComponent] = React.useState(null);
             const location = useLocation();
             const navigate = useNavigate();
@@ -35,7 +38,6 @@ export const ModuleController = {
                     if (formCheck(`#dataForm`) === true) {
                         isFormSubmit(`#dataForm`);
                         const _r = await runLogin(form);
-                        console.log("_r::::", _r);
                         if (_r.result === false) {
                             if (String.isNullOrWhitespace(_r.code) === false) {
                                 Notify(`top-center`, LOGIN_FAIL_MESSAGE.GET(_r.code), `error`);
@@ -43,7 +45,14 @@ export const ModuleController = {
                             isFormSubmit(`#dataForm`, `end`);
                         }
                         else {
-                            console.log("111111");
+
+                            // 기본 조회 코드 넣기
+                            ///////////////////////////////////////////////////////////////////////////////////////
+                            console.log("login - FIRST_LOAD_DATA");
+                            const _d = await FIRST_LOAD_DATA();
+                            store.dispatch(_setIsDone(_d));
+                            ///////////////////////////////////////////////////////////////////////////////////////
+
                             navigate(`/${window.CONSTANTS.get(`APP.DEFAULT_URL`).CONTROLLER}`, { state: { back: location.pathname } });
                         }
                     }

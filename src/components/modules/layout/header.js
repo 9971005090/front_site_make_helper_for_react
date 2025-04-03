@@ -7,6 +7,7 @@ import { stopBubbling } from "../../../utils/stop-bubbling";
 import { CommonReturn } from "../../../components/utils/common-return";
 
 const Header = function({ url }) {
+    console.log(":::::module > layout > Header:::::", Date.getNow());
     const [Component, setComponent] = React.useState(null);
     const { loading, runLogout } = useLogout();
     // const location = useLocation();
@@ -14,7 +15,6 @@ const Header = function({ url }) {
 
     const setAddEvent = function() {
         // setIsLoaded(true);
-        console.log("header onload::::", Date.getNow());
         $(`.logout-button`).off(`click`).on(`click`, function(e) {
             stopBubbling(e);
             runLogout();
@@ -31,7 +31,6 @@ const Header = function({ url }) {
             if (String.isNullOrWhitespace(_location) === false) {
                 if (`/${window.CONSTANTS.get(`NOW_CONTROLLER`)}/${window.CONSTANTS.get(`NOW_ACTION`)}` !== _location) {
                     navigate(_location.toString(), {state: {back: location.pathname}});
-                    console.log(":::::header:::::", Date.getNow());
                 }
             }
         });
@@ -39,7 +38,8 @@ const Header = function({ url }) {
         // 대메뉴의 선택 표시
         $(`.cm-header .cm-top-menu-ul .menu-list`).each(function(index, item) {
             let objInfoDatas = JSON.parse($(item).attr("data-info"));
-            if (objInfoDatas.datas.indexOf(window.CONSTANTS.get(`NOW_CONTROLLER`)) !== -1) {
+            // if (objInfoDatas.datas.indexOf(window.CONSTANTS.get(`NOW_CONTROLLER`)) !== -1) {
+            if (objInfoDatas.datas.indexOf(url.controller) !== -1) {
                 $(item).removeClass('selected').addClass('selected');
             }
             else {

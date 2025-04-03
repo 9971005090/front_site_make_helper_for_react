@@ -1,6 +1,14 @@
-// src/utils/initializeApp.js
-const fetchAppData = async function() {
+// src/init/first-load-data.js
+import { POST } from "../utils/axios-api";
 
+const fetchAppData = async function() {
+    const passingParams = {
+        pageNumber: 1,
+        count: 5
+    };
+    const response = await POST(`/Manager/SelectGatewayInfoPage`, passingParams, {});
+    console.log(`response:::`, response);
+    return response;
 };
 
 const FIRST_LOAD_DATA = async function() {

@@ -5,7 +5,7 @@ import { POST } from "../../utils/axios-api";
 import { useAuth } from "../auth";
 import { useFirstLoad } from "../first-load";
 import { ADD_PARAMS } from "../../utils/custom/add-params";
-import { SETTINGS } from '../../init/global-settings';
+// import { SETTINGS } from '../../init/global-settings';
 import { API } from '../../components/modules/login/constants/api.js';
 import { Notify } from "../../utils/global-utils";
 import { POST_CHECK as AUTH_POST_CHECK } from '../../init/auth/post-check';
@@ -19,7 +19,7 @@ export const useLogin = function() {
     const location = useLocation();
     const { isAuthenticated, login, setRemember, removeRemember } = useAuth();
     // const [ loading, setLoading ] = React.useState(false);
-    const { runFirstLoadData } = SETTINGS();
+    // const { runFirstLoadData } = SETTINGS();
     // const { isDone } = useFirstLoad();
 
     // React.useEffect(function() {
@@ -30,13 +30,13 @@ export const useLogin = function() {
     //     }
     // }, [isDone]);
 
-    React.useEffect(function() {
-        if (isAuthenticated === true) {
-            (async function() {
-                await runFirstLoadData();
-            })();
-        }
-    }, [isAuthenticated]);
+    // React.useEffect(function() {
+    //     if (isAuthenticated === true) {
+    //         (async function() {
+    //             await runFirstLoadData();
+    //         })();
+    //     }
+    // }, [isAuthenticated]);
 
     const runLogin = async function(form) {
         const parameter = {

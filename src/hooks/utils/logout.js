@@ -3,10 +3,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { POST } from "../../utils/axios-api";
 import { useAuth } from "../auth";
-import { useFirstLoad } from "../first-load";
+
+import { store } from "../../redux/slice/store";
+import { _setIsDone } from "../../redux/slice/first-load";
 import { API } from '../../components/modules/login/constants/api.js';
 import { ADD_PARAMS } from "../../utils/custom/add-params";
-import { format } from 'date-fns';
+
 
 // 로그인 후 처리해야 할 커스텀 훅 관련 import
 ////////////////////////////////////////////////////////////////////
@@ -16,7 +18,7 @@ export const useLogout = function() {
     const navigate = useNavigate();
     const { isAuthenticated, logout } = useAuth();
     const [ loading, setLoading ] = React.useState(false);
-    const { isDone, setIsDone } = useFirstLoad();
+
     const [logoutState, setLogoutState] = React.useState(false);
 
     React.useEffect(function() {
@@ -34,7 +36,7 @@ export const useLogout = function() {
         const response = await POST(API.LOGOUT, parameter, {});
         if (response.result === true) {
             logout();
-            setIsDone(false);
+            store.dispatch(_setIsDone(false));
             setLogoutState(true);
 
             // 로그아웃 후 처리해야 할 커스텀 훅 처리
