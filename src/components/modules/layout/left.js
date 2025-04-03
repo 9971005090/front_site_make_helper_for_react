@@ -7,6 +7,7 @@ import { stopBubbling } from "../../../utils/stop-bubbling";
 import { LEFT_MENU } from "../../../components/modules/layout/init/left-menu";
 
 const Left = function({ url }) {
+    console.log(":::::module > layout > Left:::::", Date.getNow());
     const navigate = useNavigate();
     const [Component, setComponent] = React.useState(null);
 

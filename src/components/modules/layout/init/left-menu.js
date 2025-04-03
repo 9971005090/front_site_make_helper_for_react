@@ -20,7 +20,7 @@ const _getLeftMenuData = function(controller) {
                     }
                 }
             ]
-        }
+        };
     }
     else if (controller === `account`) {
         return {
@@ -35,7 +35,7 @@ const _getLeftMenuData = function(controller) {
                     }
                 },
             ]
-        }
+        };
     }
     else if (controller === `organ`) {
         return {
@@ -50,7 +50,7 @@ const _getLeftMenuData = function(controller) {
                     }
                 },
             ]
-        }
+        };
     }
     else if (controller === `log`) {
         return {
@@ -65,7 +65,7 @@ const _getLeftMenuData = function(controller) {
                     }
                 },
             ]
-        }
+        };
     }
     else if (controller === `device`) {
         return {
@@ -80,7 +80,7 @@ const _getLeftMenuData = function(controller) {
                     }
                 }
             ]
-        }
+        };
     }
     else if (controller === `notice`) {
         return {
@@ -95,7 +95,7 @@ const _getLeftMenuData = function(controller) {
                     }
                 }
             ]
-        }
+        };
     }
     else if (controller === `statistics`) {
         return {
@@ -118,7 +118,7 @@ const _getLeftMenuData = function(controller) {
                     }
                 }
             ]
-        }
+        };
     }
     else if (controller === `sw-version`) {
         return {
@@ -133,7 +133,7 @@ const _getLeftMenuData = function(controller) {
                     }
                 }
             ]
-        }
+        };
     }
     return null;
 };

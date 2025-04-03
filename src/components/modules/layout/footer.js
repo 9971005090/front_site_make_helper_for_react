@@ -3,6 +3,7 @@ import React from "react";
 import { CommonReturn } from "../../../components/utils/common-return";
 
 const Footer = function({ url }) {
+    console.log(":::::module > layout > Footer:::::", Date.getNow());
     const [Component, setComponent] = React.useState(null);
 
     React.useEffect(function() {

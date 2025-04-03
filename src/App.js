@@ -4,12 +4,18 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Main } from './components/controllers/main';
 import { URL_CHANGE } from './utils/url-change/index';
 import { SITE_META } from "./constants/site-meta";
+import { POST_CHECK as AUTH_POST_CHECK } from './init/auth/post-check';
+import { PUSH_STATE as HISTORY_PUSH_STATE } from "./utils/history/index";
+import { store } from "./redux/slice/store";
 
 // css 부르기
 import './CssCustom';
 
 function App() {
     console.log(":::::App:::::", Date.getNow());
+    // 랜더링이 안되려면 직접 조회해서 사용해야한다.
+    const isAuthenticated = store.getState().auth._isAuthenticated;
+    const user = store.getState().auth._user;
     const updateMetaTag = function(name, content, isProperty = false) {
         const selector = isProperty === true ? `meta[property="${name}"]` : `meta[name="${name}"]`;
         const existingMeta = document.querySelector(selector);
@@ -51,6 +57,21 @@ function App() {
 
     const url = URL_CHANGE.PROCESS();
 
+    // post auth 검사
+    if (isAuthenticated === true) {
+        const _r = AUTH_POST_CHECK(user.level, {isUse: true, msg: null});
+        if (_r === `AUTH_FAIL`) {
+            url['controller'] = `login`;
+            url['action'] = null;
+            if (document.location.pathname.indexOf(`login`) === -1) {
+                url.change.path = `/${url['controller']}`;
+            }
+        }
+    }
+
+    if (String.isNullOrWhitespace(url.change.path) === false) {
+        HISTORY_PUSH_STATE(url.change.path);
+    }
     return (
         <Router>
             <Main url={url} />

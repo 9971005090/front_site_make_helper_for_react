@@ -15,8 +15,6 @@ const COOKIE_AUTH = {
             this.IS_AUTHENTICATED = true;
         }
         else {
-            Cookies.remove('token');
-            Cookies.remove('userInfo');
             this.IS_AUTHENTICATED = false;
         }
     }

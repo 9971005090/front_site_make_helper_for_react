@@ -1,6 +1,6 @@
 // src/components/controllers/index.js
 import React from "react";
-import { set as setMenuInfo } from "../../utils/custom/menuInfo";
+// import { set as setMenuInfo } from "../../utils/custom/menuInfo";
 import { CommonReturn } from "../../components/utils/common-return";
 
 const Controller = ({ url, onLastLoad }) => {
@@ -11,8 +11,8 @@ const Controller = ({ url, onLastLoad }) => {
     React.useEffect(function() {
         (async function() {
             try {
-                // 현재 메뉴 정보 세팅
-                setMenuInfo(url);
+                // // 현재 메뉴 정보 세팅
+                // setMenuInfo(url);
 
                 // 동적으로 컨트롤러 import
                 let { Controller } = await import(`./${url.controller}`);

@@ -3,7 +3,6 @@ import React from "react";
 import { FIRST_LOAD_DATA } from "./first-load-data";
 import { useAuth } from "../hooks/auth";
 import { useFirstLoad } from "../hooks/first-load";
-import {format} from "date-fns";
 
 const SETTINGS = function() {
     // const [layoutComponent, setLayoutComponent] = React.useState(null);
