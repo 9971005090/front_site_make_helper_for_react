@@ -6,7 +6,7 @@ import { URL_CHANGE } from './utils/url-change/index';
 import { SITE_META } from "./constants/site-meta";
 import { POST_CHECK as AUTH_POST_CHECK } from './init/auth/post-check';
 import { PUSH_STATE as HISTORY_PUSH_STATE } from "./utils/history/index";
-import { store } from "./redux/slice/store";
+import { useAuth as useAuthNoRender } from "./hooks/utils-no-render/auth";
 
 // css 부르기
 import './CssCustom';
@@ -14,8 +14,9 @@ import './CssCustom';
 function App() {
     console.log(":::::App:::::", Date.getNow());
     // 랜더링이 안되려면 직접 조회해서 사용해야한다.
-    const isAuthenticated = store.getState().auth._isAuthenticated;
-    const user = store.getState().auth._user;
+    // const isAuthenticated = store.getState().auth._isAuthenticated;
+    // const user = store.getState().auth._user;
+    const { isAuthenticated, user } = useAuthNoRender();
     const updateMetaTag = function(name, content, isProperty = false) {
         const selector = isProperty === true ? `meta[property="${name}"]` : `meta[name="${name}"]`;
         const existingMeta = document.querySelector(selector);

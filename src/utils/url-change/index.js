@@ -1,12 +1,11 @@
 // src/utils/url-change/index
 
-import { store } from "../../redux/slice/store";
-
+import { useAuth as useAuthNoRender } from "../../hooks/utils-no-render/auth";
 
 const URL_CHANGE = {
     PROCESS: function(location = null) {
         // 랜더링이 안되려면 직접 조회해서 사용해야한다.
-        const isAuthenticated = store.getState().auth._isAuthenticated;
+        const { isAuthenticated } = useAuthNoRender();
 
         const _connect_root = function() {
             if (document.location.pathname !== `/`) {
