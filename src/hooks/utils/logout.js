@@ -1,13 +1,10 @@
 // /src/hooks/utils/login.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { POST } from "../../utils/axios-api";
-import { useAuth } from "../auth";
-
-import { store } from "../../redux/slice/store";
-import { _setIsDone } from "../../redux/slice/first-load";
 import { API } from '../../components/modules/login/constants/api.js';
-import { ADD_PARAMS } from "../../utils/custom/add-params";
+import { useAuth as useAuthNoRender } from "../../hooks/utils-no-render/auth";
+import { useFirstLoad as useFirstLoadNoRender } from "../../hooks/utils-no-render/first-load";
+import { Notify } from "../../utils/global-utils";
 
 
 // 로그인 후 처리해야 할 커스텀 훅 관련 import
@@ -15,39 +12,24 @@ import { ADD_PARAMS } from "../../utils/custom/add-params";
 ////////////////////////////////////////////////////////////////////
 
 export const useLogout = function() {
-    const navigate = useNavigate();
-    const { isAuthenticated, logout } = useAuth();
-    const [ loading, setLoading ] = React.useState(false);
+    const { logout } = useAuthNoRender();
+    const { setIsDone } = useFirstLoadNoRender();
 
-    const [logoutState, setLogoutState] = React.useState(false);
-
-    React.useEffect(function() {
-        if (isAuthenticated === false && logoutState === true) {
-            navigate(`/login`, { state: { back: location.pathname } });
-        }
-        return function() {
-            setLogoutState(false);
-        };
-    }, [logoutState]);
-
-    const runLogout = async function() {
-        setLoading(true);
+    const runLogout = async function(isUse = false, message = `로그아웃에 실패했습니다. 잠시 후에 시도하세요.`) {
         const parameter = {};
         const response = await POST(API.LOGOUT, parameter, {});
         if (response.result === true) {
             logout();
-            store.dispatch(_setIsDone(false));
-            setLogoutState(true);
-
-            // 로그아웃 후 처리해야 할 커스텀 훅 처리
-            ////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////
+            setIsDone(false);
+            return true;
         }
         else {
-            alert(`로그아웃 실패`);
-            setLoading(false);
+            if (isUse === true) {
+                Notify(`top-center`, message, `error`);
+            }
+            return false;
         }
     };
 
-    return { loading, runLogout };
+    return { runLogout };
 };

@@ -9,15 +9,19 @@ import { CommonReturn } from "../../../components/utils/common-return";
 const Header = function({ url }) {
     console.log(":::::module > layout > Header:::::", Date.getNow());
     const [Component, setComponent] = React.useState(null);
-    const { loading, runLogout } = useLogout();
-    // const location = useLocation();
+    const { runLogout } = useLogout();
+    const location = useLocation();
     const navigate = useNavigate();
 
     const setAddEvent = function() {
-        // setIsLoaded(true);
-        $(`.logout-button`).off(`click`).on(`click`, function(e) {
+        $(`.logout-button`).off(`click`).on(`click`, async function(e) {
             stopBubbling(e);
-            runLogout();
+            const _r = await runLogout();
+            // if (_r === true) {
+            //     // first load 처리를 하는 부분의 상태 값이 변경되어, 자동으로 main이 리랜더링 되서, 굳이 이동할 필요가 없다.
+            //     // 만약 이부분이 없다면 이동이 필요하다.
+            //     // navigate(`/login`, { state: { back: location.pathname } });
+            // }
         });
 
         // 대메뉴의 링크 적용

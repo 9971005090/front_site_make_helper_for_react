@@ -2,7 +2,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import Cookies from "js-cookie";
 import { _selectIsAuthenticated, _selectUser, _selectToken, _selectCookieId, _login, _logout, _setRemember, _removeRemember } from '../redux/slice/auth';
-import { COOKIE_AUTH } from '../utils/cookie-auth/index';
 
 export const useAuth = function() {
     const isAuthenticated = useSelector(_selectIsAuthenticated);
@@ -15,17 +14,15 @@ export const useAuth = function() {
         dispatch(_login(userData));
         Cookies.set("accessToken", userData.accessToken);
         Cookies.set("userAccount", JSON.stringify(userData.userAccount));
-        COOKIE_AUTH.SET(userData);
     };
 
     const logout = function() {
         dispatch(_logout());
         Cookies.remove('accessToken');
         Cookies.remove('userAccount');
-        COOKIE_AUTH.SET();
     };
 
-    const setRemember = (remember) => {
+    const setRemember = function(remember) {
         dispatch(_setRemember(remember));
         Cookies.set("seers_id", remember.id, { expires: 365 * 100 });
     };
