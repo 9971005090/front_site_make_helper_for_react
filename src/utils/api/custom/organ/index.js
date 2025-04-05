@@ -1,7 +1,7 @@
 // src/utils/api/organ.js
-import { API } from "../../constants/api/organ";
-import { POST } from "../../utils/axios-api";
-import addParams from "../custom/addParams";
+import { API } from "../../../../constants/api/organ";
+import { POST } from "../../../../utils/axios-api";
+// import addParams from "../custom/addParams";
 
 export const UTIL = {
     // DATA_PARSING: function(data) {
@@ -93,30 +93,26 @@ export const UTIL = {
         const response = await POST(API.URL.INSERT, passingParams);
         return response;
     },
-    // UPDATE: function(addParams=null) {
-    //     const passingParams = {
-    //         requestUser : GBL.ACCOUNT.INFO.userCode,
-    //     }
-    //     if (addParams !== null) {
-    //         for (let key in addParams) {
-    //             passingParams[key] = addParams[key]
-    //         }
-    //     }
-    //     const response = POST(API.URL.UPDATE, passingParams);
-    //     return response;
-    // },
-    // UPDATE_EXPIRATION_LIST: function(addParams=null) {
-    //     const passingParams = {
-    //         requester : GBL.ACCOUNT.INFO.userCode,
-    //     }
-    //     if (addParams !== null) {
-    //         for (let key in addParams) {
-    //             passingParams[key] = addParams[key]
-    //         }
-    //     }
-    //     const response = POST(API.URL.UPDATE_EXPIRATION_LIST, passingParams);
-    //     return response;
-    // }
+    UPDATE: function(addParams=null) {
+        const passingParams = {};
+        if (addParams !== null) {
+            for (let key in addParams) {
+                passingParams[key] = addParams[key];
+            }
+        }
+        const response = POST(API.URL.UPDATE, passingParams);
+        return response;
+    },
+    UPDATE_EXPIRATION_LIST: async function(addParams=null) {
+        const passingParams = {};
+        if (addParams !== null) {
+            for (let key in addParams) {
+                passingParams[key] = addParams[key];
+            }
+        }
+        const response = await POST(API.URL.UPDATE_EXPIRATION_LIST, passingParams);
+        return response;
+    }
     // DELETE_ALERT: function(callbackFunction= null, param=null, callbackFunctionSearch = null, pathName=null, search='search', text="삭제"){
     //     const modalId = "customAlertPushDelete";
     //     const okBtnCallback = function () {

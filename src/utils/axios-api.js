@@ -27,9 +27,16 @@ const apiRequest = async function(method, url, data = null, params = null, heade
         config.headers['SX-Auth-Token'] = _token;
     }
     try {
-        const response = await axios(config);
-        return response.data; // 서버로부터 받은 데이터를 반환
-    } catch (error) {
+        // fake api 여부 확인
+        if (window.CONSTANTS.has(url) === true) {
+            return window.CONSTANTS.get(url);
+        }
+        else {
+            const response = await axios(config);
+            return response.data; // 서버로부터 받은 데이터를 반환
+        }
+    }
+    catch (error) {
         // 오류 발생 시 에러 메시지 반환
         const errorMessage = error.response
             ? `Error: ${error.response.status} - ${error.response.data.message || error.response.statusText}`
