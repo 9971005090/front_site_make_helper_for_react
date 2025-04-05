@@ -3,7 +3,7 @@ import $ from "cash-dom";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { Notify } from '../../../utils/global-utils';
 import { CustomAlertAsync } from '../../../components/modules/custom-alert-async/index';
-import { UTIL as ORGAN_UTIL } from "../../../utils/api/organ";
+import { UTIL as ORGAN_UTIL } from "../../../utils/api/custom/organ/index";
 
 const event = {
     'index': function(params) {

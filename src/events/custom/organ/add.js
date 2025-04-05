@@ -1,7 +1,7 @@
 // src/events/custom/organ/add.js
 import $ from "cash-dom";
 
-import { UTIL as ORGAN_UTIL } from "../../../utils/api/organ";
+import { UTIL as ORGAN_UTIL } from "../../../utils/api/custom/organ/index";
 import { Notify } from '../../../utils/global-utils';
 import { formParser } from "../../../utils/form-parser";
 import { formCheck } from "../../../utils/form-check";

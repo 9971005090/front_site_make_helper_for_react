@@ -4,7 +4,6 @@ import ReactDOM from "react-dom/client";
 
 import $ from "cash-dom";
 import { CommonReturn } from "../../../components/utils/common-return";
-import { UTIL as ORGAN_UTIL } from "../../../utils/api/organ";
 
 const CommonFetchAsync = (function() {
     let container = null;

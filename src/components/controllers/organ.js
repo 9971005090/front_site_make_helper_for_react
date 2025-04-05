@@ -4,12 +4,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import $ from "cash-dom";
 import { formParser } from "../../utils/form-parser";
 import { CommonReturn } from "../../components/utils/common-return";
-import { UTIL as ORGAN_UTIL } from "../../utils/api/organ";
+import { UTIL as ORGAN_UTIL } from "../../utils/api/custom/organ/index";
 import { Notify } from '../../utils/global-utils';
+
+import { RUN as ORGAN_FAKE_API_RUN } from "../../constants/fake-api/organ";
 
 const Controller = {
     index: function() {
         return function({ url, onLastLoad, paramIsFirst = true }) {
+            // ORGAN_FAKE_API_RUN();
             const location = useLocation();
             const queryParams = new URLSearchParams(location.search);
             const code = queryParams.get(`code`);

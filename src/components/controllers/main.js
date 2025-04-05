@@ -24,6 +24,8 @@ export const Main = function({ url }) {
     url = URL_CHANGE.PROCESS(location);
     if ((String.isNullOrWhitespace(url.change.path) === false && isDone === true) || url.controller === `login`) {
         HISTORY_PUSH_STATE(url.change.path);
+        // 자체 전역 변수 초기화
+        window.CONSTANTS.init();
     }
 
     // 현재 메뉴 정보 세팅
