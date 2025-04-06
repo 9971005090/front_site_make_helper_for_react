@@ -33,7 +33,7 @@ const Header = function({ url }) {
             const _callback = $(this).attr("data-callback");
             $("#wrap").removeAttr("style");
             if (String.isNullOrWhitespace(_location) === false) {
-                if (`/${window.CONSTANTS.get(`NOW_CONTROLLER`)}/${window.CONSTANTS.get(`NOW_ACTION`)}` !== _location) {
+                if (`/${url.controller}/${url.action}` !== _location) {
                     navigate(_location.toString(), {state: {back: location.pathname}});
                 }
             }

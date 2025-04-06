@@ -1,6 +1,7 @@
 // src/utils/initialize-app.js
 import { GET_CONSTANTS } from "../constants/global-set-constants";
-import { APP as APP_CONSTANT } from "../constants/app-constants";
+import { COMMON_RESPONSE_CODE as COMMON_RESPONSE_CODE_CONSTANT } from "../constants/common-response-code";
+import { APP as APP_CONSTANT } from "../constants/app";
 import { USER as USER_CONSTANT } from "../constants/user-level";
 
 const showSiteLoadingLog = function(msg, textColor = `#0088FF`, backgroundColor = `#CADFF1`) {
@@ -89,6 +90,7 @@ const INITIALIZE_APP = async function() {
         window.CONSTANTS = GET_CONSTANTS(APP_CONSTANT);
         window.CONSTANTS.set(`GLOBAL.USER_LEVEL`, USER_CONSTANT.LEVEL);
         window.CONSTANTS.set(`GLOBAL.USER_LIMIT`, USER_CONSTANT.LIMIT);
+        window.CONSTANTS.set(`GLOBAL.RESPONSE_CODE`, COMMON_RESPONSE_CODE_CONSTANT);
 
         // const verString = String.generateRandom(7);
         // const options = {

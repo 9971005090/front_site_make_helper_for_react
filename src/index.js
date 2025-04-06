@@ -1,15 +1,17 @@
 // src/index.js
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import { Provider } from "react-redux";
+
 import { store } from "./redux/slice/store";
-import { format } from 'date-fns';
-// import { SETTINGS } from './init/global-settings';
+
+import App from "./App";
+
 import { INITIALIZE_APP } from './init/initialize-app';
 import { LoadingDonut } from "./components/utils/loading-donut";
-import { APP as APP_CONSTANTS } from "./constants/app-constants";
+import { APP as APP_CONSTANTS } from "./constants/app";
 
+import { format } from 'date-fns';
 import './Css';
 
 const Root = function() {

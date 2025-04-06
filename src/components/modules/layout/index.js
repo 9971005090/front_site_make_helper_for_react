@@ -43,6 +43,7 @@ export const Layout = function({ url, onLastLoad }) {
     React.useEffect(function() {
         (async function() {
             const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/layout`);
+            console.log(":::::Layout import:::::", Date.getNow());
             setComponent(Design.index);
         })();
     }, [url]);

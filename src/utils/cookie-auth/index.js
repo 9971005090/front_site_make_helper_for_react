@@ -2,6 +2,7 @@
 import Cookies from "js-cookie";
 
 const cookieToken = Cookies.get("accessToken") ? Cookies.get("accessToken") : null;
+console.log("cookieToken:::::", cookieToken);
 const cookieId = Cookies.get("seers_id") ? Cookies.get("seers_id") : null;
 const cookieUserInfo = cookieToken ? JSON.parse(Cookies.get("userAccount")) : null;
 const COOKIE_AUTH = {

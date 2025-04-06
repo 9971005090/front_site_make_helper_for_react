@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Main } from './components/controllers/main';
 import { URL_CHANGE } from './utils/url-change/index';
-import { SITE_META } from "./constants/site-meta";
+import { SITE_META as SITE_META_CONSTANT } from "./constants/site-meta";
 import { POST_CHECK as AUTH_POST_CHECK } from './init/auth/post-check';
 import { PUSH_STATE as HISTORY_PUSH_STATE } from "./utils/history/index";
 import { useAuth as useAuthNoRender } from "./hooks/utils-no-render/auth";
@@ -36,25 +36,25 @@ function App() {
         }
     };
 
-    document.title = SITE_META.NAME;
+    document.title = SITE_META_CONSTANT.NAME;
     
-    updateMetaTag(`name`, SITE_META.NAME);
-    updateMetaTag(`type`, SITE_META.TYPE);
-    updateMetaTag(`title`, SITE_META.TITLE);
-    updateMetaTag(`description`, SITE_META.DESCRIPTION);
-    updateMetaTag(`keywords`, SITE_META.KEYWORDS);
-    updateMetaTag(`author`, SITE_META.AUTHOR);
+    updateMetaTag(`name`, SITE_META_CONSTANT.NAME);
+    updateMetaTag(`type`, SITE_META_CONSTANT.TYPE);
+    updateMetaTag(`title`, SITE_META_CONSTANT.TITLE);
+    updateMetaTag(`description`, SITE_META_CONSTANT.DESCRIPTION);
+    updateMetaTag(`keywords`, SITE_META_CONSTANT.KEYWORDS);
+    updateMetaTag(`author`, SITE_META_CONSTANT.AUTHOR);
 
-    updateMetaTag(`og:name`, SITE_META.NAME, true);
-    updateMetaTag(`og:type`, SITE_META.TYPE, true);
-    updateMetaTag(`og:title`, SITE_META.TITLE, true);
-    updateMetaTag(`og:description`, SITE_META.DESCRIPTION, true);
-    updateMetaTag(`og:keywords`, SITE_META.KEYWORDS, true);
-    updateMetaTag(`og:author`, SITE_META.AUTHOR, true);
-    updateMetaTag(`og:image`, SITE_META.IMAGE, true);
-    updateMetaTag(`og:image:width`, SITE_META.IMAGE_WIDTH, true);
-    updateMetaTag(`og:image:height`, SITE_META.IMAGE_HEIGHT, true);
-    updateMetaTag(`og:url`, SITE_META.URL, true);
+    updateMetaTag(`og:name`, SITE_META_CONSTANT.NAME, true);
+    updateMetaTag(`og:type`, SITE_META_CONSTANT.TYPE, true);
+    updateMetaTag(`og:title`, SITE_META_CONSTANT.TITLE, true);
+    updateMetaTag(`og:description`, SITE_META_CONSTANT.DESCRIPTION, true);
+    updateMetaTag(`og:keywords`, SITE_META_CONSTANT.KEYWORDS, true);
+    updateMetaTag(`og:author`, SITE_META_CONSTANT.AUTHOR, true);
+    updateMetaTag(`og:image`, SITE_META_CONSTANT.IMAGE, true);
+    updateMetaTag(`og:image:width`, SITE_META_CONSTANT.IMAGE_WIDTH, true);
+    updateMetaTag(`og:image:height`, SITE_META_CONSTANT.IMAGE_HEIGHT, true);
+    updateMetaTag(`og:url`, SITE_META_CONSTANT.URL, true);
 
     const url = URL_CHANGE.PROCESS();
 
