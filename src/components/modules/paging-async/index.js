@@ -1,6 +1,7 @@
 // src/components/modules/paging2/index.js
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { subscribeToRouteChange } from "../../../hooks/route-change";
 import $ from "cash-dom";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { CommonReturn } from "../../../components/utils/common-return";
@@ -55,6 +56,9 @@ const PagingAsync = (function() {
         }
 
         const setAddEvent = function() {
+            // ✅ URL 변경 감지 구독
+            subscribeToRouteChange(handleRouteChange);
+
             $(`.page-item`).off(`click`).on(`click`, function(e) {
                 stopBubbling(e);
                 const item = $(this);
@@ -128,8 +132,20 @@ const PagingAsync = (function() {
             }
         }
         root.render(
-            <PagingComponent searchFunc={searchFunc} totalCount={totalCount} currentPage={currentPage} now={now} itemsPerPage={itemsPerPage} pagesPerPage={pagesPerPage} />
+            <PagingComponent searchFunc={searchFunc} totalCount={totalCount} currentPage={currentPage} now={now} itemsPerPage={itemsPerPage} pagesPerPage={pagesPerPage} onUnmount={handleRouteChange} />
         );
+    };
+
+    const handleRouteChange = function() {
+        console.log("handleRouteChange:::::: 실행됨");
+        if (root !== null) {
+            root.unmount();  // unmount 호출
+            root = null;      // root 초기화
+        }
+        if (container !== null) {
+            container.remove();  // DOM 요소 제거
+            container = null;    // container 초기화
+        }
     };
 
     // const close = function() {

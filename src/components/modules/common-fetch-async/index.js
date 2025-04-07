@@ -1,6 +1,7 @@
 // src/components/modules/common-fetch-async/index.js
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { subscribeToRouteChange } from "../../../hooks/route-change";
 
 import $ from "cash-dom";
 import { CommonReturn } from "../../../components/utils/common-return";
@@ -12,6 +13,9 @@ const CommonFetchAsync = (function() {
         const [Component, setComponent] = React.useState(null);
 
         const setAddEvent = async function() {
+            // ✅ URL 변경 감지 구독
+            subscribeToRouteChange(handleRouteChange);
+
             ////////////////////////////////////////////////////////////////////
             // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
             (await import(`./events/${window.CONSTANTS.get(`APP.THEME`)}/index`)).event({
@@ -58,6 +62,18 @@ const CommonFetchAsync = (function() {
     //     // }
     //
     // };
+
+    const handleRouteChange = function() {
+        console.log("handleRouteChange:::::: 실행됨");
+        if (root !== null) {
+            root.unmount();  // unmount 호출
+            root = null;      // root 초기화
+        }
+        if (container !== null) {
+            container.remove();  // DOM 요소 제거
+            container = null;    // container 초기화
+        }
+    };
 
     return {
         run: run,

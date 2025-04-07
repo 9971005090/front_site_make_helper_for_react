@@ -10,14 +10,18 @@ const Notify = async function(position = `top-center`, message = `성공 메시�
     const containerId = `toast-container`;
 
     // ToastContainer가 없으면 DOM에 추가
-    if (!document.getElementById(containerId)) {
-        const container = document.createElement("div");
-        container.id = containerId;
-        document.body.appendChild(container);
-        container.innerHTML = `<div id="toast-root"></div>`;
+    // const container = $(`<div>`).attr(`id`, `site-rendering`);
+    // const root = ReactDOM.createRoot(container[0]);
+
+    if ($(`#${containerId}`).length <= 0) {
+        const container = $(`<div>`).attr(`id`, containerId);
+        // container.id = containerId;
+        $(`body`).append(container[0]);
+        container.html(`<div id="toast-root"></div>`);
 
         import("react-dom").then(function() {
-            ReactDOM.createRoot(document.getElementById("toast-root")).render(
+            const ReactRoot = ReactDOM.createRoot($(`#toast-root`)[0]);
+            ReactRoot.render(
                 <ToastContainer
                     position={position} //"top-left", "top-right", "top-center", "bottom-left", "bottom-right", "bottom-center"
                     autoClose={3000}
@@ -33,6 +37,7 @@ const Notify = async function(position = `top-center`, message = `성공 메시�
                         // 토스트가 모두 사라지면 DOM 제거
                         if (document.getElementsByClassName("Toastify__toast").length === 1) {
                             document.getElementById("toast-root")?.remove();
+                            ReactRoot.unmount();
                             container.remove();
                         }
                         if (callback !== null) {
