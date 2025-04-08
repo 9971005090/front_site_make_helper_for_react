@@ -7,13 +7,11 @@ export const Design = {
         return ( { paramFetchData, now, onLoad } ) => {
             let organizationList = null;
             if (now) {
-                console.log("now:::", Date.getNow());
                 organizationList = paramFetchData.organizationList;
             }
             React.useEffect(function() {
                 if (onLoad) {
                     onLoad();
-                    console.log(":::::common fetch async - organ:::::", Date.getNow());
                 }
             }, [now]);
             return (

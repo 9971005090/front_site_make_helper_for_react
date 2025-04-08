@@ -12,6 +12,7 @@ import { RUN as ORGAN_FAKE_API_RUN } from "../../constants/fake-api/organ";
 const Controller = {
     index: function() {
         return function({ url, onLastLoad, paramIsFirst = true }) {
+            console.log(":::::Controller start - organ:::::", Date.getNow(), url.controller);
             // ORGAN_FAKE_API_RUN();
             const location = useLocation();
             const queryParams = new URLSearchParams(location.search);
