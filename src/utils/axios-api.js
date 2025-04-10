@@ -41,7 +41,7 @@ const apiRequest = async function(method, url, data = null, params = null, heade
             if (response.data.result === false) {
                 // session_closed 처리
                 if (etc.isSessionClosedControlled === true) {
-                    if (window.CONSTANTS.get(`GLOBAL.RESPONSE_CODE`).SESSION_CLOSED === response.data.error) {
+                    if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED === response.data.error) {
                         await logout();
                         await setIsDone(false);
                         await silentNavigate(`/${window.CONSTANTS.get(`APP.LOGIN_URL`).CONTROLLER}`, { state: { back: location.pathname } });

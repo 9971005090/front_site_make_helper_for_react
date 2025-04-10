@@ -6,10 +6,10 @@ const POST_CHECK = function(userLevel, error = {isUse: false, msg: null}) {
 
     // 아래 영역에 코드 작성
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-    if (window.CONSTANTS.get(`GLOBAL.USER_LIMIT`).LEVEL.indexOf(userLevel) === -1) {
+    if (window.CONSTANTS.get(`APP.USER_LIMIT`).LEVEL.indexOf(userLevel) === -1) {
         response = `AUTH_FAIL`;
         if (error.isUse === true) {
-            error.msg = error.msg === null ? window.CONSTANTS.get(`GLOBAL.USER_LIMIT`).MESSAGE : error.msg;
+            error.msg = error.msg === null ? window.CONSTANTS.get(`APP.USER_LIMIT`).MESSAGE : error.msg;
             Notify(`top-center`, error.msg, `error`);
         }
     }

@@ -1,8 +1,9 @@
 // src/utils/initialize-app.js
 import { GET_CONSTANTS } from "../constants/global-set-constants";
-import { COMMON_RESPONSE_CODE as COMMON_RESPONSE_CODE_CONSTANT } from "../constants/common-response-code";
 import { APP as APP_CONSTANT } from "../constants/app";
 import { USER as USER_CONSTANT } from "../constants/user-level";
+import { COMMON_RESPONSE_CODE as COMMON_RESPONSE_CODE_CONSTANT } from "../constants/common-response-code";
+import { SET as SITE_ENVIRONMENT_FOR_SET } from "../utils/environment/index";
 
 const showSiteLoadingLog = function(msg, textColor = `#0088FF`, backgroundColor = `#CADFF1`) {
     console.log(`%c:::::::::::::${msg}:::::::::::`, `color:${textColor}; background:${backgroundColor}`);
@@ -88,23 +89,12 @@ const INITIALIZE_APP = async function() {
         await import(`../utils/extensions/date`);
         await import(`../utils/extensions/array`);
         window.CONSTANTS = GET_CONSTANTS(APP_CONSTANT);
-        window.CONSTANTS.set(`GLOBAL.USER_LEVEL`, USER_CONSTANT.LEVEL);
-        window.CONSTANTS.set(`GLOBAL.USER_LIMIT`, USER_CONSTANT.LIMIT);
-        window.CONSTANTS.set(`GLOBAL.RESPONSE_CODE`, COMMON_RESPONSE_CODE_CONSTANT);
-
-        // const verString = String.generateRandom(7);
-        // const options = {
-        //     runType: "install",
-        //     files: [
-        //         `/utils/global-utils.js?ver=${window.CONSTANTS.get(`APP.VERSION.REAL`)}`
-        //     ],
-        //     errorAfterType: "stop"
-        // };
-        //
-        // let fileLoading = new preFileLoading();
-        // fileLoading.setInit(options);
-        // fileLoading.run();
-    } catch (error) {
+        window.CONSTANTS.set(`APP.USER_LEVEL`, USER_CONSTANT.LEVEL);
+        window.CONSTANTS.set(`APP.USER_LIMIT`, USER_CONSTANT.LIMIT);
+        window.CONSTANTS.set(`APP.API.RESPONSE_CODE`, COMMON_RESPONSE_CODE_CONSTANT);
+        SITE_ENVIRONMENT_FOR_SET();
+    }
+    catch (error) {
         console.error('앱 초기화 실패:', error);
         return false;
     }

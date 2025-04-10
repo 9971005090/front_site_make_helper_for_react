@@ -1,3 +1,5 @@
+// src/constants/global-set-constants.js
+
 import $ from "cash-dom";
 const GET_CONSTANTS = function(initInfo) {
     const runGlobal = (function(initInfo) {

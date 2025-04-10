@@ -1,3 +1,4 @@
+// src/constants/site-meta.js
 
 const SITE_META = {
     NAME: `THYNC MANAGER`,

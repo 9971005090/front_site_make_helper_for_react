@@ -21,6 +21,7 @@ export const useLogout = function() {
         if (response.result === true) {
             logout();
             setIsDone(false);
+            window.CONSTANTS.allDeleteIgnoreApp();
             return true;
         }
         else {

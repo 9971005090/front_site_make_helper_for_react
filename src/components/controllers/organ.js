@@ -71,7 +71,7 @@ const Controller = {
                     fetchDataState.current = `ready`;
                     isFirst.current = false;
                 }
-                else if (window.CONSTANTS.get(`GLOBAL.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
+                else if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
                     Notify(`top-center`, `데이타 조회 실패`, `error`);
                     fetchDataState.current = `ready`;
                 }

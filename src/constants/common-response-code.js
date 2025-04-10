@@ -1,3 +1,4 @@
+// src/constants/common-response-code.js
 
 const COMMON_RESPONSE_CODE = {
     'SUCCESS': 0x0000,
