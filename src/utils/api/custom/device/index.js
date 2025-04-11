@@ -1,5 +1,5 @@
 // src/utils/api/organ.js
-import { API } from "../../../../constants/organ/api";
+import { API } from "../../../../constants/device/api";
 import { POST } from "../../../../utils/axios-api";
 // import addParams from "../custom/addParams";
 
@@ -10,16 +10,18 @@ export const UTIL = {
     //     data.parsingExpiration = ORGAN_CONST.EXPIRATION_TYPE.TITLE[data.expiration];
     //     return data;
     // },
-    LIST: async function(addParams = null) {
-        const passingParams = {};
-        if (addParams !== null) {
-            for (let key in addParams) {
-                passingParams[key] = addParams[key];
-            }
-        }
-        const response = await POST(API.URL.SELECT_LIST, passingParams);
-        return response;
-    },
+    // LIST: function(addParams = null) {
+    //     const passingParams = {
+    //         requester : GBL.ACCOUNT.INFO.userCode,
+    //     }
+    //     if (addParams !== null) {
+    //         for (let key in addParams) {
+    //             passingParams[key] = addParams[key]
+    //         }
+    //     }
+    //     const response = POST(API.URL.SELECT_LIST, passingParams);
+    //     return response;
+    // },
     PAGE: async function(addParams = null) {
         const passingParams = {
             "count": 100,
