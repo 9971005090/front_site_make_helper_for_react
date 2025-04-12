@@ -1,6 +1,6 @@
 // src/designs/content/commonFetch.js
 import React from "react";
-import { parsingSyncHis, parsingDeviceManagerType } from "../../../../../helpers/parsing-organ";
+import { parsingSyncHis, parsingDeviceManagerType } from "../../../../../helpers/custom/organ/index";
 
 export const Design = {
     index: function() {

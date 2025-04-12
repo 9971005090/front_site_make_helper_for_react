@@ -19,7 +19,7 @@ const CommonFetchAsync = (function() {
 
             ////////////////////////////////////////////////////////////////////
             // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
-            (await import(`./events/${window.CONSTANTS.get(`APP.THEME`)}/index`)).event({
+            (await import(`./events/${window.CONSTANTS.get(`APP.THEME`)}/${paramType}`)).event({
                 search: search,
                 currentPage: currentPage.current,
                 navigate: navigate

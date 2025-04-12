@@ -1,6 +1,6 @@
 // src/designs/content/commonFetch.js
 import React from "react";
-import { parsingSyncHis, parsingDeviceManagerType } from "../../../../../helpers/parsing-organ";
+import { parsingForTotalUseTime } from "../../../../../helpers/custom/device/index";
 
 export const Design = {
     index: function() {
@@ -31,9 +31,11 @@ export const Design = {
                             </div>
                             <div className="cm-td">
                                 <span className="pc-d-none">기관</span>
+                                {item.parsingOrganization}
                             </div>
                             <div className="cm-td">
                                 <span className="pc-d-none">종류</span>
+                                {item.parsingType}
                             </div>
                             <div className="cm-td">
                                 <span className="pc-d-none">시리얼번호</span>
@@ -45,6 +47,7 @@ export const Design = {
                             </div>
                             <div className="cm-td">
                                 <span className="pc-d-none">전체사용시간/ 전체사용횟수</span>
+                                { parsingForTotalUseTime(item.totalUseTime) }/ {item.totalUseCount}
                             </div>
                             <div className="cm-td">
                                 <span className="pc-d-none">등록시간</span>

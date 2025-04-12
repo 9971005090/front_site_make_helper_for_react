@@ -2,7 +2,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import $ from "cash-dom";
-import { formParser } from "../../utils/form-parser";
+import { formSearchParser } from "../../utils/form-search-parser";
 import { CommonReturn } from "../../components/utils/common-return";
 import { UTIL as DEVICE_UTIL } from "../../utils/api/custom/device/index";
 import { UTIL as ORGAN_UTIL } from "../../utils/api/custom/organ/index";
@@ -109,16 +109,18 @@ const Controller = {
 
                 // setPage는 실시간으로 이용하고, 랜더링을 다시 하기 위해서는 useState를 사용한다. 불편하네.
                 currentPage.current = setPage;
-                const form = formParser(`.form-common-search`);
-                const parameter = {
-                    'search': form['search'],
-                    'pageNumber': currentPage.current,
-                    'count': itemsPerPage.current,
-                    'expiration': form['expiration'],
-                };
+                const form = formSearchParser(`.form-common-search`);
+                console.log("form::::", form);
+                form.pageNumber = currentPage.current;
+                form.count = itemsPerPage.current;
                 fetchDataState.current = `searching`;
-                const response = await DEVICE_UTIL.PAGE(parameter);
+                const response = await DEVICE_UTIL.PAGE(form);
                 if (response.result === true) {
+                    if (response.deviceRegisterList !== null) {
+                        for (let i = 0; i < response.deviceRegisterList.length; i++) {
+                            response.deviceRegisterList[i] = DEVICE_UTIL.DATA_PARSING(response.deviceRegisterList[i]);
+                        }
+                    }
                     CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, controller, Date.getNow(), isFirst.current, navigate);
                     PagingAsync.run(`#pagination`, search, response.totalCount, currentPage.current, Date.getNow(), isFirst.current);
                     fetchDataState.current = `ready`;
@@ -136,8 +138,6 @@ const Controller = {
                     try {
                         // 스타일 추가
                         ////////////////////////////////////////////////////////////////////
-
-                        const { PagingAsync } = await import(`../../components/modules/paging-async/index`);
 
                         ////////////////////////////////////////////////////////////////////
                         const _t = await ORGAN_UTIL.LIST();

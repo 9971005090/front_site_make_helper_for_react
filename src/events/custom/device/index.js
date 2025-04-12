@@ -1,4 +1,4 @@
-// src/events/custom/organ/index.js
+// src/events/custom/device/index.js
 import $ from "cash-dom";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { Notify } from '../../../utils/global-utils';

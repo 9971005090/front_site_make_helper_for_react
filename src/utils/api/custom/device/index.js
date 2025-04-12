@@ -1,15 +1,18 @@
 // src/utils/api/organ.js
 import { API } from "../../../../constants/device/api";
 import { POST } from "../../../../utils/axios-api";
+import { CONST as DEVICE_CONST } from "../../../../constants/device/constant";
 // import addParams from "../custom/addParams";
 
 export const UTIL = {
-    // DATA_PARSING: function(data) {
-    //     data.parsingSyncHis = ORGAN_CONST.SYNC_HIS.TITLE[data.syncHis];
-    //     data.parsingDeviceManagerType = ORGAN_CONST.DEVICE_MANAGER_TYPE.TITLE[data.deviceManagerType];
-    //     data.parsingExpiration = ORGAN_CONST.EXPIRATION_TYPE.TITLE[data.expiration];
-    //     return data;
-    // },
+    DATA_PARSING: function(data) {
+        const _p = window.CONSTANTS.get(`PARSING_ORGANIZATIONS`);
+        data.parsingType = DEVICE_CONST.TYPE.TITLE[data.deviceType];
+        if (_p !== null) {
+            data.parsingOrganization = Object.prototype.hasOwnProperty.call(_p, data.organizationCode) === true ? _p[data.organizationCode] : data.organizationCode;
+        }
+        return data;
+    },
     // LIST: function(addParams = null) {
     //     const passingParams = {
     //         requester : GBL.ACCOUNT.INFO.userCode,

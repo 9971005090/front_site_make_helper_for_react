@@ -48,6 +48,7 @@ export const Design = {
                                                 className="radio-input use-option"
                                                 value={key}
                                                 defaultChecked={Number(key) === 0}
+                                                data-not-parsing-value="0"
                                             />
                                             <label htmlFor={`device-type${key}`} className="span">{value}</label>
                                         </div>
