@@ -2,7 +2,7 @@ import $ from "cash-dom";
 import { format } from 'date-fns';
 import { stopBubbling } from "../../../../../utils/stop-bubbling";
 import { CustomAlertAsync } from '../../../../../components/modules/custom-alert-async/index';
-import {UTIL as ORGAN_UTIL} from "../../../../../utils/api/custom/organ/index";
+import { UTIL as DEVICE_UTIL } from "../../../../../utils/api/custom/device/index";
 import { Notify } from "../../../../../utils/global-utils";
 
 const event = function(params) {
@@ -10,22 +10,16 @@ const event = function(params) {
     $(`.btn-delete`).off(`click`).on(`click`, async function(e) {
         stopBubbling(e);
         const update = {
-            buttonTitle: `비활성화`,
+            buttonTitle: `삭제`,
             params: {
-                'organizationCodeList': [$(this).parents('.cm-tr').attr('data-code')],
-                'expiration': 1
+                'serialNumber': $(this).parents('.cm-tr').attr(`data-serial-number`),
             },
-            title: `정말 활성화 하시겠습니까?`
+            title: `정말 삭제 하시겠습니까?`
         };
-        if (Number($(`.radio-input[name="expiration"]:checked`).val()) === 1) {
-            update.buttonTitle = `활성화`;
-            update.params.expiration = 0;
-            update.title = `정말 활성화 하시겠습니까?`;
-        }
 
         // custom-alert 종료는 해당 모듈에서 추가로 주입하는것으로
         const okBtnCallback = async function() {
-            const response = await ORGAN_UTIL.UPDATE_EXPIRATION_LIST(update.params);
+            const response = await DEVICE_UTIL.DELETE(update.params.serialNumber);
             if (response.result === true) {
                 Notify(`top-center`, `정상적으로 ${update.buttonTitle}됐습니다.`, `success`);
             }
@@ -34,28 +28,23 @@ const event = function(params) {
             }
             params.search(params.currentPage);
         };
-        if (update.params.organizationCodeList.length > 0) {
-            CustomAlertAsync.open({
-                msg: `정말 ${update.buttonTitle} 하시겠습니까?`,
-                isBackgroundClickForClose: false,
-                button: {
-                    ok : {
-                        callback :[{ name: okBtnCallback, params: [] }]
-                    },
-                    del: {
-                        isUse: false
-                    }
+        CustomAlertAsync.open({
+            msg: `정말 ${update.buttonTitle} 하시겠습니까?`,
+            isBackgroundClickForClose: false,
+            button: {
+                ok : {
+                    callback :[{ name: okBtnCallback, params: [] }]
+                },
+                del: {
+                    isUse: false
                 }
-            });
-        }
-        else {
-            Notify(`top-center`, `${update.buttonTitle} 하려는 데이타를 선택하세요!`, `error`);
-        }
+            }
+        });
     });
 
     $(`.button-update`).off(`click`).on(`click`, function(e) {
         stopBubbling(e);
-        params.navigate(`/organ/edit?code=${$(this).closest('.cm-tr').attr(`data-code`)}`, { state: { back: location.pathname } });
+        params.navigate(`/device/edit?code=${$(this).closest('.cm-tr').attr(`data-code`)}`, { state: { back: location.pathname } });
     });
 
     $(`#contents-by-data-table .input[type="checkbox"]`).off(`click`).on(`click`, function(e) {

@@ -105,49 +105,21 @@ export const UTIL = {
         const response = POST(API.URL.UPDATE, passingParams);
         return response;
     },
-    UPDATE_EXPIRATION_LIST: async function(addParams=null) {
-        const passingParams = {};
+    DELETE_ALL: async function(params = null) {
+        if (params === null) {
+            return false;
+        }
+        const passingParams = UTIL._GET_ADD_PARAMS({}, params);
+        console.log("passingParams:::", passingParams);
+        const response = await POST(API.URL.DELETE_ALL, passingParams);
+        return response;
+    },
+    _GET_ADD_PARAMS: function(params, addParams) {
         if (addParams !== null) {
             for (let key in addParams) {
-                passingParams[key] = addParams[key];
+                params[key] = addParams[key];
             }
         }
-        const response = await POST(API.URL.UPDATE_EXPIRATION_LIST, passingParams);
-        return response;
-    }
-    // DELETE_ALERT: function(callbackFunction= null, param=null, callbackFunctionSearch = null, pathName=null, search='search', text="삭제"){
-    //     const modalId = "customAlertPushDelete";
-    //     const okBtnCallback = function () {
-    //         const response = callbackFunction(param);
-    //         if (response.result === true) {
-    //             custom.etc.customToastForColor(`정상적으로 ${text}됐습니다.`);
-    //         }
-    //         else {
-    //             custom.etc.customToastForColor(`${text}에 실패했습니다. 잠시 후 다시 시도하세요.`, `bgRed`);
-    //         }
-    //         modal.globalClose(modalId);
-    //         callbackFunctionSearch(search, pathName);
-    //     }
-    //
-    //     const cancelBtnCallback = function () {
-    //         modal.globalClose(modalId);
-    //     }
-    //     let initParameter = {
-    //         msg: `<p class="customAlertText">정말 ${text} 하시겠습니까?</p>`,
-    //         id: modalId,
-    //         isBackgroundClickForClose: false,
-    //         button: {
-    //             cancel: {
-    //                 callback :[{ name: cancelBtnCallback, params: [] }]
-    //             },
-    //             ok : {
-    //                 callback :[{ name: okBtnCallback, params: [] }]
-    //             },
-    //             del: {
-    //                 isUse: false
-    //             }
-    //         }
-    //     }
-    //     Seers.Loader.moduleLoad("custom-alert", "index", initParameter);
-    // },
+        return params;
+    },
 };

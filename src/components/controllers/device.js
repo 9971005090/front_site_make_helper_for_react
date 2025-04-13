@@ -117,7 +117,6 @@ const Controller = {
                 // setPage는 실시간으로 이용하고, 랜더링을 다시 하기 위해서는 useState를 사용한다. 불편하네.
                 currentPage.current = setPage;
                 const form = formSearchParser(`.form-common-search`);
-                console.log("form::::", form);
                 form.pageNumber = currentPage.current;
                 form.count = itemsPerPage.current;
                 fetchDataState.current = `searching`;

@@ -3,7 +3,7 @@ import $ from "cash-dom";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { Notify } from '../../../utils/global-utils';
 import { CustomAlertAsync } from '../../../components/modules/custom-alert-async/index';
-import { UTIL as ORGAN_UTIL } from "../../../utils/api/custom/organ/index";
+import { UTIL as DEVICE_UTIL } from "../../../utils/api/custom/device/index";
 
 const event = {
     'index': function(params) {
@@ -38,56 +38,51 @@ const event = {
         });
         // search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current}
 
-        // $(".btn-all-delete").off(`click`).on(`click`, async function(e) {
-        //     stopBubbling(e);
-        //     const update = {
-        //         buttonTitle: `비활성화`,
-        //         params: {
-        //             'organizationCodeList': [],
-        //             'expiration': 1
-        //         },
-        //         title: `정말 활성화 하시겠습니까?`
-        //     };
-        //     $("#contents-by-data-table").find(".input[type='checkbox']").each(function(index , items) {
-        //         if ($(items).is(":checked")) {
-        //             update.params.organizationCodeList.push($(items).parents(".cm-tr").attr(`data-code`));
-        //         }
-        //     });
-        //     if (Number($(`.radio-input[name="expiration"]:checked`).val()) === 1) {
-        //         update.buttonTitle = `활성화`;
-        //         update.params.expiration = 0;
-        //         update.title = `정말 활성화 하시겠습니까?`;
-        //     }
-        //
-        //     // custom-alert 종료는 해당 모듈에서 추가로 주입하는것으로
-        //     const okBtnCallback = async function() {
-        //         const response = await ORGAN_UTIL.UPDATE_EXPIRATION_LIST(update.params);
-        //         if (response.result === true) {
-        //             Notify(`top-center`, `정상적으로 ${update.buttonTitle}됐습니다.`, `success`);
-        //         }
-        //         else {
-        //             Notify(`top-center`, `${update.buttonTitle}에 실패했습니다. 잠시 후 다시 시도하세요.`, `error`);
-        //         }
-        //         params.search(params.currentPage);
-        //     };
-        //     if (update.params.organizationCodeList.length > 0) {
-        //         CustomAlertAsync.open({
-        //             msg: `정말 ${update.buttonTitle} 하시겠습니까?`,
-        //             isBackgroundClickForClose: false,
-        //             button: {
-        //                 ok : {
-        //                     callback :[{ name: okBtnCallback, params: [] }]
-        //                 },
-        //                 del: {
-        //                     isUse: false
-        //                 }
-        //             }
-        //         });
-        //     }
-        //     else {
-        //         Notify(`top-center`, `${update.buttonTitle} 하려는 데이타를 선택하세요!`, `error`);
-        //     }
-        // });
+        $(".btn-all-delete").off(`click`).on(`click`, async function(e) {
+            stopBubbling(e);
+            const parameter = {
+                buttonTitle: `삭제`,
+                params: {
+                    'targetOrganizationCode': $(`#select-box-for-organ .select-item`).val(),
+                    'serialNumberList': []
+                },
+                title: `정말 활성화 하시겠습니까?`
+            };
+            $("#contents-by-data-table").find(`.input[type='checkbox']`).each(function(index , items) {
+                if ($(items).is(":checked")) {
+                    parameter.params.serialNumberList.push($(items).parents(".cm-tr").attr(`data-serial-number`));
+                }
+            });
+
+            // custom-alert 종료는 해당 모듈에서 추가로 주입하는것으로
+            const okBtnCallback = async function() {
+                const response = await DEVICE_UTIL.DELETE_ALL(parameter.params);
+                if (response.result === true) {
+                    Notify(`top-center`, `정상적으로 ${parameter.buttonTitle}됐습니다.`, `success`);
+                }
+                else {
+                    Notify(`top-center`, `${parameter.buttonTitle}에 실패했습니다. 잠시 후 다시 시도하세요.`, `error`);
+                }
+                params.search(params.currentPage);
+            };
+            if (parameter.params.serialNumberList.length > 0) {
+                CustomAlertAsync.open({
+                    msg: `정말 ${parameter.buttonTitle} 하시겠습니까?`,
+                    isBackgroundClickForClose: false,
+                    button: {
+                        ok : {
+                            callback :[{ name: okBtnCallback, params: [] }]
+                        },
+                        del: {
+                            isUse: false
+                        }
+                    }
+                });
+            }
+            else {
+                Notify(`top-center`, `${parameter.buttonTitle} 하려는 데이타를 선택하세요!`, `error`);
+            }
+        });
     },
 };
 

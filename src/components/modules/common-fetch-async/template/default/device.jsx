@@ -70,7 +70,7 @@ export const Design = {
                     )))
                 : (
                 <tr>
-                    <td colSpan="8" style={{height: "100px", verticalAlign: "middle", textAlign: "center", borderBottom: "1px solid #d9dee3"}}>
+                    <td colSpan="9" style={{height: "100px", verticalAlign: "middle", textAlign: "center", borderBottom: "1px solid #d9dee3"}}>
                         조회된 데이터가 없습니다.
                     </td>
                 </tr>
