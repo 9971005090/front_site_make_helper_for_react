@@ -91,10 +91,13 @@ export const Design = {
     },
 
     add: function() {
-        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoad }) {
+        return function({onLoad, onLastLoad }) {
             React.useEffect(function() {
-                if (onLoad) {
+                if (String.isNullOrWhitespace(onLoad) === false) {
                     onLoad();
+                }
+                if (String.isNullOrWhitespace(onLastLoad) === false) {
+                    onLastLoad();
                 }
             }, []);
             return (

@@ -9,8 +9,6 @@ const event = function(params) {
 
     $(`.btn-delete`).off(`click`).on(`click`, async function(e) {
         stopBubbling(e);
-
-
         const update = {
             buttonTitle: `비활성화`,
             params: {
@@ -58,6 +56,14 @@ const event = function(params) {
     $(`.button-update`).off(`click`).on(`click`, function(e) {
         stopBubbling(e);
         params.navigate(`/organ/edit?code=${$(this).closest('.cm-tr').attr(`data-code`)}`, { state: { back: location.pathname } });
+    });
+
+    $(`#contents-by-data-table .input[type="checkbox"]`).off(`click`).on(`click`, function(e) {
+        const total = $(`#contents-by-data-table .input[type="checkbox"]`).length;
+        const checked = $(`#contents-by-data-table .input[type="checkbox"]:checked`).length;
+
+        if(total !== checked) $(`#listAllCheck`).prop("checked", false);
+        else $(`#listAllCheck`).prop("checked", true);
     });
 };
 

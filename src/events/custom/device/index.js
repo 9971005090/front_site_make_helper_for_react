@@ -29,7 +29,6 @@ const event = {
         });
 
         $(`#listAllCheck`).off(`click`).on(`click`, function(e) {
-            stopBubbling(e);
             if ($(`#listAllCheck`).is(":checked") === true) {
                 $(`#contents-by-data-table .input[type="checkbox"]`).prop("checked", true);
             }

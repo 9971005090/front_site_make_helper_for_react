@@ -78,7 +78,7 @@ const Controller = {
             const setAddEvent = async function() {
                 /////////////////////////////////////////////////////////////////////////////////////////////////////
                 if (action === `index`) {
-                    // 동적으로 처리를 안하면, 결국 이 콤포넌트가 리랜더링이 될 수 밖에 없는 구조라.. 그 최소한의 처리도 막기 위해 동적으로 처
+                    // 동적으로 처리를 안하면, 결국 이 콤포넌트가 리랜더링이 될 수 밖에 없는 구조라.. 그 최소한의 처리도 막기 위해 동적으로 처리
                     await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions, isFirst.current);
                     const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions, isFirst.current);
                     window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX.RESULT`, _r, true);
@@ -91,10 +91,17 @@ const Controller = {
                         isFirstSearch.current = false;
                     }
                 }
-                // else if (action === `add`) {
-                //     (await import(`../../events/custom/organ/add`)).event({navigate: navigate});
-                //     (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});
-                // }
+                else if (action === `add`) {
+                    // 동적으로 처리를 안하면, 결국 이 콤포넌트가 리랜더링이 될 수 밖에 없는 구조라.. 그 최소한의 처리도 막기 위해 동적으로 처리
+                    etc.current.organOptions.attr['add-class'] = [`check`];
+                    etc.current.wardOptions.attr['add-class'] = [`check`];
+                    await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions, isFirst.current);
+                    const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions, isFirst.current);
+                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX.RESULT`, _r, true);
+
+                    (await import(`../../events/custom/device/add`)).event({navigate: navigate});
+                    (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});
+                }
                 // else if (action === `edit`) {
                 //     (await import(`../../events/custom/organ/edit`)).event({navigate: navigate});
                 //     (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});

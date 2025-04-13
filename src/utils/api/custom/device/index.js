@@ -2,7 +2,6 @@
 import { API } from "../../../../constants/device/api";
 import { POST } from "../../../../utils/axios-api";
 import { CONST as DEVICE_CONST } from "../../../../constants/device/constant";
-// import addParams from "../custom/addParams";
 
 export const UTIL = {
     DATA_PARSING: function(data) {
