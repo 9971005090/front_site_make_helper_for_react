@@ -1,12 +1,11 @@
 // src/components/utils/custom-select-box.js
 
 import React from "react";
+import ReactDOM from "react-dom/client";
 import $ from "cash-dom";
 import { stopBubbling } from "../../utils/stop-bubbling";
-import {subscribeToRouteChange} from "../../hooks/route-change";
+import { subscribeToRouteChange } from "../../hooks/route-change";
 import {CommonReturn} from "./common-return";
-import ReactDOM from "react-dom/client";
-
 
 
 const CustomSelectBoxAsync = function() {
@@ -86,18 +85,10 @@ const CustomSelectBoxAsync = function() {
             </>
         );
     };
-    const run = async function(selector, options, isFirst, ret = null) {
+    const run = async function(selector, options, ret = null) {
         if (ret === null) {
             container = $(selector)[0];
-            if (String.isNullOrWhitespace(root) === true) {
-                root = ReactDOM.createRoot(container);
-            }
-            else {
-                if (isFirst === true) {
-                    root.unmount();
-                    root = ReactDOM.createRoot(container);
-                }
-            }
+            root = ReactDOM.createRoot(container);
             root.render(
                 <CustomSelectBoxComponent options={options} now={Date.getNow()} />
             );
@@ -107,23 +98,27 @@ const CustomSelectBoxAsync = function() {
                 <CustomSelectBoxComponent options={options} now={Date.getNow()} key={Date.getNow()}/>
             );
         }
-        return {root, container};
+        return {root, container, close};
     };
 
     const handleRouteChange = function() {
         // 빠르게 처리가 되다보니, main 콤포넌트의 랜더링과 겹쳐 실행이 될 수 있다.
         // 그래서 최대한 늦춰서 실행되게. 결국 main 콤포넌트의 랜더링이 끝나고 실행될 수 있게
         setTimeout(function() {
-            if (root !== null) {
-                root.unmount();  // unmount 호출
-                root = null;      // root 초기화
-            }
-            if (container !== null) {
-                container.remove();  // DOM 요소 제거
-                container = null;    // container 초기화
-            }
+            close();
         }, 100);
     };
+
+    function close() {
+        if (root !== null) {
+            root.unmount();
+            root = null;
+        }
+        if (container !== null) {
+            container.remove();
+            container = null;
+        }
+    }
 
     return {
         run: run,

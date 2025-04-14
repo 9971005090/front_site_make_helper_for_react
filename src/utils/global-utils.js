@@ -44,6 +44,7 @@ const Notify = async function(position = `top-center`, message = `성공 메시�
                             callback.func(...callback.params);
                         }
                     }}
+                    style={{zIndex: 1000000}}
                 />
             );
         });

@@ -11,10 +11,11 @@ const Design = function() {
             }
         }, []);
         return (
-            <div style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 100000 }}>
+            <div className="layer_popup" style={{ position: "fixed", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 100000 }}>
                 <div className="layer_popup_container" id="customAlertPushDelete" style={{width: "480px", height: "auto", zIndex: 100001, position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
                     <div className="layer_popup_body" style={{ textAlign: "center" }}>
-                        <p className="customAlertText">{ nl2br(parsingValue.msg) }</p>
+                        {/*<p className="customAlertText">{ nl2br(parsingValue.msg) }</p>*/}
+                        <parsingValue.msg />
                     </div>
                     <div className="layer_popup_footer">
                         { parsingValue.button.cancel.isUse === true && (

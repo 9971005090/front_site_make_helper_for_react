@@ -32,7 +32,7 @@ const Controller = {
             const organInfo = React.useRef(null);
             const isFirst = React.useRef(paramIsFirst);
             const navigate = useNavigate();
-            const [wardCode, setWardCode] = React.useState(null);
+            // const [wardCode, setWardCode] = React.useState(null);
             const etc = React.useRef({
                 organOptions: null,
                 wardOptions: {
@@ -59,7 +59,6 @@ const Controller = {
 
             const callbackForCustomSelectBoxOrgan = async function(choiceBox) {
                 const choiceCode = choiceBox.attr(`data-code`);
-                setWardCode(choiceCode);
                 let _d = [];
                 if (choiceCode !== null && choiceCode !== `all`) {
                     _d = await WARD_UTIL.LIST_FOR_PARSING({'organizationCode': choiceCode});
@@ -71,7 +70,7 @@ const Controller = {
                     $(`.btn-all-delete`).css(`display`, `none`);
                 }
                 etc.current.wardOptions.datas = _d;
-                cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions, isFirst.current, window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX.RESULT`));
+                cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions, window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`));
             };
 
 
@@ -79,12 +78,12 @@ const Controller = {
                 /////////////////////////////////////////////////////////////////////////////////////////////////////
                 if (action === `index`) {
                     // 동적으로 처리를 안하면, 결국 이 콤포넌트가 리랜더링이 될 수 밖에 없는 구조라.. 그 최소한의 처리도 막기 위해 동적으로 처리
-                    await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions, isFirst.current);
-                    const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions, isFirst.current);
-                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX.RESULT`, _r, true);
+                    await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions);
+                    const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
+                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`, _r, true);
                     isFirst.current = false;
 
-                    (await import(`../../events/custom/device/index`)).event.index({search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current});
+                    (await import(`../../events/custom/device/index`)).event.index({search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current, etc: etc, cBox: cBox});
 
                     if (isFirstSearch.current === true) {
                         $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));
@@ -95,9 +94,9 @@ const Controller = {
                     // 동적으로 처리를 안하면, 결국 이 콤포넌트가 리랜더링이 될 수 밖에 없는 구조라.. 그 최소한의 처리도 막기 위해 동적으로 처리
                     etc.current.organOptions.attr['add-class'] = [`check`];
                     etc.current.wardOptions.attr['add-class'] = [`check`];
-                    await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions, isFirst.current);
-                    const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions, isFirst.current);
-                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX.RESULT`, _r, true);
+                    await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions);
+                    const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
+                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`, _r, true);
 
                     (await import(`../../events/custom/device/add`)).event({navigate: navigate});
                     (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});

@@ -110,8 +110,15 @@ export const UTIL = {
             return false;
         }
         const passingParams = UTIL._GET_ADD_PARAMS({}, params);
-        console.log("passingParams:::", passingParams);
         const response = await POST(API.URL.DELETE_ALL, passingParams);
+        return response;
+    },
+    UPDATE_ALL: async function(params = null) {
+        if (params === null) {
+            return false;
+        }
+        const passingParams = UTIL._GET_ADD_PARAMS({}, params);
+        const response = await POST(API.URL.UPDATE_ALL, passingParams);
         return response;
     },
     _GET_ADD_PARAMS: function(params, addParams) {
