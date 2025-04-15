@@ -95,6 +95,14 @@ export const UTIL = {
         const response = await POST(API.URL.INSERT, passingParams);
         return response;
     },
+    INSERT_BULK: async function(params = null) {
+        if (params === null) {
+            return false;
+        }
+        const passingParams = UTIL._GET_ADD_PARAMS({}, params);
+        const response = await POST(API.URL.INSERT_BULK, passingParams);
+        return response;
+    },
     UPDATE: function(addParams=null) {
         const passingParams = {};
         if (addParams !== null) {

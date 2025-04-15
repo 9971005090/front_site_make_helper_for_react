@@ -44,7 +44,7 @@ const CustomSelectBoxAsync = function() {
                 $(this).parent(`.select-box-for-${options.type} .select-box-option-list-for-${options.type}`).toggle();
                 $(this).parent().parent(`.select-box-for-${options.type}`).find(`.select-box-for-${options.type} .select-box-label-for-${options.type}`).text($(this).text());
                 $(this).parent().parent(`.select-box-for-${options.type}`).find(`.select-item`).val($(this).attr(`data-code`));
-
+                $(this).parent().parent(`.select-box-for-${options.type}`).find(`.select-item`).trigger(`keyup`);
                 // const selectObj = choiceBox.parent().parent(`.select-box-for-organ`);
                 // const choiceCode = choiceBox.attr(`data-code`);
                 // selectObj.children(`.select-item`).val(choiceCode);

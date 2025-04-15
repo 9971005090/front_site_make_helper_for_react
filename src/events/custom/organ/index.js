@@ -4,6 +4,7 @@ import { stopBubbling } from "../../../utils/stop-bubbling";
 import { Notify } from '../../../utils/global-utils';
 import { CustomAlertAsync } from '../../../components/modules/custom-alert-async/index';
 import { UTIL as ORGAN_UTIL } from "../../../utils/api/custom/organ/index";
+import React from "react";
 
 const event = {
     'index': function(params) {
@@ -71,8 +72,13 @@ const event = {
                 params.search(params.currentPage);
             };
             if (update.params.organizationCodeList.length > 0) {
+                const MsgComponent = function() {
+                    return (
+                        <p className="customAlertText">{`정말 ${parameter.buttonTitle} 하시겠습니까?`}</p>
+                    );
+                };
                 CustomAlertAsync.open({
-                    msg: `정말 ${update.buttonTitle} 하시겠습니까?`,
+                    msg: MsgComponent,
                     isBackgroundClickForClose: false,
                     button: {
                         ok : {

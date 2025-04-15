@@ -93,8 +93,8 @@ const formCheck = function(selector, addCheckFunc = null, classType = 'default')
     const check = $(`${selector}`).find(".check");
     const ifCheck = $(`${selector}`).find(".ifCheck");
 
-    check.on("keyup", valueChange);
-    ifCheck.on("keyup", ifCheckValueChange);
+    check.on(`keyup`, valueChange);
+    ifCheck.on(`keyup`, ifCheckValueChange);
 
     check.each(function(index, item) {
         console.log("item::::", item);

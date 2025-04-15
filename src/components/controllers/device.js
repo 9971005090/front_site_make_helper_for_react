@@ -101,10 +101,17 @@ const Controller = {
                     (await import(`../../events/custom/device/add`)).event({navigate: navigate});
                     (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});
                 }
-                // else if (action === `edit`) {
-                //     (await import(`../../events/custom/organ/edit`)).event({navigate: navigate});
-                //     (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});
-                // }
+                else if (action === `add-bulk`) {
+                    // 동적으로 처리를 안하면, 결국 이 콤포넌트가 리랜더링이 될 수 밖에 없는 구조라.. 그 최소한의 처리도 막기 위해 동적으로 처리
+                    etc.current.organOptions.attr['add-class'] = [`check`];
+                    etc.current.wardOptions.attr['add-class'] = [`check`];
+                    await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions);
+                    const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
+                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`, _r, true);
+
+                    (await import(`../../events/custom/device/add-bulk`)).event({navigate: navigate});
+                    (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});
+                }
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////
             };

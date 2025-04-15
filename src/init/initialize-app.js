@@ -88,6 +88,7 @@ const INITIALIZE_APP = async function() {
         await import(`../utils/extensions/number`);
         await import(`../utils/extensions/date`);
         await import(`../utils/extensions/array`);
+        await import(`../utils/extensions/file`);
         window.CONSTANTS = GET_CONSTANTS(APP_CONSTANT);
         window.CONSTANTS.set(`APP.USER_LEVEL`, USER_CONSTANT.LEVEL);
         window.CONSTANTS.set(`APP.USER_LIMIT`, USER_CONSTANT.LIMIT);

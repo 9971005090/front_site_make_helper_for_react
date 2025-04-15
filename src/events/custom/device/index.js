@@ -15,6 +15,10 @@ const event = {
             params.navigate(`/device/add`, { state: { back: location.pathname } });
         });
 
+        $(`.btn-add-for-bulk`).off(`click`).on(`click`, function() {
+            params.navigate(`/device/add-bulk`, { state: { back: location.pathname } });
+        });
+
         $(`.form-common-search-button`).off(`click`).on('click', function(e){
             stopBubbling(e);
             if (params.fetchDataState === `ready`) {
@@ -62,6 +66,7 @@ const event = {
                 const response = await DEVICE_UTIL.DELETE_ALL(parameter.params);
                 if (response.result === true) {
                     Notify(`top-center`, `정상적으로 ${parameter.buttonTitle}됐습니다.`, `success`);
+                    $(`#listAllCheck`).prop("checked", false);
                 }
                 else {
                     Notify(`top-center`, `${parameter.buttonTitle}에 실패했습니다. 잠시 후 다시 시도하세요.`, `error`);
@@ -127,6 +132,7 @@ const event = {
                 const _r = await DEVICE_UTIL.UPDATE_ALL(parameter);
                 if (_r.result === true) {
                     Notify(`top-center`, `정상적으로 이동왰습니다.`, `success`);
+                    $(`#listAllCheck`).prop("checked", false);
                 }
                 else {
                     Notify(`top-center`, `이동에 실패했습니다. 잠시 후 다시 시도하세요.`, `error`);
