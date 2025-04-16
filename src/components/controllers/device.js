@@ -133,10 +133,15 @@ const Controller = {
                             response.deviceRegisterList[i] = DEVICE_UTIL.DATA_PARSING(response.deviceRegisterList[i]);
                         }
                     }
-                    CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, controller, Date.getNow(), isFirst.current, navigate);
-                    PagingAsync.run(`#pagination`, search, response.totalCount, currentPage.current, Date.getNow(), isFirst.current);
-                    fetchDataState.current = `ready`;
-                    isFirst.current = false;
+                    // 기존 콤포넌트 > 메모리 제거가 가끔 늦게 처리되는 경우가 있다.
+                    // main.js 그래서 처리 시간 확보를 위해, 0.1초 지연 처리를 한다.
+                    setTimeout(function() {
+                        CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, controller, Date.getNow(), isFirst.current, navigate);
+                        PagingAsync.run(`#pagination`, search, response.totalCount, currentPage.current, Date.getNow(), controller, isFirst.current);
+                        fetchDataState.current = `ready`;
+                        isFirst.current = false;
+                    }, 100);
+
                 }
                 else if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
                     Notify(`top-center`, `데이타 조회 실패`, `error`);

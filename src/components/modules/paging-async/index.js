@@ -9,8 +9,10 @@ import { CommonReturn } from "../../../components/utils/common-return";
 const PagingAsync = (function() {
     let container = null;
     let root = null;
-    const PagingComponent = function ({ searchFunc, totalCount, currentPage, now, itemsPerPage, pagesPerPage }) {
+    const PagingComponent = function ({ searchFunc, totalCount, currentPage, now, itemsPerPage, pagesPerPage, controller }) {
         const [Component, setComponent] = React.useState(null);
+        const backUrl = React.useRef({controller: null});
+        const url = React.useRef({controller: controller});
         const pagingInfo = {
             page: {
                 total: 0,
@@ -57,7 +59,10 @@ const PagingAsync = (function() {
 
         const setAddEvent = function() {
             // ✅ URL 변경 감지 구독
-            subscribeToRouteChange(handleRouteChange);
+            // subscribeToRouteChange(handleRouteChange);
+            const routeChangeCallback = window.CONSTANTS.get(`APP.ROUTE_CHANGE_CALLBACK`);
+            routeChangeCallback.add(handleRouteChange);
+            window.CONSTANTS.set(`APP.ROUTE_CHANGE_CALLBACK`, routeChangeCallback, true);
 
             $(`.page-item`).off(`click`).on(`click`, function(e) {
                 stopBubbling(e);
@@ -114,13 +119,14 @@ const PagingAsync = (function() {
                 await import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
                 const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/index`);
                 setComponent(Design.index);
+                backUrl.current.controller = controller;
             })();
         }, []);
 
-        return CommonReturn(Component)({pagingInfo: pagingInfo, onLoad: setAddEvent, loadingTypeTitle: `paging`, now: now});
+        return CommonReturn(Component)({pagingInfo: pagingInfo, onLoad: setAddEvent, loadingTypeTitle: `paging`, now: now, backUrl: backUrl.current, url: url.current});
     };
 
-    const run = function(selector, searchFunc, totalCount, currentPage, now, isFirst, itemsPerPage = 10, pagesPerPage = 10) {
+    const run = function(selector, searchFunc, totalCount, currentPage, now, controller, isFirst, itemsPerPage = 10, pagesPerPage = 10) {
         container = $(selector)[0];
         if (String.isNullOrWhitespace(root) === true) {
             root = ReactDOM.createRoot(container);
@@ -132,7 +138,7 @@ const PagingAsync = (function() {
             }
         }
         root.render(
-            <PagingComponent searchFunc={searchFunc} totalCount={totalCount} currentPage={currentPage} now={now} itemsPerPage={itemsPerPage} pagesPerPage={pagesPerPage} onUnmount={handleRouteChange} />
+            <PagingComponent searchFunc={searchFunc} totalCount={totalCount} currentPage={currentPage} now={now} itemsPerPage={itemsPerPage} pagesPerPage={pagesPerPage} onUnmount={handleRouteChange} controller={controller} />
         );
     };
 

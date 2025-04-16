@@ -32,6 +32,7 @@ const Controller = {
             const setAddEvent = async function() {
                 /////////////////////////////////////////////////////////////////////////////////////////////////////
                 if (action === `index`) {
+                    console.log("organ index:::");
                     (await import(`../../events/custom/organ/index`)).event.index({search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current});
 
                     if (isFirstSearch.current === true) {
@@ -66,10 +67,14 @@ const Controller = {
                 fetchDataState.current = `searching`;
                 const response = await ORGAN_UTIL.PAGE(parameter);
                 if (response.result === true) {
-                    CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, controller, Date.getNow(), isFirst.current, navigate);
-                    PagingAsync.run(`#pagination`, search, response.totalCount, currentPage.current, Date.getNow(), isFirst.current);
-                    fetchDataState.current = `ready`;
-                    isFirst.current = false;
+                    // 기존 콤포넌트 > 메모리 제거가 가끔 늦게 처리되는 경우가 있다.
+                    // main.js 그래서 처리 시간 확보를 위해, 0.1초 지연 처리를 한다.1
+                    setTimeout(function() {
+                        CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, controller, Date.getNow(), isFirst.current, navigate);
+                        PagingAsync.run(`#pagination`, search, response.totalCount, currentPage.current, Date.getNow(), controller, isFirst.current);
+                        fetchDataState.current = `ready`;
+                        isFirst.current = false;
+                    }, 100);
                 }
                 else if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
                     Notify(`top-center`, `데이타 조회 실패`, `error`);

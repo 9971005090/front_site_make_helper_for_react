@@ -32,3 +32,25 @@ if (typeof Array.deepCopy !== "function") {
         }
     };
 }
+if (typeof Array.routeChangeCallback !== "function") {
+    /**
+     * array의 주소 할당이 아닌, 값 복사 처리
+     * @param {array} targetArray 복사를 하려는 array
+     * @returns {array} 복사된 배열
+     */
+    Array.routeChangeCallback = function(callback = null) {
+        const routeChangeCallback = window.CONSTANTS.get(`APP.ROUTE_CHANGE_CALLBACK`);
+        if (callback !== null) {
+            console.log("::::Array.routeChangeCallback1::::");
+            routeChangeCallback.add(callback);
+        }
+        else {
+            console.log("::::Array.routeChangeCallback2::::");
+            routeChangeCallback.forEach(function(callback) {
+                callback();
+                routeChangeCallback.delete(callback);
+            });
+        }
+        window.CONSTANTS.set(`APP.ROUTE_CHANGE_CALLBACK`, routeChangeCallback, true);
+    };
+}

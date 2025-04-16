@@ -25,6 +25,10 @@ export const Main = function() {
         window.CONSTANTS.init();
     }
 
+    if (url.change.controller === true) {
+        Array.routeChangeCallback();
+    }
+
     // 현재 메뉴 정보 세팅
     // setMenuInfo(url);
     if (url.controller === `login`) {
