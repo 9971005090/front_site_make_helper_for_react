@@ -10,7 +10,7 @@ import { UTIL as WARD_UTIL } from "../../utils/api/custom/ward/index";
 import { CONST as DEVICE_CONST } from "../../constants/device/constant";
 import { Notify } from '../../utils/global-utils';
 import { CustomSelectBoxAsync } from "../../components/utils/custom-select-box-async";
-
+import { CustomLineBarChartAsync } from "../../components/utils/custom-line-bar-chart-async";
 
 import { RUN as ORGAN_FAKE_API_RUN } from "../../constants/fake-api/organ";
 
@@ -69,9 +69,20 @@ const Controller = {
                         isFirstSearch.current = false;
                     }
                 }
-                // else if (action === `day`) {
-                //     (await import(`../../events/custom/statistics/day`)).event({navigate: navigate});
-                // }
+                else if (action === `day`) {
+                    // 동적으로 처리를 안하면, 결국 이 콤포넌트가 리랜더링이 될 수 밖에 없는 구조라.. 그 최소한의 처리도 막기 위해 동적으로 처리
+                    etc.current.organOptions.all = null;
+                    etc.current.organOptions.default = window.CONSTANTS.get(`ORGANIZATION_DATAS`)[0];
+                    await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions);
+                    isFirst.current = false;
+
+                    (await import(`../../events/custom/statistics/day`)).event.index({search: searchForDay, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current, etc: etc, cBox: cBox});
+
+                    if (isFirstSearch.current === true) {
+                        $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));
+                        isFirstSearch.current = false;
+                    }
+                }
                 /////////////////////////////////////////////////////////////////////////////////////////////////////
             };
 
@@ -91,7 +102,6 @@ const Controller = {
                     delete form.targetOrganizationCode;
                 }
 
-
                 fetchDataState.current = `searching`;
                 const response = await STATISTICS_UTIL.LIST(form);
                 if (response.result === true) {
@@ -106,6 +116,44 @@ const Controller = {
                         CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, controller, Date.getNow(), isFirst.current, navigate);
                         fetchDataState.current = `ready`;
                         isFirst.current = false;
+
+                    }, 100);
+
+                }
+                else if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
+                    Notify(`top-center`, `데이타 조회 실패`, `error`);
+                    fetchDataState.current = `ready`;
+                }
+            };
+
+            const searchForDay = async function(setPage = 1) {
+                const { CommonFetchAsync } = await import(`../../components/modules/common-fetch-async/index`);
+
+                // setPage는 실시간으로 이용하고, 랜더링을 다시 하기 위해서는 useState를 사용한다. 불편하네.
+                currentPage.current = setPage;
+                const form = formSearchParser(`.form-common-search`);
+                form.pageNumber = currentPage.current;
+                form.count = itemsPerPage.current;
+                fetchDataState.current = `searching`;
+                const response = await STATISTICS_UTIL.LIST_FOR_DAY(form);
+                if (response.result === true) {
+                    if (response.measurementOrgDayCountList !== null) {
+                        for (let i = 0; i < response.measurementOrgDayCountList.length; i++) {
+                            response.measurementOrgDayCountList[i] = STATISTICS_UTIL.DATA_PARSING(response.measurementOrgDayCountList[i]);
+                        }
+                    }
+                    // 기존 콤포넌트 > 메모리 제거가 가끔 늦게 처리되는 경우가 있다.
+                    // main.js 그래서 처리 시간 확보를 위해, 0.1초 지연 처리를 한다.
+                    setTimeout(async function() {
+                        CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, `${controller}-day`, Date.getNow(), isFirst.current, navigate);
+                        fetchDataState.current = `ready`;
+                        isFirst.current = false;
+                        console.log("window.CONSTANTS.get(`STATISTICS.PAGE.CUSTOM_LINE_BAR_CHART.RESULT`):::", window.CONSTANTS.get(`STATISTICS.PAGE.CUSTOM_LINE_BAR_CHART.RESULT`));
+                        const _r = await CustomLineBarChartAsync().run(`#chart-view`, {
+                            'labels': response.measurementOrgDayCountList.map(obj => obj.parsingDate),
+                            'label': `측정수`,
+                            'data': response.measurementOrgDayCountList.map(obj => obj.dayCount),
+                        }, window.CONSTANTS.get(`STATISTICS.PAGE.CUSTOM_LINE_BAR_CHART.RESULT`));
                     }, 100);
 
                 }

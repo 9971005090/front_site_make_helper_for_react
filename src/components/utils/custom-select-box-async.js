@@ -71,8 +71,9 @@ const CustomSelectBoxAsync = function() {
             <>
                 <style>{styles}</style>
                 <div className={`select-box-for-${options.type} cm-select-box`} id={`select-box-for-${options.type}`}>
-                    <input type="hidden" className={`select-item ${options.attr["add-class"].join(" ")}`} name={options.attr.name} data-not-parsing-value={options.all.isUse === false && options.all.code} value={options.all !== null && options.all.code} />
-                    <button type="button" className={`select-box-label-for-${options.type} label`}>{options.all !== null && options.all.title}</button>
+                    <input type="hidden" className={`select-item ${options.attr["add-class"].join(" ")}`} name={options.attr.name} data-not-parsing-value={options.all !== null && options.all.isUse === false && options.all.code} value={options.all !== null ? options.all.code : options.default !== null && options.default.code} />
+
+                    <button type="button" className={`select-box-label-for-${options.type} label`}>{options.all !== null ? options.all.title : options.default !== null && options.default.title}</button>
                     <ul className={`select-box-option-list-for-${options.type} option-list`}>
                         {options.all !== null && (
                             <li className={`select-box-option-item-for-${options.type} option-item`} data-type={options.type} data-code={options.all.code}>{options.all.title}</li>

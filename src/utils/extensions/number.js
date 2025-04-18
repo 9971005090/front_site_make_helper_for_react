@@ -3,7 +3,7 @@
  * Number object 확장
  */
 if (typeof Number.comma !== "function") {
-    Number.comma = function (number, options = {maximumFractionDigits: 4, useZero: false}) {
+    Number.comma = function(number, options = {maximumFractionDigits: 4, useZero: false}) {
         if (options.useZero === false) {
             if (number === 0 || number === "0" || number === null) {
                 return "-";
@@ -18,7 +18,7 @@ if (typeof Number.comma !== "function") {
     };
 }
 if (typeof Number.lcm !== "function") {
-    Number.lcm = function (num1, num2, scale = 1) {
+    Number.lcm = function(num1, num2, scale = 1) {
         let tNum1 = num1 * scale;
         let tNum2 = num2 * scale;
         // 최대공약수

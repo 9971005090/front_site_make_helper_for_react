@@ -1,7 +1,7 @@
 // src/constants/app.js
 
 const APP = {
-    'APP.VERSION.REAL': '0.0.35-20250317.1436',
+    'APP.VERSION.REAL': '0.0.36-20250418.1615',
     'APP.VERSION.VIEW': '1.0.0',
     'APP.IS_AUTH': true,
     'APP.THEME': `default`,
