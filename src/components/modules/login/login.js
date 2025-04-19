@@ -16,12 +16,14 @@ import { stopBubbling } from "../../../utils/stop-bubbling";
 import { silentNavigate } from "../../../utils/silent-navigate";
 
 import { FIRST_LOAD_DATA } from "../../../init/first-load-data";
+import { RUN as LOGIN_API_RUN } from "../../../components/modules/login/constants/fake-api";
 
 export const ModuleController = {
     index: function() {
         // 디자인 컴포넌트를 반환
         return ({ onLastLoad }) => {
             console.log(":::::module > login:::::", Date.getNow());
+            // LOGIN_API_RUN();
             // const { setIsDone } = useFirstLoadNoRender();
             const { isDone, setIsDone } = useFirstLoad();
             const { cookieId } = useAuthNoRender();

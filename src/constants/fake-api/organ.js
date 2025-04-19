@@ -1,6 +1,4 @@
 // src/constants/fake-api/organ.js
-import {USER as USER_CONSTANT} from "../user-level";
-
 const FAKE_API = {
     '/Manager/SelectOrganizationPage': {
         "result": true,
