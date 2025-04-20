@@ -30,7 +30,6 @@ export const useLogin = function() {
 
                 // 기본 사항 처리
                 SITE_ENVIRONMENT_FOR_SET();
-                window.CONSTANTS.allData();
 
                 return {
                     result: true

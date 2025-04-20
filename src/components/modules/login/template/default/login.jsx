@@ -1,4 +1,13 @@
-// src/designs/content/login.js
+
+/**
+ * 로그인 디자인 처리 콤포넌트
+ * @fileoverview
+ * 1. 디자인을 화면에 랜더링
+ * 2. 랜더링 후 최초 useEffect에서 부모(데이터 처리 콤포넌트)에서 받은 callback 함수를 실행
+ *    - onLoad(부모 콜백)
+ *    - onLastLoad(main 콤포넌트 콜백)
+ */
+
 import React from "react";
 
 export const Design = {

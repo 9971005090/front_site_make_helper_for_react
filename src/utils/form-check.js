@@ -97,7 +97,6 @@ const formCheck = function(selector, addCheckFunc = null, classType = 'default')
     ifCheck.on(`keyup`, ifCheckValueChange);
 
     check.each(function(index, item) {
-        console.log("item::::", item);
         const setValidate = function(obj, msg) {
             if (classType === `default`) {
                 obj.removeClass(validClass).addClass(invalidClass);

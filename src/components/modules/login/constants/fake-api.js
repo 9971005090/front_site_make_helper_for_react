@@ -1,4 +1,15 @@
-// src/constants/fake-api/organ.js
+
+/**
+ * 로그인에서 사용하는 rest api 주소에 대응하는 응답 상수 정의 파일
+ * @fileoverview
+ * - 백엔드에서 rest api 개발이 늦어질때 가상의 응답을 만들어 ui 를 개발하기 위한 상수
+ *
+ * @example
+ * - 해당 파일 임포트 후 RUN 실행
+ * import { RUN as LOGIN_API_RUN } from "../../../components/modules/login/constants/fake-api";
+ * LOGIN_API_RUN();
+ */
+
 const FAKE_API = {
     '/Account/LoginHIS': {
         "result": true,

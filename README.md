@@ -1,3 +1,18 @@
+# 개발방향
+- 라우터는 동적(url을 분석하여 처리)으로 처리
+  - 예) test.com/member/add
+     - / 기준으로 1첫째는 기능(그룹) - controller
+     - / 기준으로 2첫째는 세부처리 - action
+  - 기본적으로 기능(그룹-메뉴) 이동은 내부 훅인 useNavigate 사용
+  - 루트 접속(/) 또는 인증이 종료시 로그인 이동은 수동으로 history 객체의 값을 직접업데이트 하고, 적절하게 new PopStateEvent(`popstate`) 를 사용하여 react에게 변경을 알려준다.
+- 최소한의 전역 상태를 관리하고, 대부분의 콤포넌트를 동적으로 로딩하여 초기 로딩 속도를 높힌다.
+- 동적으로 생성한 콤포넌트 제거를 위한 unmount 를 독립적으로 관리한다.
+- 하나의 콤포넌트에서 데이터 처리/디자인 처리를 함께하지 않고, 분리하여 처리를 한다.
+  - 데이터 처리 콤포넌트에서 동적으로 디자인 처리 콤포넌트를 동적으로 로딩하여 사용한다.(mvc 개념, mc가 데이터처리, v가 디자인 처리)
+- 디자인 처리 콤포넌트에서 이벤트를 직접 관리하지 않고, 데이터 처리 콤포넌트에서 관리를 한다.
+  - 디자인 처리 콤포넌트에 랜더링 후 호출되는 콜백함수를 전달해, 데이터 처리 콤포넌트에서 관리를 할 수 있다.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
