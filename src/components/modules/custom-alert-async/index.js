@@ -1,10 +1,26 @@
-// src/components/modules/custom-alert/index.js
+
+/**
+ * 팝업 모달을 이용한 custom confirm 처리 콤포넌트
+ * @fileoverview
+ * 단순 confirm이 아닌 디자인을 적용하고, 내용 부분을 콤포넌트화 하여 처리한 custom confirm 처리 함
+ * - 비동기로 처리를 하기에 종료시에는 반드시 unmout 가 필요함
+ */
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import _ from "lodash";
 
 import $ from "cash-dom";
 
+/**
+ * 배열을 병합하는 커스텀 함수
+ * @param {Array} objValue - 기존 값 (배열)
+ * @param {Array} srcValue - 병합할 새로운 값 (배열)
+ * @returns {Array} 병합된 배열
+ *
+ * 이 함수는 Lodash의 `_.mergeWith`와 함께 사용되어 배열을 병합.
+ * 기존 배열과 새로운 배열을 단순히 합쳐서 하나의 새로운 배열로 반환.
+ */
 const customMerge = (objValue, srcValue) => {
     if (Array.isArray(objValue) && Array.isArray(srcValue)) {
         return [...objValue, ...srcValue]; // 배열 병합 (기존 값 + 새로운 값)

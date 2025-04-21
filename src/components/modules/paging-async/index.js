@@ -1,4 +1,10 @@
-// src/components/modules/paging2/index.js
+
+/**
+ * 페이징을 구현한 콤포넌트
+ * @fileoverview
+ * 패키지를 사용하지 않고, 기존에 사용하던 페이징을 react 로 구현
+ */
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { subscribeToRouteChange } from "../../../hooks/route-change";

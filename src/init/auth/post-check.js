@@ -1,4 +1,10 @@
-// js/init/auth/post-check.js
+
+/**
+ * 추가인증 처리 파일
+ * @fileoverview
+ * - 기본적인 인증 여부와 별개로 권한등의 값에 대한 별개의 추가 인증 검사를 처리한다.
+ */
+
 import { Notify } from '../../utils/global-utils';
 
 /**

@@ -1,4 +1,9 @@
-// src/constants/user-level.js
+
+/**
+ * 사이트에서 사용되는 계정 권한 상수
+ * @fileoverview
+ * 사이트에서 사용되는 계정 권한 상수
+ */
 
 const USER = {
     'LEVEL': {

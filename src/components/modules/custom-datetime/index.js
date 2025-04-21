@@ -1,3 +1,10 @@
+
+/**
+ * react-datetime 를 이용한 custom datetime picker 콤포넌트
+ * @fileoverview
+ * 달력 아이콘를 클릭, input 영역을 클릭 시 react-datetime picker가 열리게 하는 custom 처리
+ */
+
 import React from "react";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";

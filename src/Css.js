@@ -1,4 +1,11 @@
-// src/Css.js (공통)
+
+/**
+ * 사이트 공통 스타일 로딩
+ * @fileoverview
+ * - 기본적인 사이트 공통 스타일을 로딩
+ *   - 수정이 필요할 경우 해당 스타일을 오버라이딩해서 CssCustom.js에서 로딩
+ */
+
 ////////////////////////////////////////////////////////////////////
 import './assets/css/constant.css';
 import './assets/css/reset.css';

@@ -1,4 +1,9 @@
-// src/constants/site-meta.js
+
+/**
+ * 사이트에서 사용되는 메타 정보 상수
+ * @fileoverview
+ * 사이트에서 사용되는 메타 정보 상수
+ */
 
 const SITE_META = {
     NAME: `THYNC MANAGER`,

@@ -1,7 +1,12 @@
-// src/constants/app.js
+
+/**
+ * 사이트 공통 전역 상수
+ * @fileoverview
+ * - 랜더링에 필요한 값만 리덕스에서 관리를 하고, 나머지는 개별적으로 GET_CONSTANTS 에서 관리를 하는데, 한번 로딩하면 삭제하지 않는 전역 상수
+ */
 
 const APP = {
-    'APP.VERSION.REAL': '0.0.38-20250321.1424',
+    'APP.VERSION.REAL': '0.0.39-20250325.1609',
     'APP.VERSION.VIEW': '1.0.0',
     'APP.IS_AUTH': true,
     'APP.THEME': `default`,

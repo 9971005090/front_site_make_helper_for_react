@@ -1,4 +1,12 @@
-// src/components/modules/common-fetch-async/index.js
+
+/**
+ * rest api 결과 데이타를 출력하는 처리 공통 콤포넌트
+ * @fileoverview
+ * 각 기능에서 데이타를 조회후 테이블 형식으로 출력되는 영역의 처리 부분을 공통화 함
+ * - rest api 결과 데이타는 파라미터로 받아서 처리 함
+ * - 비동기로 처리를 하기에 url 이 바뀔경우 unmount 시켜야 함
+ *    - Array.routeChangeCallback 사용
+ */
 
 import React from "react";
 import ReactDOM from "react-dom/client";
