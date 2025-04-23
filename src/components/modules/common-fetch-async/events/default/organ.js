@@ -1,8 +1,9 @@
+import React from "react";
 import $ from "cash-dom";
 import { format } from 'date-fns';
 import { stopBubbling } from "../../../../../utils/stop-bubbling";
 import { CustomAlertAsync } from '../../../../../components/modules/custom-alert-async/index';
-import {UTIL as ORGAN_UTIL} from "../../../../../utils/api/custom/organ/index";
+import { UTIL as ORGAN_UTIL } from "../../../../../utils/api/custom/organ/index";
 import { Notify } from "../../../../../utils/global-utils";
 
 const event = function(params) {
@@ -43,10 +44,16 @@ const event = function(params) {
                 Notify(`top-center`, `${update.buttonTitle}에 실패했습니다. 잠시 후 다시 시도하세요.`, `error`);
             }
             params.search(params.currentPage);
+            CustomAlertAsync.close();
         };
         if (update.params.organizationCodeList.length > 0) {
+            const MsgComponent = function() {
+                return (
+                    <p className="customAlertText">{`정말 ${update.buttonTitle} 하시겠습니까?`}</p>
+                );
+            };
             CustomAlertAsync.open({
-                msg: `정말 ${update.buttonTitle} 하시겠습니까?`,
+                msg: MsgComponent,
                 isBackgroundClickForClose: false,
                 button: {
                     ok : {

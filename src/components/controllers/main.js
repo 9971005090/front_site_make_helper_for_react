@@ -39,7 +39,7 @@ export const Main = function() {
     }
 
     // 컨트롤러(메뉴 또는 기능)이 바꾸면 기능별 전역 상수를 초기화 시키고, 동적 콤포넌트를 unmount 처리한다.
-    if (url.change.controller === true) {
+    if (url.change.controller === true || url.change.action === true) {
         // 자체 전역 변수 초기화
         window.CONSTANTS.init();
         // 동적 콤포넌트 > unmount 처리

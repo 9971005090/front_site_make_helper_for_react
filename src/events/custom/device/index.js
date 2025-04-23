@@ -5,11 +5,49 @@ import { stopBubbling } from "../../../utils/stop-bubbling";
 import { Notify } from '../../../utils/global-utils';
 import { CustomAlertAsync } from '../../../components/modules/custom-alert-async/index';
 import { UTIL as DEVICE_UTIL } from "../../../utils/api/custom/device/index";
-import {nl2br} from "../../../helpers/text";
 import { UTIL as WARD_UTIL } from "../../../utils/api/custom/ward";
+import { CustomSelectBoxAsync } from "../../../components/utils/custom-select-box-async";
 
 const event = {
     'index': function(params) {
+        const etc = {
+            organOptions: {
+                type: `organ-for-move`,
+                datas: params.wardData,
+                all: {code: `all`, title: `기관선택`, isUse: false},
+                default: null,
+                attr: {
+                    name: `targetOrganizationCode`,
+                    'add-class': [`use-option`]
+                },
+                size: {
+                    'width': 216,
+                    'height': 32,
+                    'margin-left': 0
+                },
+                callback: null
+            },
+            wardOptions: {
+                type: `ward-for-move`,
+                datas: null,
+                all: {code: `all`, title: `병동선택`, isUse: false},
+                default: null,
+                attr: {
+                    name: `wardCode`,
+                    'add-class': [`use-option`]
+                },
+                size: {
+                    'width': 216,
+                    'height': 32,
+                    'margin-left': 10
+                },
+                callback: null
+            }
+        };
+        const cBox = {
+            organ: CustomSelectBoxAsync(),
+            ward: CustomSelectBoxAsync()
+        };
         $(`.btn-add`).off(`click`).on(`click`, function(e) {
             stopBubbling(e);
             params.navigate(`/device/add`, { state: { back: location.pathname } });
@@ -139,11 +177,14 @@ const event = {
                 }
 
                 params.search(params.currentPage);
+                window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_ORGAN_MOVE.RESULT`).close();
+                window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD_MOVE.RESULT`).close();
                 CustomAlertAsync.close();
             };
             const cancelBtnCallback = async function() {
-                window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_ORGAN.RESULT`).close();
-                window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`).close();
+                window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_ORGAN_MOVE.RESULT`).close();
+                window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD_MOVE.RESULT`).close();
+                CustomAlertAsync.close();
             };
             if (parameter.serialNumberList.length > 0) {
                 const callbackForCustomSelectBoxOrgan = async function(choiceBox) {
@@ -152,14 +193,15 @@ const event = {
                     if (choiceCode !== null && choiceCode !== `all`) {
                         _d = await WARD_UTIL.LIST_FOR_PARSING({'organizationCode': choiceCode});
                     }
-                    params.etc.current.wardOptions.datas = _d;
-                    await params.cBox.ward.run(`.select-box-parent-for-ward-on-move`, params.etc.current.wardOptions, window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD_MOVE.RESULT`));
+                    etc.wardOptions.datas = _d;
+                    await cBox.ward.run(`.select-box-parent-for-ward-on-move`, etc.wardOptions, window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD_MOVE.RESULT`));
                 };
 
                 const postProcessForOpen = async function () {
-                    params.etc.current.organOptions.callback = callbackForCustomSelectBoxOrgan;
-                    const _o = await params.cBox.organ.run(`.select-box-parent-for-organ-on-move`, params.etc.current.organOptions);
-                    const _w = await params.cBox.ward.run(`.select-box-parent-for-ward-on-move`, params.etc.current.wardOptions);
+                    etc.organOptions.callback = callbackForCustomSelectBoxOrgan;
+                    const _o = await cBox.organ.run(`.select-box-parent-for-organ-on-move`, etc.organOptions);
+                    const _w = await cBox.ward.run(`.select-box-parent-for-ward-on-move`, etc.wardOptions);
+                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX_ORGAN_MOVE.RESULT`, _o, true);
                     window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD_MOVE.RESULT`, _w, true);
                 };
 

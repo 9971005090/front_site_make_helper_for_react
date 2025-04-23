@@ -188,10 +188,13 @@ export const Design = {
     },
 
     edit: function() {
-        return function({paramSearchFunc, paramCurrentPage, paramItemsPerPage, paramPagesPerPage, onLoad, organInfo }) {
+        return function({onLoad, onLastLoad, organInfo }) {
             React.useEffect(function() {
-                if (onLoad) {
+                if (String.isNullOrWhitespace(onLoad) === false) {
                     onLoad();
+                }
+                if (String.isNullOrWhitespace(onLastLoad) === false) {
+                    onLastLoad();
                 }
             }, []);
             return (
@@ -204,13 +207,13 @@ export const Design = {
                             <div className="tit require-validation">코드</div>
                             <div className="cont">
                                 <div className="cm-input-cont">
-                                    <input type="text" className="cm-input-text check active-check" placeholder="기관 고유 코드를 입력해주세요." name="organizationCode" min="" max="" maxLength="25" minLength="" disabled value={organInfo.organizationCode} />
+                                    <input type="text" className="cm-input-text check active-check" placeholder="기관 고유 코드를 입력해주세요." name="organizationCode" min="" max="" maxLength="25" minLength="" disabled defaultValue={organInfo.organizationCode} />
                                 </div>
                             </div>
                             <div className="tit require-validation">이름</div>
                             <div className="cont">
                                 <div className="cm-input-cont">
-                                    <input type="text" className="cm-input-text check active-check" placeholder="이름을 입력해주세요." name="organizationName" min="" max="" maxLength="25" minLength="" value={organInfo.organizationName} />
+                                    <input type="text" className="cm-input-text check active-check" placeholder="이름을 입력해주세요." name="organizationName" min="" max="" maxLength="25" minLength="" defaultValue={organInfo.organizationName} />
                                 </div>
                             </div>
                             <div className="tit require-validation">HIS 연동</div>
@@ -242,7 +245,7 @@ export const Design = {
                             <div className="tit ">측정 기간</div>
                             <div className="cont">
                                 <div className="cm-input-cont">
-                                    <input type="text" className="cm-input-text " placeholder="미 입력 시 측정 기간은 15일로 처리됩니다" name="measurementDate" min="1" max="365" maxLength="" minLength="" value={organInfo.measurementDate} />
+                                    <input type="text" className="cm-input-text " placeholder="미 입력 시 측정 기간은 15일로 처리됩니다" name="measurementDate" min="1" max="365" maxLength="" minLength="" defaultValue={organInfo.measurementDate} />
                                 </div>
                             </div>
                             <div className="tit ">비식별화</div>
@@ -261,13 +264,13 @@ export const Design = {
                             <div className="tit ">담당자 이메일</div>
                             <div className="cont">
                                 <div className="cm-input-cont">
-                                    <input type="text" className="cm-input-text " placeholder="시스템 담당자의 E-Mail 주소를 입력해주세요." name="systemManager" min="" max="" maxLength="150" minLength="" value={organInfo.systemManager} />
+                                    <input type="text" className="cm-input-text " placeholder="시스템 담당자의 E-Mail 주소를 입력해주세요." name="systemManager" min="" max="" maxLength="150" minLength="" defaultValue={organInfo.systemManager} />
                                 </div>
                             </div>
                             <div className="tit ">비고</div>
                             <div className="cont">
                                 <div className="cm-textarea-cont" style={{ display: "inline-block" }}>
-                                    <textarea name="etc" className="cm-textarea " placeholder="비고를 작성해주세요.">{organInfo.etc}</textarea>
+                                    <textarea name="etc" className="cm-textarea " placeholder="비고를 작성해주세요."  defaultValue={organInfo.etc} />
                                 </div>
                             </div>
                         </div>

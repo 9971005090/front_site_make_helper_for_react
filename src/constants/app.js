@@ -6,7 +6,7 @@
  */
 
 const APP = {
-    'APP.VERSION.REAL': '0.0.39-20250325.1609',
+    'APP.VERSION.REAL': '0.0.40-20250401.1313',
     'APP.VERSION.VIEW': '1.0.0',
     'APP.IS_AUTH': true,
     'APP.THEME': `default`,

@@ -1,8 +1,12 @@
-// src/utils/axios-api.js
-// 일반 함수에서는 훅을 사용할 수 없다.
-// useSelector, useDispatch 이건 꼭 콤포넌트 안에서만 사용해야 한다.
-// const { _isAuthenticated, _token } = state.auth; 이걸 맨 상단에 미리 불러놓지 않는 이유는
-// 로그인 처리시의 상태변경보다, 먼저 상태값을 유지 하고 있기 때문에, 해당 함수가 호출 하는 시점에 상태를 조회하는게 맞다.
+
+/**
+ * API 요청을 처리하는 Axios 기반 유틸리티 모듈 파일
+ * @fileoverview
+ * - HTTP 요청(GET, POST, PUT, DELETE)을 수행하는 함수 제공
+ * - 인증 상태를 반영하여 요청 헤더에 토큰 포함
+ * - 세션 만료 시 자동 로그아웃 및 로그인 페이지로 리디렉션 처리
+ * - 기본 요청 파라미터 설정 기능 제공
+ */
 
 import axios from 'axios';
 import { useAuth as useAuthNoRender } from "../hooks/utils-no-render/auth";
@@ -10,10 +14,16 @@ import { useFirstLoad as useFirstLoadNoRender } from "../hooks/utils-no-render/f
 import { silentNavigate } from "../utils/silent-navigate";
 import { Notify } from '../utils/global-utils';
 
-
-
-
-// 기본 API 요청 함수
+/**
+ * API 요청을 수행하는 함수
+ * @param {string} method - HTTP 메서드 (GET, POST, PUT, DELETE)
+ * @param {string} url - 요청 URL
+ * @param {Object|null} data - 요청 본문 데이터 (POST, PUT 요청에 사용)
+ * @param {Object|null} params - 요청 쿼리 파라미터 (GET 요청에 사용)
+ * @param {Object} headers - 추가 요청 헤더
+ * @param {Object} etc - 추가 옵션 (isErrorControlled: 오류 메시지 표시 여부, isSessionClosedControlled: 세션 종료 시 처리 여부)
+ * @returns {Promise<Object>} - 서버 응답 데이터 반환
+ */
 const apiRequest = async function(method, url, data = null, params = null, headers = {}, etc = {isErrorControlled: false, isSessionClosedControlled: true}) {
     const { isAuthenticated, token, logout } = useAuthNoRender();
     const { setIsDone } = useFirstLoadNoRender();
@@ -65,9 +75,21 @@ const apiRequest = async function(method, url, data = null, params = null, heade
         throw new Error(errorMessage);
     }
 };
+
+/**
+ * 디바이스 종류 코드 반환
+ * @returns {number} 디바이스 종류 코드 (기본값: 3)
+ */
 const _getDeviceKindCode = function() {
     return 3;
 };
+
+/**
+ * 기본 요청 파라미터 생성
+ * @param {boolean} authNotInclude - 인증 정보를 포함할지 여부 (기본값: false)
+ * @param {Object} parameter - 추가적인 파라미터 객체
+ * @returns {Object} 기본 요청 파라미터 객체
+ */
 const _getDefaultParam = function(authNotInclude = false, parameter = {}) {
     let params = {};
     const date = new Date();
@@ -97,23 +119,51 @@ const _getDefaultParam = function(authNotInclude = false, parameter = {}) {
     return params;
 };
 
-// HTTP GET 요청
+/**
+ * HTTP GET 요청
+ * @param {string} url - 요청 URL
+ * @param {Object|null} params - 요청 파라미터
+ * @param {Object} headers - 요청 헤더
+ * @param {Function|null} callback - 콜백 함수 (옵션)
+ * @returns {Promise<Object>} 서버 응답 데이터 반환
+ */
 export const GET = function(url, params = null, headers = {}, callback = null) {
     return apiRequest('get', url, null, params, headers);
 };
 
-// HTTP POST 요청
+/**
+ * HTTP POST 요청
+ * @param {string} url - 요청 URL
+ * @param {Object} data - 요청 데이터
+ * @param {Object} headers - 요청 헤더
+ * @param {Object} etc - 추가 옵션 (isErrorControlled, isSessionClosedControlled)
+ * @returns {Promise<Object>} 서버 응답 데이터 반환
+ */
 export const POST = function(url, data, headers = {}, etc = {isErrorControlled: false, isSessionClosedControlled: true}) {
     const params = Object.assign(_getDefaultParam(true), data);
     return apiRequest('post', `${window.CONSTANTS.get(`APP.API_BASE`)}${url}`, params, null, headers, etc);
 };
 
-// HTTP PUT 요청
+/**
+ * HTTP PUT 요청
+ * @param {string} url - 요청 URL
+ * @param {Object} data - 요청 데이터
+ * @param {Object} headers - 요청 헤더
+ * @param {Function|null} callback - 콜백 함수 (옵션)
+ * @returns {Promise<Object>} 서버 응답 데이터 반환
+ */
 export const PUT = function(url, data, headers = {}, callback = null) {
     return apiRequest('put', url, data, null, headers);
 };
 
-// HTTP DELETE 요청
+/**
+ * HTTP DELETE 요청
+ * @param {string} url - 요청 URL
+ * @param {Object|null} params - 요청 파라미터
+ * @param {Object} headers - 요청 헤더
+ * @param {Function|null} callback - 콜백 함수 (옵션)
+ * @returns {Promise<Object>} 서버 응답 데이터 반환
+ */
 export const DEL = function(url, params = null, headers = {}, callback = null) {
     return apiRequest('delete', url, null, params, headers);
 };

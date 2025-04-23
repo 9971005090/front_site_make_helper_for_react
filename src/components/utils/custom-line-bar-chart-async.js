@@ -1,4 +1,8 @@
-// src/components/utils/custom-select-box.js
+
+/**
+ * Chart.js를 이용하여 커스텀 라인-바 차트를 구현하는 비동기 컴포넌트
+ * @fileoverview
+ */
 
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -7,9 +11,21 @@ import { Chart } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
+
+/**
+ * 커스텀 라인-바 차트를 비동기적으로 생성하는 함수
+ */
 const CustomLineBarChartAsync = function() {
     let container = null;
     let root = null;
+
+    /**
+     * 실제 차트를 렌더링하는 컴포넌트
+     * @param {Object} props - 컴포넌트 속성
+     * @param {Object} props.options - 차트 데이터 및 설정 정보
+     * @param {number} props.now - 현재 시간 값 (리렌더링을 위한 키)
+     * @returns {JSX.Element} - 라인 및 바 차트를 포함한 Chart.js 컴포넌트
+     */
     const CustomLineBarChartComponent = function({ options, now }) {
         const info = {
             'data': {
@@ -54,6 +70,8 @@ const CustomLineBarChartAsync = function() {
 
             ////////////////////////////////////////////////////////////////////
         };
+
+        // 경로 변경 감지하여 차트 unmount
         React.useEffect(function() {
             Array.routeChangeCallback(handleRouteChange);
         }, [now]);
@@ -62,6 +80,14 @@ const CustomLineBarChartAsync = function() {
             <Chart type="bar" data={info.data} options={info.options} />
         );
     };
+
+    /**
+     * 차트를 특정 요소(selector)에 마운트하는 함수
+     * @param {string} selector - 차트를 마운트할 DOM 요소 선택자
+     * @param {Object} options - 차트 설정 정보
+     * @param {Object|null} ret - 기존 root/container 객체 (기존 차트 갱신 시 사용)
+     * @returns {Object} - 생성된 root 및 container 정보, unmout 처리하는 close 함수
+     */
     const run = async function(selector, options, ret = null) {
         if (ret === null) {
             container = $(selector)[0];

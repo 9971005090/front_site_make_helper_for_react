@@ -83,7 +83,7 @@ const Controller = {
                     window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`, _r, true);
                     isFirst.current = false;
 
-                    (await import(`../../events/custom/device/index`)).event.index({search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current, etc: etc, cBox: cBox});
+                    (await import(`../../events/custom/device/index`)).event.index({search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current, wardData: window.CONSTANTS.get(`PARSING_ORGANIZATIONS`)});
 
                     if (isFirstSearch.current === true) {
                         $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));

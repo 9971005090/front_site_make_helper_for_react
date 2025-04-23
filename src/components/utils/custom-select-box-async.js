@@ -1,26 +1,39 @@
-// src/components/utils/custom-select-box.js
+
+/**
+ * 커스텀 셀렉트 박스를 구현하는 비동기 컴포넌트
+ * @fileoverview
+ * 기존 HTML 셀렉트 박스를 대체하는 스타일링되고 이벤트가 포함된 셀렉트 박스를 제공
+ *
+ */
 
 import React from "react";
 import ReactDOM from "react-dom/client";
 import $ from "cash-dom";
 import { stopBubbling } from "../../utils/stop-bubbling";
-import { subscribeToRouteChange } from "../../hooks/route-change";
-import {CommonReturn} from "./common-return";
+// import { subscribeToRouteChange } from "../../hooks/route-change";
 
-
+/**
+ * 커스텀 셀렉트 박스를 비동기적으로 생성하는 함수
+ */
 const CustomSelectBoxAsync = function() {
     let container = null;
     let root = null;
-    const CustomSelectBoxComponent = function({ options, now }) {
-        const [Component, setComponent] = React.useState(null);
 
+    /**
+     * 커스텀 셀렉트 박스를 렌더링하는 컴포넌트
+     * @param {Object} props - 컴포넌트 속성
+     * @param {Object} props.options - 셀렉트 박스 설정 정보
+     * @param {number} props.now - 현재 시간 값 (리렌더링을 위한 키)
+     * @returns {JSX.Element} - 커스텀 셀렉트 박스 컴포넌트
+     */
+    const CustomSelectBoxComponent = function({ options, now }) {
         const setAddEvent = async function() {
             ////////////////////////////////////////////////////////////////////
 
             ////////////////////////////////////////////////////////////////////
         };
         React.useEffect(function() {
-            subscribeToRouteChange(handleRouteChange);
+            Array.routeChangeCallback(handleRouteChange);
 
             $(`.select-box-for-${options.type}`).off(`click`).on(`click`, function(e) {
                 stopBubbling(e);
@@ -56,7 +69,6 @@ const CustomSelectBoxAsync = function() {
             });
         }, [now]);
 
-        // return CommonReturn(Component)({ paramFetchData: paramFetchData, loadingTypeTitle: `common-fetch`, now: now, onLoad: setAddEvent });
         const styles = `
             .search-form .cont .cm-select-box {
                 display: block;
@@ -86,6 +98,14 @@ const CustomSelectBoxAsync = function() {
             </>
         );
     };
+
+    /**
+     * 커스텀 셀렉트 박스를 특정 요소(selector)에 마운트하는 함수
+     * @param {string} selector - 셀렉트 박스를 마운트할 DOM 요소 선택자
+     * @param {Object} options - 셀렉트 박스 설정 정보
+     * @param {Object|null} ret - 기존 root/container 객체 (기존 UI 갱신 시 사용)
+     * @returns {Object} - 생성된 root 및 container 정보, unmout 처리하는 close 함수
+     */
     const run = async function(selector, options, ret = null) {
         if (ret === null) {
             container = $(selector)[0];

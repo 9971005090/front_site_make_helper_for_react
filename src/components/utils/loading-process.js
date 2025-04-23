@@ -1,4 +1,10 @@
-// src/components/utils/loading-process.js
+
+/**
+ * 메뉴 이동 로딩 이미지 콤포넌트
+ * @fileoverview
+ * - 메뉴 이동(컨트롤러 변경), 동일 메뉴 기능(액션) 변경시 전체 콤포넌트 로딩 처리 콤포넌트
+ */
+
 import React from "react";
 import { useFirstLoad } from "../../hooks/first-load";
 import { FIRST_LOAD_DATA } from "../../init/first-load-data";

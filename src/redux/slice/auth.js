@@ -1,4 +1,10 @@
-// src/redux/slice/auth.js
+
+/**
+ * 인증 관련 리덕스 슬라이스 파일
+ * @fileoverview
+ * - 사용자 인증 상태 및 정보를 관리하는 Redux Slice
+ * - 쿠키를 활용하여 로그인 유지 기능을 제공
+ */
 
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from "js-cookie";

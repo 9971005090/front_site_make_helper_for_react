@@ -1,3 +1,4 @@
+import React from "react";
 import $ from "cash-dom";
 import { format } from 'date-fns';
 import { stopBubbling } from "../../../../../utils/stop-bubbling";
@@ -27,9 +28,15 @@ const event = function(params) {
                 Notify(`top-center`, `${update.buttonTitle}에 실패했습니다. 잠시 후 다시 시도하세요.`, `error`);
             }
             params.search(params.currentPage);
+            CustomAlertAsync.close();
+        };
+        const MsgComponent = function() {
+            return (
+                <p className="customAlertText">{`정말 ${update.buttonTitle} 하시겠습니까?`}</p>
+            );
         };
         CustomAlertAsync.open({
-            msg: `정말 ${update.buttonTitle} 하시겠습니까?`,
+            msg: MsgComponent,
             isBackgroundClickForClose: false,
             button: {
                 ok : {
