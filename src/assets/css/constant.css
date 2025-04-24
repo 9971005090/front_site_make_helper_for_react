@@ -33,6 +33,7 @@
     --scroll-bar: #08f;
     --dashboard-dark-bg: #012;
     --dashboard-second-bg: #024;
+    --alarm-yellow: #ad9c02;
 
     /* 추가사항 */
     --blue-gray: #f1f1f6;
@@ -52,24 +53,21 @@
     /**
      * 폰트크기관련
      */
-    --font-size-smaller: 10px;
-    --font-size-small: 12px;
-    --font-size-middle: 14px;
-    --font-size-default: 16px;
-    --font-size-big: 20px;
     --font-size-bigger: 22px;
-    --font-weight-light: 300;
-    --font-weight-regular: 400;
-    --font-weight-medium: 500;
+    --font-size-big: 18px;
+    --font-size-middle: 14px;
+    --font-size-small: 12px;
+    --font-size-smaller: 10px;
+    --font-size-default: 16px;
     --font-weight-bold: 700;
-
+    --font-weight-medium: 500;
+    --font-weight-regular: 400;
+    --font-weight-light: 300;
     /**
      * 공통 이미지
      */
     --cm-logo-img: url("../../assets/images/theme/default/logo-seers.svg");
-    /*--cm-no-text-logo-img: url("/assets/images/theme/brain-saver/icon/heade-logo.svg");*/
+    --cm-no-text-logo-img: url("../../assets/images/theme/default/head-logo.svg");
     --cm-cheked-img: url("../../assets/images/theme/default/checkbox-checked.svg");
     --cm-arrow-img: url("../../assets/images/theme/default/arrow.svg");
 }
-
-

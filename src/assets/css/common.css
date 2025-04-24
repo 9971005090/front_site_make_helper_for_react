@@ -27,6 +27,7 @@ body {min-height: 100vh; position: relative;}
 
 .content{position: relative; height: calc(100vh - 112px);background: #D8D8D8; display: flex; }
 .display-flex{display: flex !important;}
+.d-inline-flex{display: inline-flex;}
 /**
  * slider button
  */
@@ -113,7 +114,7 @@ input::placeholder{ color:var(--default); font-size:14px; }
     width: 12px;
     height: 6px;
     position: absolute;
-    background: url(../../assets/images/theme/thync-manager/arrow.svg) no-repeat;
+    background: url(../../assets/images/theme/default/arrow.svg) no-repeat;
     top: 50%;
     right: 20px;
     transition: 0.3s;
@@ -139,11 +140,24 @@ input::placeholder{ color:var(--default); font-size:14px; }
     display: flex;
     justify-content: space-between;
 }
+.option-item.disabled{
+    color: var(--default);
+    background: var(--disabled);
+    cursor: default;
+}
+.option-item.selected{
+    background: var(--primary);
+    color: var(--white);
+}
+.option-item.disabled.selected{
+    background: var(--primary);
+    color: var(--white);
+}
 /**
  * 헤더 부분 정의
  */
 .header{
-    width: 1920px;
+    width: 100%;
     height: 112px;
 }
 .header-info{
@@ -160,9 +174,9 @@ input::placeholder{ color:var(--default); font-size:14px; }
  * 헤더 메뉴 화면 정의
  */
 .header-info-menu{
-    width: calc(1920px - 240px + 96px - 479px);
     height: 48px;
     margin-left: calc(240px - 96px);
+    flex: 1;
 }
 .header-info .menu-tap{
     width: 160px;
@@ -206,14 +220,15 @@ input::placeholder{ color:var(--default); font-size:14px; }
  */
 .search-date{ display:flex; align-items:center; background:#fff;  border-radius:4px; cursor:pointer; }
 .search-date input{ flex:auto; padding:7px 8px; border-radius:4px; cursor:pointer; font-size:14px; }
-.search-date + p{ padding:0 12px; }
+.search-date + p{ padding:0 12px; display: flex; align-items: center; }
 /**
  * 헤더 사용자 정보 표시 화면 정의
  */
 .header-info-member{width:479px;}
+.header-info-member .display-flex:has(.button-language){align-items: center;}
 .header-info-member .p .span{line-height:48px;}
 .logout-button{padding: 4px 16px;position: absolute;width: 91px;height: 32px;right: 72px;top: 8px;}
-.info-member-name{font-weight: var(--font-weight-medium);cursor: pointer;}
+.info-member-name{border-bottom: 1px solid var(--white);font-weight: var(--font-weight-medium);cursor: pointer;}
 
 .d-none{ display: none !important; }
 .text-start{ text-align: left !important; }
@@ -231,6 +246,3 @@ input::placeholder{ color:var(--default); font-size:14px; }
  * 여백 관련 부분은 constant.css에서 의미 있는 상수로 정의 후 사용
  * 기존 코드는 모두 삭제함
  */
-
-
-
