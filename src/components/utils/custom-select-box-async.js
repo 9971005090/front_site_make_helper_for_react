@@ -15,9 +15,10 @@ import { stopBubbling } from "../../utils/stop-bubbling";
 /**
  * 커스텀 셀렉트 박스를 비동기적으로 생성하는 함수
  */
+let container = {};
+let root = {};
 const CustomSelectBoxAsync = function() {
-    let container = null;
-    let root = null;
+    let keyString = null;
 
     /**
      * 커스텀 셀렉트 박스를 렌더링하는 컴포넌트
@@ -33,7 +34,7 @@ const CustomSelectBoxAsync = function() {
             ////////////////////////////////////////////////////////////////////
         };
         React.useEffect(function() {
-            Array.routeChangeCallback(handleRouteChange);
+            Array.routeChangeCallbackForObject(keyString, handleRouteChange, [keyString]);
 
             $(`.select-box-for-${options.type}`).off(`click`).on(`click`, function(e) {
                 stopBubbling(e);
@@ -106,44 +107,55 @@ const CustomSelectBoxAsync = function() {
      * @param {Object|null} ret - 기존 root/container 객체 (기존 UI 갱신 시 사용)
      * @returns {Object} - 생성된 root 및 container 정보, unmout 처리하는 close 함수
      */
-    const run = async function(selector, options, ret = null) {
-        if (ret === null) {
-            container = $(selector)[0];
-            root = ReactDOM.createRoot(container);
-            root.render(
+    const run = async function(selector, options) {
+        console.log("selector:::::", selector);
+        keyString = selector;
+        if (Object.prototype.hasOwnProperty.call(container, selector) === false) {
+            console.log("::::: non exist :::::");
+            container[selector] = $(selector)[0];
+            root[selector] = ReactDOM.createRoot(container[selector]);
+            root[selector].render(
                 <CustomSelectBoxComponent options={options} now={Date.getNow()} />
             );
         }
         else {
-            ret.root.render(
+            root[selector].render(
                 <CustomSelectBoxComponent options={options} now={Date.getNow()} key={Date.getNow()}/>
             );
         }
-        return {root, container, close};
+        return {root: root[selector], container: container[selector], close: close};
     };
 
-    const handleRouteChange = function() {
+    const handleRouteChange = function(keyString) {
         // 빠르게 처리가 되다보니, main 콤포넌트의 랜더링과 겹쳐 실행이 될 수 있다.
         // 그래서 최대한 늦춰서 실행되게. 결국 main 콤포넌트의 랜더링이 끝나고 실행될 수 있게
         setTimeout(function() {
-            close();
-        }, 100);
+            close(keyString);
+        }, 5);
     };
 
-    function close() {
-        if (root !== null) {
-            root.unmount();
-            root = null;
+    function close(keyString) {
+        console.log("close,keyString:::", keyString);
+        // close 로 삭제를 할 수 있어, unmount 가 있는지 확인한다.
+        if (String.isNullOrWhitespace(root[keyString]) === false && typeof root[keyString].unmount === 'function') {
+            root[keyString].unmount();
+            // 미묘한 차이
+            // 확실하게 알 수 없는 부분
+            // main rendering에 영향을 주지 않고, 처리가 돼야 하는 부분인데. 맞추기가 쉽지 않다
+            // 100 에서 부터 줄여나가다 1에서는 거의 에러가 없다.
+            setTimeout(function() {
+                delete root[keyString];
+            }, 1);
         }
-        if (container !== null) {
-            container.remove();
-            container = null;
+        if (String.isNullOrWhitespace(container[keyString]) === false && typeof container[keyString].remove === 'function') {
+            container[keyString].remove();
+            delete container[keyString];
         }
     }
 
     return {
         run: run,
-        // close: close
+        close: close
     };
 };
 

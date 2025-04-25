@@ -28,7 +28,7 @@ if (typeof File.whatIsFileType !== "function") {
                 'application/vnd.ms-excel'
             ];
             return excelMimeTypes.includes(file.type);
-        }
+        };
         return _isExcelFile(file) === true ? `excel` : `none`;
     };
 }

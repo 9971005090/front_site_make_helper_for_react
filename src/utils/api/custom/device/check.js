@@ -4,6 +4,8 @@ import { Notify } from '../../../../utils/global-utils';
 import { CONST as DEVICE_CONST } from "../../../../constants/device/constant";
 import { UTIL as DEVICE_COMMON_UTIL } from "../../../../utils/api/custom/device/common";
 import { UTIL as DEVICE_UTIL } from "../../../../utils/api/custom/device/index";
+import { useVariable as useVariableNoRender } from "../../../../hooks/utils-no-render/variable";
+const { get: getVariable } = useVariableNoRender();
 
 export const UTIL = {
     GET_MACADDRESS: function(type = DEVICE_CONST.TYPE.CODE.ECG, value) {
@@ -69,7 +71,7 @@ export const UTIL = {
         };
         let _t = await DEVICE_UTIL.PAGE(searchParams);
         if (_t.result === true && _t.deviceRegisterList !== null && _t.deviceRegisterList.length > 0) {
-            message = `${window.CONSTANTS.get(`PARSING_ORGANIZATIONS`)[_t.deviceRegisterList[0].organizationCode]} 기관에 등록된 시리얼 번호입니다.`;
+            message = `${getVariable(`PARSING_ORGANIZATIONS`)[_t.deviceRegisterList[0].organizationCode]} 기관에 등록된 시리얼 번호입니다.`;
         }
         if (message === null) {
             return true;

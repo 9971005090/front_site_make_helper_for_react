@@ -6,6 +6,7 @@
  */
 
 import { Notify } from '../../utils/global-utils';
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 /**
  * 추가적인 인증 검사 함수
@@ -29,14 +30,15 @@ import { Notify } from '../../utils/global-utils';
  * @returns {"OK"|"AUTH_FAIL"} 인증 결과 ("OK" 또는 "AUTH_FAIL")
  */
 const POST_CHECK = function(userLevel, error = {isUse: false, msg: null}) {
+    const { get: getVariable } = useVariableNoRender();
     let response = `OK`;
 
     // 아래 영역에 코드 작성
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-    if (window.CONSTANTS.get(`APP.USER_LIMIT`).LEVEL.indexOf(userLevel) === -1) {
+    if (getVariable(`APP.USER_LIMIT`).LEVEL.indexOf(userLevel) === -1) {
         response = `AUTH_FAIL`;
         if (error.isUse === true) {
-            error.msg = error.msg === null ? window.CONSTANTS.get(`APP.USER_LIMIT`).MESSAGE : error.msg;
+            error.msg = error.msg === null ? getVariable(`APP.USER_LIMIT`).MESSAGE : error.msg;
             Notify(`top-center`, error.msg, `error`);
         }
     }

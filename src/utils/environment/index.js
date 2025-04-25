@@ -8,6 +8,7 @@
 
 import { SITE_ENVIRONMENT as SITE_ENVIRONMENT_CONSTANT, SITE_ENVIRONMENT_FOR_CHANGE } from "../../constants/site-environment";
 import { useAuth as useAuthNoRender } from "../../hooks/utils-no-render/auth";
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 /**
  * 사이트 환경 변수를 전역 변수에 설정하는 함수
@@ -24,6 +25,7 @@ import { useAuth as useAuthNoRender } from "../../hooks/utils-no-render/auth";
  */
 const SET = function() {
     const { isAuthenticated, user } = useAuthNoRender();
+    const { set: setVariable } = useVariableNoRender();
 
     if (isAuthenticated === true) {
         SITE_ENVIRONMENT_FOR_CHANGE({
@@ -32,7 +34,8 @@ const SET = function() {
     }
     for (let key in SITE_ENVIRONMENT_CONSTANT) {
         if (Object.prototype.hasOwnProperty.call(SITE_ENVIRONMENT_CONSTANT, key) === true) {
-            window.CONSTANTS.set(`GLOBAL.${key}`, SITE_ENVIRONMENT_CONSTANT[key], true);
+            // window.CONSTANTS.set(`GLOBAL.${key}`, SITE_ENVIRONMENT_CONSTANT[key], true);
+            setVariable(`GLOBAL.${key}`, SITE_ENVIRONMENT_CONSTANT[key], true);
         }
     }
 };

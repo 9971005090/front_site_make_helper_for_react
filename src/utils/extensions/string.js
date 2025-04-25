@@ -169,27 +169,6 @@ if (typeof String.generateRandom !== "function") {
         return result;
     };
 }
-if (typeof String.isLayoutNeeded !== "function") {
-    /**
-     * 컨트롤러가 레이아웃을 필요로 하는지 확인하는 함수
-     *
-     * @function
-     * @param {string} value - 컨트롤러 이름
-     * @returns {boolean} 레이아웃이 필요한지 여부
-     *
-     * @description
-     * - `APP.LAYOUT.IGNORE_CONTROLLER_NAMES`에 포함된 컨트롤러는 레이아웃을 필요로 하지 않음
-     */
-    String.isLayoutNeeded = function (value) {
-        if (String.isNullOrWhitespace(value) === true) {
-            return false;
-        }
-        if (window.CONSTANTS.get(`APP.LAYOUT.IGNORE_CONTROLLER_NAMES`).indexOf(value) !== -1) {
-            return false;
-        }
-        return true;
-    };
-}
 
 
 export default null; // 별도로 내보낼 것은 없으므로 기본값 null

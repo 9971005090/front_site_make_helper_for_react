@@ -10,6 +10,7 @@ import { UTIL as WARD_UTIL } from "../../utils/api/custom/ward/index";
 import { CONST as DEVICE_CONST } from "../../constants/device/constant";
 import { Notify } from '../../utils/global-utils';
 import { CustomSelectBoxAsync } from "../../components/utils/custom-select-box-async";
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 
 import { RUN as ORGAN_FAKE_API_RUN } from "../../constants/fake-api/organ";
@@ -32,6 +33,7 @@ const Controller = {
             const organInfo = React.useRef(null);
             const isFirst = React.useRef(paramIsFirst);
             const navigate = useNavigate();
+            const { get: getVariable, set: setVariable } = useVariableNoRender();
             // const [wardCode, setWardCode] = React.useState(null);
             const etc = React.useRef({
                 organOptions: null,
@@ -70,7 +72,8 @@ const Controller = {
                     $(`.btn-all-delete`).css(`display`, `none`);
                 }
                 etc.current.wardOptions.datas = _d;
-                cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions, window.CONSTANTS.get(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`));
+                // cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions, getVariable(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`));
+                cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
             };
 
 
@@ -79,11 +82,10 @@ const Controller = {
                 if (action === `index`) {
                     // 동적으로 처리를 안하면, 결국 이 콤포넌트가 리랜더링이 될 수 밖에 없는 구조라.. 그 최소한의 처리도 막기 위해 동적으로 처리
                     await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions);
-                    const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
-                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`, _r, true);
+                    await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
                     isFirst.current = false;
 
-                    (await import(`../../events/custom/device/index`)).event.index({search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current, wardData: window.CONSTANTS.get(`PARSING_ORGANIZATIONS`)});
+                    (await import(`../../events/custom/device/index`)).event.index({search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current, wardData: getVariable(`PARSING_ORGANIZATIONS`)});
 
                     if (isFirstSearch.current === true) {
                         $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));
@@ -95,8 +97,8 @@ const Controller = {
                     etc.current.organOptions.attr['add-class'] = [`check`];
                     etc.current.wardOptions.attr['add-class'] = [`check`];
                     await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions);
-                    const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
-                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`, _r, true);
+                    await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
+                    //setVariable(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`, _r, true);
 
                     (await import(`../../events/custom/device/add`)).event({navigate: navigate});
                     (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});
@@ -106,8 +108,8 @@ const Controller = {
                     etc.current.organOptions.attr['add-class'] = [`check`];
                     etc.current.wardOptions.attr['add-class'] = [`check`];
                     await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions);
-                    const _r = await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
-                    window.CONSTANTS.set(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`, _r, true);
+                    await cBox.ward.run(`.select-box-parent-for-ward`, etc.current.wardOptions);
+                    // setVariable(`DEVICE.PAGE.CUSTOM_SELECT_BOX_WARD.RESULT`, _r, true);
 
                     (await import(`../../events/custom/device/add-bulk`)).event({navigate: navigate});
                     (await import(`../../events/custom/common-cancel`)).event({controllerName: controller, navigate: navigate});
@@ -143,7 +145,7 @@ const Controller = {
                     }, 100);
 
                 }
-                else if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
+                else if (getVariable(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
                     Notify(`top-center`, `데이타 조회 실패`, `error`);
                     fetchDataState.current = `ready`;
                 }
@@ -167,9 +169,9 @@ const Controller = {
                                 title: _t.organizationList[i].organizationName,
                             });
                         }
-                        window.CONSTANTS.set(`ORGANIZATIONS`, _t, true);
-                        window.CONSTANTS.set(`ORGANIZATION_DATAS`, _d, true);
-                        window.CONSTANTS.set(`PARSING_ORGANIZATIONS`, _p, true);
+                        setVariable(`ORGANIZATIONS`, _t, true);
+                        setVariable(`ORGANIZATION_DATAS`, _d, true);
+                        setVariable(`PARSING_ORGANIZATIONS`, _p, true);
 
                         etc.current.organOptions = {
                             type: `organ`,
@@ -188,7 +190,7 @@ const Controller = {
                             callback: callbackForCustomSelectBoxOrgan
                         };
 
-                        const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/device`);
+                        const { Design } = await import(`./template/${getVariable(`APP.THEME`)}/device`);
                         setComponent( Design[action] );
 
                     } catch (error) {
@@ -197,7 +199,7 @@ const Controller = {
                 })();
             }, []);
 
-            return CommonReturn(Component)({ onLoad: setAddEvent, onLastLoad: onLastLoad, deviceConstant: DEVICE_CONST, THEME: window.CONSTANTS.get(`APP.THEME`), etc: {organOptions: etc.current.organOptions, wardOptions: etc.current.wardOptions} });
+            return CommonReturn(Component)({ onLoad: setAddEvent, onLastLoad: onLastLoad, deviceConstant: DEVICE_CONST, THEME: getVariable(`APP.THEME`), etc: {organOptions: etc.current.organOptions, wardOptions: etc.current.wardOptions} });
         };
     },
 };

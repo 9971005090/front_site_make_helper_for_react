@@ -5,11 +5,13 @@ import { CommonReturn } from "../../../components/utils/common-return";
 import $ from "cash-dom";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { LEFT_MENU } from "../../../components/modules/layout/init/left-menu";
+import { useVariable as useVariableNoRender } from "../../../hooks/utils-no-render/variable";
 
 const Left = function({ url }) {
     console.log(":::::module > layout > Left:::::", Date.getNow());
     const navigate = useNavigate();
     const [Component, setComponent] = React.useState(null);
+    const { get: getVariable } = useVariableNoRender();
 
     const datas = LEFT_MENU[url.controller].leftMenu.datas;
     for (let i = 0; i < datas.length; i++) {
@@ -26,7 +28,7 @@ const Left = function({ url }) {
             let callback = $(this).attr("data-callback");
             if (location !== undefined && location !== "") {
                 if (location !== undefined && location !== "") {
-                    if (`/${window.CONSTANTS.get(`NOW_CONTROLLER`)}/${window.CONSTANTS.get(`NOW_ACTION`)}` !== location) {
+                    if (`/${getVariable(`NOW_CONTROLLER`)}/${getVariable(`NOW_ACTION`)}` !== location) {
                         navigate(location.toString());
                     }
                 }
@@ -65,7 +67,7 @@ const Left = function({ url }) {
 
     React.useEffect(function() {
         (async function() {
-            const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/left`);
+            const { Design } = await import(`./template/${getVariable(`APP.THEME`)}/left`);
             setComponent(Design.index);
         })();
     }, [navigate]);

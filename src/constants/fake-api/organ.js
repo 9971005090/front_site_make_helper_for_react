@@ -1,4 +1,7 @@
 // src/constants/fake-api/organ.js
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
+const { get: getVariable, set: setVariable } = useVariableNoRender();
+
 const FAKE_API = {
     '/Manager/SelectOrganizationPage': {
         "result": true,
@@ -333,7 +336,7 @@ const FAKE_API = {
 };
 const RUN = function() {
     for (const key in FAKE_API) {
-        window.CONSTANTS.set(`${window.CONSTANTS.get(`APP.API_BASE`)}${key}`, FAKE_API[key], true);
+        setVariable(`${getVariable(`APP.API_BASE`)}${key}`, FAKE_API[key], true);
     }
 };
 export { RUN };

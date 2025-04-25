@@ -5,6 +5,7 @@ import $ from "cash-dom";
 import { useLogout } from "../../../hooks/utils/logout";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { CommonReturn } from "../../../components/utils/common-return";
+import { useVariable as useVariableNoRender } from "../../../hooks/utils-no-render/variable";
 
 const Header = function({ url }) {
     console.log(":::::module > layout > Header:::::", Date.getNow());
@@ -12,6 +13,7 @@ const Header = function({ url }) {
     const { runLogout } = useLogout();
     const location = useLocation();
     const navigate = useNavigate();
+    const { get: getVariable } = useVariableNoRender();
 
     const setAddEvent = function() {
         $(`.logout-button`).off(`click`).on(`click`, async function(e) {
@@ -42,7 +44,6 @@ const Header = function({ url }) {
         // 대메뉴의 선택 표시
         $(`.cm-header .cm-top-menu-ul .menu-list`).each(function(index, item) {
             let objInfoDatas = JSON.parse($(item).attr("data-info"));
-            // if (objInfoDatas.datas.indexOf(window.CONSTANTS.get(`NOW_CONTROLLER`)) !== -1) {
             if (objInfoDatas.datas.indexOf(url.controller) !== -1) {
                 $(item).removeClass('selected').addClass('selected');
             }
@@ -89,7 +90,7 @@ const Header = function({ url }) {
 
     React.useEffect(function() {
         (async function() {
-            const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/header`);
+            const { Design } = await import(`./template/${getVariable(`APP.THEME`)}/header`);
             setComponent(Design.index);
         })();
     }, []);

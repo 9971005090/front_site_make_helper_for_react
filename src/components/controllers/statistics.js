@@ -11,6 +11,7 @@ import { CONST as DEVICE_CONST } from "../../constants/device/constant";
 import { Notify } from '../../utils/global-utils';
 import { CustomSelectBoxAsync } from "../../components/utils/custom-select-box-async";
 import { CustomLineBarChartAsync } from "../../components/utils/custom-line-bar-chart-async";
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 import { RUN as ORGAN_FAKE_API_RUN } from "../../constants/fake-api/organ";
 
@@ -31,6 +32,7 @@ const Controller = {
             const organInfo = React.useRef(null);
             const isFirst = React.useRef(paramIsFirst);
             const navigate = useNavigate();
+            const { get: getVariable, set: setVariable } = useVariableNoRender();
             // const [wardCode, setWardCode] = React.useState(null);
             const etc = React.useRef({
                 organOptions: {
@@ -62,17 +64,28 @@ const Controller = {
                     await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions);
                     isFirst.current = false;
 
-                    (await import(`../../events/custom/statistics/index`)).event.index({search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current, etc: etc, cBox: cBox});
+                    const _r = async function() {
+                        if ($('#select-box-for-organ').length > 0) {
+                            (await import(`../../events/custom/statistics/index`)).event.index({search: search, fetchDataState: fetchDataState.current, navigate: navigate, currentPage: currentPage.current, etc: etc, cBox: cBox});
 
-                    if (isFirstSearch.current === true) {
-                        $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));
-                        isFirstSearch.current = false;
-                    }
+                            if (isFirstSearch.current === true) {
+                                $(`.form-common-search`)[0].dispatchEvent(new Event("submit", { bubbles: false, cancelable: false }));
+                                isFirstSearch.current = false;
+                            }
+                        }
+                        else {
+                            setTimeout(function() {
+                                _r();
+                            }, 2);
+
+                        }
+                    };
+                    _r();
                 }
                 else if (action === `day`) {
                     // 동적으로 처리를 안하면, 결국 이 콤포넌트가 리랜더링이 될 수 밖에 없는 구조라.. 그 최소한의 처리도 막기 위해 동적으로 처리
                     etc.current.organOptions.all = null;
-                    etc.current.organOptions.default = window.CONSTANTS.get(`ORGANIZATION_DATAS`)[0];
+                    etc.current.organOptions.default = getVariable(`ORGANIZATION_DATAS`)[0];
                     await cBox.organ.run(`.select-box-parent-for-organ`, etc.current.organOptions);
                     isFirst.current = false;
 
@@ -97,6 +110,7 @@ const Controller = {
                 form.count = itemsPerPage.current;
                 form.startDateTime = `${form.startDateTime} 00:00:00`;
                 form.endDateTime = `${form.endDateTime} 23:59:59`;
+                form.targetOrganizationCodeList = null;
                 if (form.targetOrganizationCode !== null) {
                     form.targetOrganizationCodeList = [form.targetOrganizationCode];
                     delete form.targetOrganizationCode;
@@ -120,7 +134,7 @@ const Controller = {
                     }, 100);
 
                 }
-                else if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
+                else if (getVariable(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
                     Notify(`top-center`, `데이타 조회 실패`, `error`);
                     fetchDataState.current = `ready`;
                 }
@@ -148,16 +162,16 @@ const Controller = {
                         CommonFetchAsync.run(`#contents-by-data-table`, search, response, currentPage.current, `${controller}-day`, Date.getNow(), isFirst.current, navigate);
                         fetchDataState.current = `ready`;
                         isFirst.current = false;
-                        console.log("window.CONSTANTS.get(`STATISTICS.PAGE.CUSTOM_LINE_BAR_CHART.RESULT`):::", window.CONSTANTS.get(`STATISTICS.PAGE.CUSTOM_LINE_BAR_CHART.RESULT`));
+                        console.log("getVariable(`STATISTICS.PAGE.CUSTOM_LINE_BAR_CHART.RESULT`):::", getVariable(`STATISTICS.PAGE.CUSTOM_LINE_BAR_CHART.RESULT`));
                         const _r = await CustomLineBarChartAsync().run(`#chart-view`, {
                             'labels': response.measurementOrgDayCountList.map(obj => obj.parsingDate),
                             'label': `측정수`,
                             'data': response.measurementOrgDayCountList.map(obj => obj.dayCount),
-                        }, window.CONSTANTS.get(`STATISTICS.PAGE.CUSTOM_LINE_BAR_CHART.RESULT`));
+                        }, getVariable(`STATISTICS.PAGE.CUSTOM_LINE_BAR_CHART.RESULT`));
                     }, 100);
 
                 }
-                else if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
+                else if (getVariable(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
                     Notify(`top-center`, `데이타 조회 실패`, `error`);
                     fetchDataState.current = `ready`;
                 }
@@ -181,13 +195,13 @@ const Controller = {
                                 title: _t.organizationList[i].organizationName,
                             });
                         }
-                        window.CONSTANTS.set(`ORGANIZATIONS`, _t, true);
-                        window.CONSTANTS.set(`ORGANIZATION_DATAS`, _d, true);
-                        window.CONSTANTS.set(`PARSING_ORGANIZATIONS`, _p, true);
+                        setVariable(`ORGANIZATIONS`, _t, true);
+                        setVariable(`ORGANIZATION_DATAS`, _d, true);
+                        setVariable(`PARSING_ORGANIZATIONS`, _p, true);
 
                         etc.current.organOptions.datas = _p;
 
-                        const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/statistics`);
+                        const { Design } = await import(`./template/${getVariable(`APP.THEME`)}/statistics`);
                         setComponent( Design[action] );
 
                     } catch (error) {
@@ -196,7 +210,7 @@ const Controller = {
                 })();
             }, []);
 
-            return CommonReturn(Component)({ onLoad: setAddEvent, onLastLoad: onLastLoad, THEME: window.CONSTANTS.get(`APP.THEME`), etc: {organOptions: etc.current.organOptions} });
+            return CommonReturn(Component)({ onLoad: setAddEvent, onLastLoad: onLastLoad, THEME: getVariable(`APP.THEME`), etc: {organOptions: etc.current.organOptions} });
         };
     },
 };

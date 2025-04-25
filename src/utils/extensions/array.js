@@ -43,32 +43,3 @@ if (typeof Array.deepCopy !== "function") {
         }
     };
 }
-if (typeof Array.routeChangeCallback !== "function") {
-    /**
-     * 라우트 변경 시 실행할 콜백을 등록하거나 실행하는 함수
-     *
-     * @function
-     * @param {Function|null} [callback=null] - 등록할 콜백 함수 (없을 경우 실행 모드)
-     * @returns {void}
-     *
-     * @description
-     * - `callback`이 전달되면 `APP.ROUTE_CHANGE_CALLBACK` 리스트에 추가
-     * - `callback`이 없으면 저장된 콜백들을 실행 후 제거
-     * - `window.CONSTANTS.get/set`을 사용하여 전역 상태 관리
-     */
-    Array.routeChangeCallback = function(callback = null) {
-        const routeChangeCallback = window.CONSTANTS.get(`APP.ROUTE_CHANGE_CALLBACK`);
-        if (callback !== null) {
-            console.log("::::Array.routeChangeCallback1::::");
-            routeChangeCallback.add(callback);
-        }
-        else {
-            console.log("::::Array.routeChangeCallback2::::");
-            routeChangeCallback.forEach(function(callback) {
-                callback();
-                routeChangeCallback.delete(callback);
-            });
-        }
-        window.CONSTANTS.set(`APP.ROUTE_CHANGE_CALLBACK`, routeChangeCallback, true);
-    };
-}

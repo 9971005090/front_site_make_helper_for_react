@@ -7,6 +7,7 @@
 
 import React from "react";
 import { LoadingDonut } from "../../components/utils/loading-donut";
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 /**
  * 공통 로딩 처리 함수
@@ -24,6 +25,7 @@ const CommonReturn = function(Component) {
      * @returns {JSX.Element|null} - 적절한(조건은 소스에서 직접 확인) 컴포넌트 렌더링
      */
     const CommonReturnComponent = function({ loadingTypeTitle = `Controller`, uniqueKey = null, ...props }) {
+        const { get: getVariable } = useVariableNoRender();
         // 1. 컴포넌트가 존재하고, props.backUrl이 없거나 props.backUrl이 있고, backUrl.controller 값이 null인 경우 렌더링
         if (String.isNullOrWhitespace(Component) === false && (Object.prototype.hasOwnProperty.call(props, `backUrl`) === false || (Object.prototype.hasOwnProperty.call(props, `backUrl`) === true && props.backUrl.controller === null))) {
             console.log("::::::: > rendering Component1:::::", Date.getNow());
@@ -35,12 +37,12 @@ const CommonReturn = function(Component) {
             return (<Component key={uniqueKey} {...props} />);
         }
         // 3. 개발 환경이 아닌 경우, null 반환 (렌더링하지 않음)
-        if (window.CONSTANTS.get('APP.INFO.SERVICE_TYPE') !== 'DEVELOPMENT') {
+        if (getVariable('APP.INFO.SERVICE_TYPE') !== 'DEVELOPMENT') {
             console.log("::::::: > rendering null:::::", Date.getNow());
             return null;
         }
         // 4. 디버깅 모드가 활성화된 경우, 로딩 메시지 표시
-        if (window.CONSTANTS.get('APP.INFO.DEBUG.USE') === true) {
+        if (getVariable('APP.INFO.DEBUG.USE') === true) {
             return (<div>Data {loadingTypeTitle} Loading...</div>);
         }
 

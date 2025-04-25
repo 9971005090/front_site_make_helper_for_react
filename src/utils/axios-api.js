@@ -13,6 +13,8 @@ import { useAuth as useAuthNoRender } from "../hooks/utils-no-render/auth";
 import { useFirstLoad as useFirstLoadNoRender } from "../hooks/utils-no-render/first-load";
 import { silentNavigate } from "../utils/silent-navigate";
 import { Notify } from '../utils/global-utils';
+import { useVariable as useVariableNoRender } from "../hooks/utils-no-render/variable";
+const { get: getVariable, has: hasVariable } = useVariableNoRender();
 
 /**
  * API 요청을 수행하는 함수
@@ -43,18 +45,18 @@ const apiRequest = async function(method, url, data = null, params = null, heade
     }
     try {
         // fake api 여부 확인
-        if (window.CONSTANTS.has(url) === true) {
-            return window.CONSTANTS.get(url);
+        if (hasVariable(url) === true) {
+            return getVariable(url);
         }
         else {
             const response = await axios(config);
             if (response.data.result === false) {
                 // session_closed 처리
                 if (etc.isSessionClosedControlled === true) {
-                    if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED === response.data.error) {
+                    if (getVariable(`APP.API.RESPONSE_CODE`).SESSION_CLOSED === response.data.error) {
                         await logout();
                         await setIsDone(false);
-                        await silentNavigate(`/${window.CONSTANTS.get(`APP.LOGIN_URL`).CONTROLLER}`, { state: { back: location.pathname } });
+                        await silentNavigate(`/${getVariable(`APP.LOGIN_URL`).CONTROLLER}`, { state: { back: location.pathname } });
                     }
                 }
                 else if (etc.isErrorControlled === true) {
@@ -141,7 +143,7 @@ export const GET = function(url, params = null, headers = {}, callback = null) {
  */
 export const POST = function(url, data, headers = {}, etc = {isErrorControlled: false, isSessionClosedControlled: true}) {
     const params = Object.assign(_getDefaultParam(true), data);
-    return apiRequest('post', `${window.CONSTANTS.get(`APP.API_BASE`)}${url}`, params, null, headers, etc);
+    return apiRequest('post', `${getVariable(`APP.API_BASE`)}${url}`, params, null, headers, etc);
 };
 
 /**

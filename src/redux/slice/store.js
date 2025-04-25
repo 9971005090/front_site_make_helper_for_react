@@ -9,6 +9,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './auth';
 import firstLoadReducer from './first-load';
+import variableReducer from './variable';
 
 /**
  * Redux 스토어 생성
@@ -23,6 +24,7 @@ import firstLoadReducer from './first-load';
 export const store = configureStore({
     reducer: {
         auth: authReducer,
-        firstLoad: firstLoadReducer
+        firstLoad: firstLoadReducer,
+        variable: variableReducer,
     },
 });

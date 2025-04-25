@@ -6,6 +6,7 @@ import { formParser } from "../../utils/form-parser";
 import { CommonReturn } from "../../components/utils/common-return";
 import { UTIL as ORGAN_UTIL } from "../../utils/api/custom/organ/index";
 import { Notify } from '../../utils/global-utils';
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 import { RUN as ORGAN_FAKE_API_RUN } from "../../constants/fake-api/organ";
 
@@ -27,6 +28,7 @@ const Controller = {
             const organInfo = React.useRef(null);
             const isFirst = React.useRef(paramIsFirst);
             const navigate = useNavigate();
+            const { get: getVariable } = useVariableNoRender();
 
 
             const setAddEvent = async function() {
@@ -76,7 +78,7 @@ const Controller = {
                         isFirst.current = false;
                     }, 100);
                 }
-                else if (window.CONSTANTS.get(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
+                else if (getVariable(`APP.API.RESPONSE_CODE`).SESSION_CLOSED !== response.error) {
                     Notify(`top-center`, `데이타 조회 실패`, `error`);
                     fetchDataState.current = `ready`;
                 }
@@ -91,7 +93,7 @@ const Controller = {
 
                         ////////////////////////////////////////////////////////////////////
 
-                        const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/organ`);
+                        const { Design } = await import(`./template/${getVariable(`APP.THEME`)}/organ`);
                         // 수정일 경우에는 먼저 데이타 조회 하자.. 한번 해보자.
                         if (action === `edit`) {
                             const _goList = function() {

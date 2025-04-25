@@ -2,10 +2,12 @@
 import { API } from "../../../../constants/device/api";
 import { POST } from "../../../../utils/axios-api";
 import { CONST as DEVICE_CONST } from "../../../../constants/device/constant";
+import { useVariable as useVariableNoRender } from "../../../../hooks/utils-no-render/variable";
+const { get: getVariable } = useVariableNoRender();
 
 export const UTIL = {
     DATA_PARSING: function(data) {
-        const _p = window.CONSTANTS.get(`PARSING_ORGANIZATIONS`);
+        const _p = getVariable(`PARSING_ORGANIZATIONS`);
         data.parsingType = DEVICE_CONST.TYPE.TITLE[data.deviceType];
         if (_p !== null) {
             data.parsingOrganization = Object.prototype.hasOwnProperty.call(_p, data.organizationCode) === true ? _p[data.organizationCode] : data.organizationCode;

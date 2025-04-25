@@ -6,7 +6,7 @@
  */
 
 const APP = {
-    'APP.VERSION.REAL': '0.0.41-20250401.1413',
+    'APP.VERSION.REAL': '0.0.42-20250409.1406',
     'APP.VERSION.VIEW': '1.0.0',
     'APP.IS_AUTH': true,
     'APP.THEME': `default`,
@@ -21,8 +21,7 @@ const APP = {
     'APP.LOGIN_URL': {
         'CONTROLLER': `login`
     },
-    'APP.LAYOUT.IGNORE_CONTROLLER_NAMES': [`login`],
-    'APP.ROUTE_CHANGE_CALLBACK': new Set()
+    'APP.LAYOUT.IGNORE_CONTROLLER_NAMES': [`login`]
 };
 
 // 아래 영역에 custom 함수 재정의, 전역 변수 코드 작성

@@ -9,6 +9,7 @@
  */
 
 import { useAuth as useAuthNoRender } from "../../hooks/utils-no-render/auth";
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 /**
  * URL 변경을 처리하는 객체
@@ -48,6 +49,7 @@ const URL_CHANGE = {
     PROCESS: function(location = null) {
         // 랜더링이 안되려면 직접 조회해서 사용해야한다.
         const { isAuthenticated } = useAuthNoRender();
+        const { get: getVariable } = useVariableNoRender();
 
         const _connect_root = function() {
             if (document.location.pathname !== `/`) {
@@ -59,8 +61,8 @@ const URL_CHANGE = {
             }
         };
         const url = {
-            'controller': window.CONSTANTS.get(`APP.DEFAULT_URL`).CONTROLLER,
-            'action': window.CONSTANTS.get(`APP.DEFAULT_URL`).ACTION,
+            'controller': getVariable(`APP.DEFAULT_URL`).CONTROLLER,
+            'action': getVariable(`APP.DEFAULT_URL`).ACTION,
             'change': {
                 'path': null,
                 'controller': false,

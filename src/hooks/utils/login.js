@@ -13,6 +13,7 @@ import { ADD_PARAMS } from "../../utils/custom/add-params";
 import { API } from '../../components/modules/login/constants/api.js';
 import { POST_CHECK as AUTH_POST_CHECK } from '../../init/auth/post-check';
 import { SET as SITE_ENVIRONMENT_FOR_SET } from "../../utils/environment/index";
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 
 /**
@@ -21,6 +22,7 @@ import { SET as SITE_ENVIRONMENT_FOR_SET } from "../../utils/environment/index";
  */
 export const useLogin = function() {
     const { login, setRemember, removeRemember } = useAuth();
+    const { init: initVariable } = useVariableNoRender();
 
     /**
      * 로그인 처리 함수
@@ -46,6 +48,7 @@ export const useLogin = function() {
                     removeRemember();
                 }
 
+                initVariable();
                 // 기본 사항 처리
                 SITE_ENVIRONMENT_FOR_SET();
 

@@ -159,5 +159,5 @@ if (typeof Date.addSeconds !== "function") {
         let ret = new Date(date);
         ret.setTime(ret.getTime() + units * 1000);
         return ret;
-    }
+    };
 }

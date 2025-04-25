@@ -12,6 +12,7 @@ import { API } from '../../components/modules/login/constants/api.js';
 import { useAuth as useAuthNoRender } from "../../hooks/utils-no-render/auth";
 import { useFirstLoad as useFirstLoadNoRender } from "../../hooks/utils-no-render/first-load";
 import { Notify } from "../../utils/global-utils";
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 /**
  * 로그아웃 처리를 위한 커스텀 훅
@@ -20,6 +21,7 @@ import { Notify } from "../../utils/global-utils";
 export const useLogout = function() {
     const { logout } = useAuthNoRender();
     const { setIsDone } = useFirstLoadNoRender();
+    const { init: initVariable, allDeleteIgnoreApp: allDeleteIgnoreAppVariable } = useVariableNoRender();
 
     /**
      * 로그아웃 처리 함수
@@ -36,7 +38,9 @@ export const useLogout = function() {
         if (response.result === true) {
             logout();
             setIsDone(false);
-            window.CONSTANTS.allDeleteIgnoreApp();
+            // initVariable();
+            allDeleteIgnoreAppVariable();
+            // window.CONSTANTS.allDeleteIgnoreApp();
             return true;
         }
         else {

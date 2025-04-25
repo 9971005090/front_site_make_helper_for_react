@@ -13,6 +13,7 @@ import ReactDOM from "react-dom/client";
 
 import $ from "cash-dom";
 import { CommonReturn } from "../../../components/utils/common-return";
+import { useVariable as useVariableNoRender } from "../../../hooks/utils-no-render/variable";
 
 const CommonFetchAsync = (function() {
     let container = null;
@@ -21,13 +22,14 @@ const CommonFetchAsync = (function() {
         const [Component, setComponent] = React.useState(null);
         const backUrl = React.useRef({controller: null});
         const url = React.useRef({controller: paramType});
+        const { get: getVariable } = useVariableNoRender();
 
         const setAddEvent = async function() {
             Array.routeChangeCallback(handleRouteChange);
 
             ////////////////////////////////////////////////////////////////////
             // 유지 보수를 위해, 파일로 빼지만, 사용하는 함수나 state 등은 모두 파라미터로 보낸다.
-            (await import(`./events/${window.CONSTANTS.get(`APP.THEME`)}/${paramType}`)).event({
+            (await import(`./events/${getVariable(`APP.THEME`)}/${paramType}`)).event({
                 search: search,
                 currentPage: currentPage.current,
                 navigate: navigate
@@ -37,7 +39,7 @@ const CommonFetchAsync = (function() {
 
         React.useEffect(function() {
             (async function() {
-                const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/${paramType}`);
+                const { Design } = await import(`./template/${getVariable(`APP.THEME`)}/${paramType}`);
                 setComponent(Design.index);
                 backUrl.current.controller = paramType;
             })();

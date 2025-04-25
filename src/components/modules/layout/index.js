@@ -12,10 +12,12 @@
 import React from "react";
 import $ from "cash-dom";
 import { CommonReturn } from "../../../components/utils/common-return";
+import { useVariable as useVariableNoRender } from "../../../hooks/utils-no-render/variable";
 
 export const Layout = function({ url, onLastLoad }) {
     console.log(":::::Layout:::::", Date.getNow());
     const [ Component, setComponent ] = React.useState(null);
+    const { get: getVariable } = useVariableNoRender();
     // 기존 주소의 controller 확인을 위해
     // navigate 로 재랜더링시, useState 로 세팅된 내용은 계속 유지되기에
     // 새로 받은 주소의 controller에서만 처리되게.
@@ -56,7 +58,8 @@ export const Layout = function({ url, onLastLoad }) {
 
     React.useEffect(function() {
         (async function() {
-            const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/layout`);
+            console.log("getVariable(`APP.THEME`)::::", getVariable(`APP.THEME`));
+            const { Design } = await import(`./template/${getVariable(`APP.THEME`)}/layout`);
             console.log(":::::Layout import:::::", Date.getNow());
             backUrl.current = url;
             setComponent(Design.index);

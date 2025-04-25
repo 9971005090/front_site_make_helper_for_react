@@ -27,6 +27,7 @@ import { silentNavigate } from "../../../utils/silent-navigate";
 
 import { FIRST_LOAD_DATA } from "../../../init/first-load-data";
 import { RUN as LOGIN_API_RUN } from "../../../components/modules/login/constants/fake-api";
+import { useVariable as useVariableNoRender } from "../../../hooks/utils-no-render/variable";
 
 export const ModuleController = {
     index: function() {
@@ -38,6 +39,7 @@ export const ModuleController = {
             const { runLogin } = useLogin();
             const [ Component, setComponent ] = React.useState(null);
             const location = useLocation();
+            const { get: getVariable } = useVariableNoRender();
 
             /**
              * 로그인 처리 과정 함수
@@ -71,7 +73,7 @@ export const ModuleController = {
                         // // setIsDone 상태 변경으로 main이 재랜더링 되지만, login 주소는 무조건 실행 하게 처리를 해놔서
                         // // 강제로 주소를 바꿔주고, useLocation에서 변경됐다고 알려주는 처리를 한다.
                         // // 아래 함수에서 처리를 한다.
-                        silentNavigate(`/${window.CONSTANTS.get(`APP.DEFAULT_URL`).CONTROLLER}`, { state: { back: location.pathname } });
+                        silentNavigate(`/${getVariable(`APP.DEFAULT_URL`).CONTROLLER}`, { state: { back: location.pathname } });
                     }
                 }
             };
@@ -112,10 +114,10 @@ export const ModuleController = {
                     try {
                         // 스타일 추가
                         ////////////////////////////////////////////////////////////////////
-                        await import (`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/style.css`);
+                        await import (`./assets/css/${getVariable(`APP.THEME`)}/style.css`);
                         ////////////////////////////////////////////////////////////////////
 
-                        const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/login`);
+                        const { Design } = await import(`./template/${getVariable(`APP.THEME`)}/login`);
                         setComponent( Design.index );
                     } catch (error) {
                         console.error("Failed to load design component:", error);

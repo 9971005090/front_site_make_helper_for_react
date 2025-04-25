@@ -2,10 +2,12 @@
 
 import React from "react";
 import { CommonReturn } from "../../components/utils/common-return";
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 const Controller = ({ url, onLastLoad }) => {
     console.log(":::::Controller start:::::", Date.getNow());
     const [Component, setComponent] = React.useState(null);
+    const { get: getVariable } = useVariableNoRender();
     // const paramsState = React.useRef(url);
 
     React.useEffect(function() {
@@ -46,10 +48,10 @@ const Controller = ({ url, onLastLoad }) => {
     // if (String.isNullOrWhitespace(Component) === false && ComponentForRef.current === url.constructor) {
     //     return (<Component url={url} onLastLoad={onLastLoad} />);
     // }
-    // if (window.CONSTANTS.get('APP.INFO.SERVICE_TYPE') !== 'DEVELOPMENT') {
+    // if (getVariable('APP.INFO.SERVICE_TYPE') !== 'DEVELOPMENT') {
     //     return null;
     // }
-    // if (window.CONSTANTS.get('APP.INFO.DEBUG.USE') === true) {
+    // if (getVariable('APP.INFO.DEBUG.USE') === true) {
     //     return (<div>Organ controller Loading...</div>);
     // }
     // return (<LoadingDonut />);

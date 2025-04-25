@@ -9,8 +9,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import _ from "lodash";
-
 import $ from "cash-dom";
+import { useVariable as useVariableNoRender } from "../../../hooks/utils-no-render/variable";
 
 /**
  * 배열을 병합하는 커스텀 함수
@@ -33,6 +33,7 @@ const CustomAlertAsync = (function() {
 
     const Modal = function({ parsingValue }) {
         const [Component, setComponent] = React.useState(null);
+        const { get: getVariable } = useVariableNoRender();
         // const [isLoaded, setIsLoaded] = React.useState(false);
         const onLoad = async function() {
             ////////////////////////////////////////////////////////////////////
@@ -61,7 +62,7 @@ const CustomAlertAsync = (function() {
             }, 100);
 
 
-            (await import(`./events/${window.CONSTANTS.get(`APP.THEME`)}/index`)).event(parsingValue);
+            (await import(`./events/${getVariable(`APP.THEME`)}/index`)).event(parsingValue);
             ////////////////////////////////////////////////////////////////////
         };
 
@@ -71,10 +72,10 @@ const CustomAlertAsync = (function() {
                 try {
                     // 스타일 추가
                     ////////////////////////////////////////////////////////////////////
-                    await import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
+                    await import(`./assets/css/${getVariable(`APP.THEME`)}/index.css`);
                     ////////////////////////////////////////////////////////////////////
 
-                    const { Design } = await import(`./templates/${window.CONSTANTS.get(`APP.THEME`)}/index`);
+                    const { Design } = await import(`./templates/${getVariable(`APP.THEME`)}/index`);
                     setComponent( Design );
                 } catch (error) {
                     console.error("Failed to load design component:", error);
@@ -90,7 +91,7 @@ const CustomAlertAsync = (function() {
         //         (async function() {
         //             try {
         //                 ////////////////////////////////////////////////////////////////////
-        //                 (await import(`./events/${window.CONSTANTS.get(`APP.THEME`)}/index`)).event(parsingValue);
+        //                 (await import(`./events/${getVariable(`APP.THEME`)}/index`)).event(parsingValue);
         //                 ////////////////////////////////////////////////////////////////////
         //
         //             } catch (error) {

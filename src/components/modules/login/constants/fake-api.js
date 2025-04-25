@@ -1,4 +1,8 @@
 
+
+import { useVariable as useVariableNoRender } from "../../../../hooks/utils-no-render/variable";
+const { get: getVariable, set: setVariable } = useVariableNoRender();
+
 /**
  * 로그인에서 사용하는 rest api 주소에 대응하는 응답 상수 정의 파일
  * @fileoverview
@@ -83,7 +87,7 @@ const FAKE_API = {
 };
 const RUN = function() {
     for (const key in FAKE_API) {
-        window.CONSTANTS.set(`${window.CONSTANTS.get(`APP.API_BASE`)}${key}`, FAKE_API[key], true);
+        setVariable(`${getVariable(`APP.API_BASE`)}${key}`, FAKE_API[key], true);
     }
 };
 export { RUN };

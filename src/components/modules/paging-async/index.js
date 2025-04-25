@@ -11,6 +11,7 @@ import { subscribeToRouteChange } from "../../../hooks/route-change";
 import $ from "cash-dom";
 import { stopBubbling } from "../../../utils/stop-bubbling";
 import { CommonReturn } from "../../../components/utils/common-return";
+import { useVariable as useVariableNoRender } from "../../../hooks/utils-no-render/variable";
 
 const PagingAsync = (function() {
     let container = null;
@@ -19,6 +20,7 @@ const PagingAsync = (function() {
         const [Component, setComponent] = React.useState(null);
         const backUrl = React.useRef({controller: null});
         const url = React.useRef({controller: controller});
+        const { get: getVariable } = useVariableNoRender();
         const pagingInfo = {
             page: {
                 total: 0,
@@ -66,9 +68,7 @@ const PagingAsync = (function() {
         const setAddEvent = function() {
             // ✅ URL 변경 감지 구독
             // subscribeToRouteChange(handleRouteChange);
-            const routeChangeCallback = window.CONSTANTS.get(`APP.ROUTE_CHANGE_CALLBACK`);
-            routeChangeCallback.add(handleRouteChange);
-            window.CONSTANTS.set(`APP.ROUTE_CHANGE_CALLBACK`, routeChangeCallback, true);
+            Array.routeChangeCallback(handleRouteChange);
 
             $(`.page-item`).off(`click`).on(`click`, function(e) {
                 stopBubbling(e);
@@ -122,8 +122,8 @@ const PagingAsync = (function() {
         // 동적 컴포넌트 로딩
         React.useEffect(function() {
             (async function() {
-                await import(`./assets/css/${window.CONSTANTS.get(`APP.THEME`)}/index.css`);
-                const { Design } = await import(`./template/${window.CONSTANTS.get(`APP.THEME`)}/index`);
+                await import(`./assets/css/${getVariable(`APP.THEME`)}/index.css`);
+                const { Design } = await import(`./template/${getVariable(`APP.THEME`)}/index`);
                 setComponent(Design.index);
                 backUrl.current.controller = controller;
             })();

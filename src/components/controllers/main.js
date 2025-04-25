@@ -21,12 +21,14 @@ import { Post } from '../../init/post';
 import { URL_CHANGE } from '../../utils/url-change/index';
 import { PUSH_STATE as HISTORY_PUSH_STATE } from "../../utils/history/index";
 import { useFirstLoad } from "../../hooks/first-load";
+import { useVariable as useVariableNoRender } from "../../hooks/utils-no-render/variable";
 
 export const Main = function() {
     // 상태를 구독 중인 일반 함수를 호출하는 컴포넌트도 리렌더링된다
     console.log(":::::Main:::::", Date.getNow());
     const { isDone } = useFirstLoad();
     const location = useLocation();
+    const { init: initVariable } = useVariableNoRender();
     const onLastLoad = async function() {
         Post();
     };
@@ -41,10 +43,19 @@ export const Main = function() {
     // 컨트롤러(메뉴 또는 기능)이 바꾸면 기능별 전역 상수를 초기화 시키고, 동적 콤포넌트를 unmount 처리한다.
     if (url.change.controller === true || url.change.action === true) {
         // 자체 전역 변수 초기화
-        window.CONSTANTS.init();
+        // window.CONSTANTS.init();
+        // initVariable();
         // 동적 콤포넌트 > unmount 처리
         Array.routeChangeCallback();
+        Array.routeChangeCallbackForObject();
     }
+
+    // useNavigate 로 이동한 부분에 대해서만 초기화
+    // 로그아웃시에 처리 필요함(로그인시에는 사실상 컨트롤러 상수를 사용하지 않음)
+    // 만약! 로그인시에도 컨트롤러 상수를 사용하게 된다면, 로그인 직후 처리 필요
+    React.useLayoutEffect(() => {
+        initVariable();
+    }, [location.pathname]);
 
     // 로그인에서는 사이트 초기 데이타 로딩이 필요가 없어, 분리 처리를 함
     if (url.controller === `login`) {
